@@ -7,8 +7,8 @@
   <link rel="icon" href="image/logo/favicon.png" />
   <meta http-equiv="Cache-Control" content="no-store" />
   <style>
-    /* kleines Skeleton, falls Netz langsam ist */
-    html,body{height:100%} body{display:grid;place-items:center;background:#000;color:#d4af37;
+    html,body{height:100%}
+    body{display:grid;place-items:center;background:#000;color:#d4af37;
       font-family:system-ui,-apple-system,Inter,Roboto,sans-serif}
     .dot{width:10px;height:10px;border-radius:50%;background:#d4af37;opacity:.7;animation:pulse 1.2s ease-in-out infinite}
     @keyframes pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.2);opacity:1}}
@@ -18,24 +18,24 @@
   <div class="dot" aria-label="Laden …"></div>
   <script>
     (function () {
-      // Admin-Preview: ?preview=live | ?preview=off
-      const sp = new URLSearchParams(location.search);
-      const preview = sp.get('preview');
-      if (preview === 'live') localStorage.setItem('tmc_preview', 'live');
-      if (preview === 'off')  localStorage.removeItem('tmc_preview');
+      const go = (t) => location.replace(t + (t.includes('?') ? '&' : '?') + 'v=' + Date.now());
 
-      const go = (target) => { window.location.replace(target); };
+      // Admin-Preview: ?preview=live  (oder ?preview=off zum Abschalten)
+      const sp = new URLSearchParams(location.search);
+      const pv = sp.get('preview');
+      if (pv === 'live') localStorage.setItem('tmc_preview', 'live');
+      if (pv === 'off')  localStorage.removeItem('tmc_preview');
 
       const override = localStorage.getItem('tmc_preview');
       if (override === 'live') return go('main.html');
 
-      fetch('mode.json?_=' + Date.now(), { cache: 'no-store' })
-        .then(r => r.json())
-        .then(cfg => {
-          if (cfg && cfg.mode === 'live') go('main.html');
-          else go('coming-soon.html');
-        })
-        .catch(() => go('coming-soon.html'));
+      // Safety-Timeout: falls fetch hängt → nicht ewig „laden“
+      const safety = setTimeout(() => go('coming-soon.html'), 5000);
+
+      fetch('mode.json?v=' + Date.now(), { cache: 'no-store' })
+        .then(r => { if (!r.ok) throw new Error('mode.json ' + r.status); return r.json(); })
+        .then(cfg => { clearTimeout(safety); (cfg && cfg.mode === 'live') ? go('main.html') : go('coming-soon.html'); })
+        .catch(() => { clearTimeout(safety); go('coming-soon.html'); });
     })();
   </script>
 </body>
