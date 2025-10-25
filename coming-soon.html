@@ -1,29 +1,74 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Mystery Code – Bald verfügbar</title>
-  <meta name="robots" content="noindex,nofollow" />
-  <link rel="icon" href="image/logo/favicon.png" />
-  <style>
-    :root { --bg:#000; --gold:#d4af37; --gold-soft:#c8a951; --text:#f4f4f4; }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      min-height:100svh; display:flex; align-items:center; justify-content:center;
-      flex-direction:column; background:radial-gradient(800px 400px at 50% 120%, rgba(212,175,55,.06), transparent 70%), #000;
-      color:var(--text); font-family:system-ui,-apple-system,Inter,Roboto,sans-serif; text-align:center; padding:24px;
-    }
-    h1{font-size:clamp(28px,5vw,48px); color:var(--gold); letter-spacing:.04em; margin-bottom:12px}
-    p{font-size:clamp(14px,2.2vw,18px); color:var(--gold-soft); max-width:540px; line-height:1.6}
-    .loader{width:44px;height:44px;border:3px solid rgba(212,175,55,.25);border-top:3px solid var(--gold);
-      border-radius:50%; animation:spin 1.2s linear infinite; margin-top:22px}
-    @keyframes spin{to{transform:rotate(360deg)}}
-  </style>
-</head>
-<body>
-  <h1>Etwas Echtes entsteht.</h1>
-  <p>Der Code ist noch nicht entschlüsselt. Bald erfährst du, was sich dahinter verbirgt.</p>
-  <div class="loader"></div>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Mystery Code – Bald verfügbar</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="icon" href="image/logo/favicon.png" />
+    <style>
+      :root {
+        --bg: #000;
+        --gold: #d4af37;
+        --gold-soft: #c8a951;
+        --text: #f4f4f4;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-height: 100svh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background: radial-gradient(
+            800px 400px at 50% 120%,
+            rgba(212, 175, 55, 0.06),
+            transparent 70%
+          ),
+          #000;
+        color: var(--text);
+        font-family: system-ui, -apple-system, Inter, Roboto, sans-serif;
+        text-align: center;
+        padding: 24px;
+      }
+      h1 {
+        font-size: clamp(28px, 5vw, 48px);
+        color: var(--gold);
+        letter-spacing: 0.04em;
+        margin-bottom: 12px;
+      }
+      p {
+        font-size: clamp(14px, 2.2vw, 18px);
+        color: var(--gold-soft);
+        max-width: 540px;
+        line-height: 1.6;
+      }
+      .loader {
+        width: 44px;
+        height: 44px;
+        border: 3px solid rgba(212, 175, 55, 0.25);
+        border-top: 3px solid var(--gold);
+        border-radius: 50%;
+        animation: spin 1.2s linear infinite;
+        margin-top: 22px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Etwas Echtes entsteht.</h1>
+    <p>
+      Der Code ist noch nicht entschlüsselt. Bald erfährst du, was sich dahinter
+      verbirgt.
+    </p>
+    <div class="loader"></div>
+  </body>
 </html>
