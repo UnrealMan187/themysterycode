@@ -69,31 +69,17 @@
   </main>
 
   <script>
-    // ⬇️ Dein fester BMAC-Extra-Link (10 €)
-    const PAY_URL_BASE = "https://buymeacoffee.com/themysterycode/e/472178";
+    // Fester, unveränderter BMAC-Extra-Link (funktioniert bei dir)
+    const PAY_URL = "https://buymeacoffee.com/themysterycode/e/472178";
   
-    // UTM/Ref aus QR (Linkly) übernehmen – optional, aber sinnvoll
-    const sp = new URLSearchParams(location.search);
-    const ref = sp.get("ref") || "";
-    const utm = {
-      source: sp.get("utm_source") || "qr",
-      medium: sp.get("utm_medium") || "sticker",
-      campaign: sp.get("utm_campaign") || "mystery-code"
-    };
-  
+    // Button verdrahten
     const buyBtn = document.getElementById("buyBtn");
-    const params = new URLSearchParams();
-    if (ref) params.set("ref", ref);
-    if (utm.source) params.set("utm_source", utm.source);
-    if (utm.medium) params.set("utm_medium", utm.medium);
-    if (utm.campaign) params.set("utm_campaign", utm.campaign);
-  
-    buyBtn.href = params.toString()
-      ? `${PAY_URL_BASE}?${params.toString()}`
-      : PAY_URL_BASE;
-  
-    buyBtn.textContent = `Jetzt für 10 € freischalten`;
+    buyBtn.href = PAY_URL;
+    buyBtn.textContent = "Jetzt für 10 € freischalten";
+    buyBtn.target = "_blank"; // optional: in neuem Tab öffnen
+    buyBtn.rel = "noopener";
   </script>
+  
   
 </body>
 </html>
