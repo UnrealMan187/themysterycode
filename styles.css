@@ -17,10 +17,10 @@
   --text-base: clamp(15px, 1.8vw, 18px);
   --text-lg: clamp(22px, 2vw, 24px);
   --text-xl: clamp(22px, 2.6vw, 36px);
-  --gold-rgb: 212, 175, 55;      /* entspricht #d4af37 */
-  --shimmer-opacity: 0.34;       /* Grundintensität */
-  --shimmer-blur: 30px;          /* Grundunschärfe */
-  --shimmer-speed: 14s;          /* Animationsdauer (langsamer = edler) */
+  --gold-rgb: 212, 175, 55; /* entspricht #d4af37 */
+  --shimmer-opacity: 0.34; /* Grundintensität */
+  --shimmer-blur: 30px; /* Grundunschärfe */
+  --shimmer-speed: 14s; /* Animationsdauer (langsamer = edler) */
 }
 
 .text-gold {
@@ -281,7 +281,6 @@ html {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
-  
 }
 
 /* == Steps == */
@@ -577,21 +576,16 @@ html {
 
 /* === Dezenter Gold-Schimmer hinter allen Cards === */
 .card {
-  box-shadow:
-    0 0 12px rgba(212, 175, 55, 0.3),  /* sanfter Goldschimmer */
-    0 2px 6px rgba(0, 0, 0, 0.4);       /* leichter Tiefenschatten */
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.3),
+    /* sanfter Goldschimmer */ 0 2px 6px rgba(0, 0, 0, 0.4); /* leichter Tiefenschatten */
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 
 /* Optional: leichter Glow beim Hover */
 .card:hover {
-  box-shadow:
-    0 0 18px rgba(212, 175, 55, 0.5),
-    0 4px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.5), 0 4px 12px rgba(0, 0, 0, 0.5);
   transform: translateY(-2px);
-  
 }
-
 
 #testimonials .card {
   position: relative;
@@ -599,10 +593,9 @@ html {
   background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow:
-    0 0 12px rgba(var(--gold-rgb), 0.06),
+  box-shadow: 0 0 12px rgba(var(--gold-rgb), 0.06),
     0 2px 8px rgba(0, 0, 0, 0.45);
-  transition: box-shadow .4s ease, transform .3s ease;
+  transition: box-shadow 0.4s ease, transform 0.3s ease;
 }
 
 /* Partikel-Schimmer: sehr große, weiche Lichter (wie Staub im Gegenlicht) */
@@ -610,10 +603,21 @@ html {
   content: "";
   position: absolute;
   inset: -45%; /* größer als die Card, damit nichts „hart“ am Rand wirkt */
-  background:
-    radial-gradient(140px 140px at 28% 32%, rgba(var(--gold-rgb), 0.18) 0%, rgba(var(--gold-rgb), 0.00) 60%) ,
-    radial-gradient(220px 220px at 72% 68%, rgba(var(--gold-rgb), 0.12) 0%, rgba(var(--gold-rgb), 0.00) 65%) ,
-    radial-gradient(110px 110px at 65% 25%, rgba(var(--gold-rgb), 0.10) 0%, rgba(var(--gold-rgb), 0.00) 55%);
+  background: radial-gradient(
+      140px 140px at 28% 32%,
+      rgba(var(--gold-rgb), 0.18) 0%,
+      rgba(var(--gold-rgb), 0) 60%
+    ),
+    radial-gradient(
+      220px 220px at 72% 68%,
+      rgba(var(--gold-rgb), 0.12) 0%,
+      rgba(var(--gold-rgb), 0) 65%
+    ),
+    radial-gradient(
+      110px 110px at 65% 25%,
+      rgba(var(--gold-rgb), 0.1) 0%,
+      rgba(var(--gold-rgb), 0) 55%
+    );
   background-repeat: no-repeat;
   background-size: 200% 200%;
   filter: blur(var(--shimmer-blur));
@@ -631,20 +635,29 @@ html {
 
 /* sanfte, unregelmäßige Drift */
 @keyframes shimmerDrift {
-  0%   { background-position: 18% 22%, 82% 78%, 60% 18%; transform: translate3d(-0.3%, 0, 0); }
-  50%  { background-position: 36% 56%, 64% 44%, 70% 32%; transform: translate3d( 0.3%, 0, 0); }
-  100% { background-position: 22% 28%, 78% 74%, 62% 22%; transform: translate3d(-0.2%, 0, 0); }
+  0% {
+    background-position: 18% 22%, 82% 78%, 60% 18%;
+    transform: translate3d(-0.3%, 0, 0);
+  }
+  50% {
+    background-position: 36% 56%, 64% 44%, 70% 32%;
+    transform: translate3d(0.3%, 0, 0);
+  }
+  100% {
+    background-position: 22% 28%, 78% 74%, 62% 22%;
+    transform: translate3d(-0.2%, 0, 0);
+  }
 }
 
 /* ===== Mobile-Tuning ===== */
 @media (max-width: 768px) {
   :root {
-    --shimmer-opacity: 0.26;   /* etwas leiser auf Phones */
-    --shimmer-blur: 22px;      /* weniger Blur = weniger Overdraw */
-    --shimmer-speed: 18s;      /* langsamere Bewegung */
+    --shimmer-opacity: 0.26; /* etwas leiser auf Phones */
+    --shimmer-blur: 22px; /* weniger Blur = weniger Overdraw */
+    --shimmer-speed: 18s; /* langsamere Bewegung */
   }
   #testimonials .card::before {
-    inset: -55%;               /* größer, damit es trotz weniger Blur weich bleibt */
+    inset: -55%; /* größer, damit es trotz weniger Blur weich bleibt */
   }
 }
 
@@ -652,12 +665,15 @@ html {
 @media (prefers-reduced-motion: reduce) {
   #testimonials .card::before {
     animation: none;
-    opacity: 0.22;             /* minimaler statischer Glow */
+    opacity: 0.22; /* minimaler statischer Glow */
   }
 }
 
 /* Standard: Effekt aus (keine Animation) */
-#testimonials .card::before { animation: none; opacity: 0; }
+#testimonials .card::before {
+  animation: none;
+  opacity: 0;
+}
 
 /* Aktiv, wenn sichtbar */
 #testimonials .card.is-shimmering::before {
@@ -685,7 +701,9 @@ html {
 }
 
 /* 2) Cards dürfen schrumpfen, selbst wenn Kinder breiter sein wollen */
-.card { min-width: 0; }
+.card {
+  min-width: 0;
+}
 
 /* 3) Galerie: keine fixen Bild-Pixelbreiten mehr → responsive Grid */
 .gallery {
@@ -699,10 +717,10 @@ html {
 /* 4) Galerie-Items: runde, responsive Thumbnails mit fixem Seitenverhältnis */
 .gallery__item {
   width: 100%;
-  max-width: 220px;       /* Obergrenze auf großen Screens, gern anpassen */
-  aspect-ratio: 1 / 1;    /* bleibt immer quadratisch */
+  max-width: 220px; /* Obergrenze auf großen Screens, gern anpassen */
+  aspect-ratio: 1 / 1; /* bleibt immer quadratisch */
   border-radius: 50%;
-  overflow: hidden;       /* verhindert Hover-Überlauf */
+  overflow: hidden; /* verhindert Hover-Überlauf */
 }
 
 .gallery__item img {
@@ -723,7 +741,9 @@ html {
 
 .gallery__item img:hover {
   filter: blur(0) brightness(1);
-  transform: scale(1.03); /* leicht reduziert, damit nichts aus dem Kreis ragt */
+  transform: scale(
+    1.03
+  ); /* leicht reduziert, damit nichts aus dem Kreis ragt */
   opacity: 1;
 }
 
@@ -739,7 +759,3 @@ html {
     gap: 14px;
   }
 }
-
-
-
-
