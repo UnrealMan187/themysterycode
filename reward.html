@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Mystery Code – Dein Inhalt wird geladen …</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="image/logo/favicon.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* dezentes, markenkonformes Loader-Layout */
+    html, body { height: 100%; }
+    body { display: grid; place-items: center; background: var(--bg); }
+    .loader-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); opacity: .8; animation: pulse 1.3s ease-in-out infinite; margin: 10px auto 0; }
+    @keyframes pulse { 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.25);opacity:1} }
+    .card a.btn { margin-top: 10px; display: inline-block; }
+  </style>
+</head>
+<body>
+  <main class="section">
+    <div class="wrap">
+      <div class="card center">
+        <h1 class="section__title">Dein Inhalt wird freigeschaltet …</h1>
+        <p class="lead" style="max-width:760px;margin:0 auto;color:var(--muted)">
+          Danke für deinen Beitrag. Du wirst gleich automatisch zu deinem zufälligen Inhalt weitergeleitet.
+          Sollte nichts passieren, nutze bitte den Button.
+        </p>
+        <div class="loader-dot" aria-hidden="true"></div>
+        <p class="caption" id="chosenLabel" style="margin-top:12px;color:var(--gold-soft)"></p>
+        <a id="fallbackBtn" class="btn btn--primary" href="#" rel="noopener">Jetzt öffnen</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // 1) Pflege hier deinen Artikel-Pool (Drive-Links o.ä.)
+    const POOL = [
+      // Beispiel: ersetze durch deine echten, freigegebenen Links
+      "https://drive.google.com/file/d/EXAMPLE_ID_1/view?usp=sharing",
+      "https://drive.google.com/file/d/EXAMPLE_ID_2/view?usp=sharing",
+      "https://drive.google.com/file/d/EXAMPLE_ID_3/view?usp=sharing"
+    ];
+
+    // Optional: „gewichtete“ Verteilung? Dann einzelne Links mehrfach eintragen.
+
+    // 2) Zufallsauswahl
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    const chosen = pickRandom(POOL);
+    const label = document.getElementById('chosenLabel');
+    const btn   = document.getElementById('fallbackBtn');
+
+    // 3) Fallback-Button & Anzeige
+    if (chosen) {
+      btn.href = chosen;
+      btn.setAttribute('target','_blank');
+      label.textContent = "Ausgewählter Inhalt wird geöffnet …";
+    } else {
+      label.textContent = "Keine Inhalte im Pool gefunden.";
+      btn.style.display = "none";
+    }
+
+    // 4) Auto-Redirect mit kleinem Delay (UX)
+    setTimeout(() => {
+      if (chosen) {
+        // Cache-Bypass hinzu, falls der Zielhost cached
+        const url = chosen + (chosen.includes("?") ? "&" : "?") + "v=" + Date.now();
+        window.location.replace(url);
+      }
+    }, 900);
+  </script>
+</body>
+</html>

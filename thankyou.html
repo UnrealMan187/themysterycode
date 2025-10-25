@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Danke – The Mystery Code</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="image/logo/favicon.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* dezenter, goldener Glow passend zu deinem Stil */
+    #thanks {
+      background: radial-gradient(800px 400px at 50% 120%, rgba(212,175,55,0.08), transparent 70%), var(--bg);
+    }
+    .share-row { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:14px; }
+    .btn--ghost { border-color:#333; color:#ddd; }
+  </style>
+</head>
+<body>
+  <main id="thanks" class="section section--border">
+    <div class="wrap">
+      <div class="card center">
+        <h1 class="section__title">Danke für deinen Beitrag 💫</h1>
+        <p class="lead" style="max-width:760px;margin:0 auto;color:var(--muted)">
+          Dein Moment wurde freigeschaltet. Wenn du magst, teile dein Erlebnis:
+          <br/> <strong>#TheMysteryCode</strong>
+        </p>
+
+        <div class="share-row">
+          <!-- Passe die Profile/URLs an -->
+          <a class="btn btn--primary" href="https://www.instagram.com/" target="_blank" rel="noopener">Auf Instagram teilen</a>
+          <a class="btn btn--ghost" href="https://twitter.com/intent/tweet?text=Ich%20hab%20den%20%23TheMysteryCode%20gescannt.%20Echt%20und%20unerwartet." target="_blank" rel="noopener">Auf X teilen</a>
+          <a class="pill" href="main.html">Zur Startseite</a>
+        </div>
+
+        <p class="caption" style="margin-top:14px">
+          Tipp: Markiere uns – so finden wir deinen Beitrag schneller.
+        </p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
