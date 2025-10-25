@@ -69,14 +69,10 @@
   </main>
 
   <script>
-    // ==========================
-    // Konfiguration
-    // ==========================
-    // Trage hier deinen BMAC-Link ein (oder später Stripe Checkout)
-    const PAY_URL_BASE = "https://buymeacoffee.com/themysterycode"; // <-- ANPASSEN falls du einen direkten 10€-Link hast
-    const AMOUNT_EUR = 10;
-
-    // UTM/Ref aus QR (Linkly) übernehmen
+    // ⬇️ Dein fester BMAC-Extra-Link (10 €)
+    const PAY_URL_BASE = "https://buymeacoffee.com/themysterycode/e/472178";
+  
+    // UTM/Ref aus QR (Linkly) übernehmen – optional, aber sinnvoll
     const sp = new URLSearchParams(location.search);
     const ref = sp.get("ref") || "";
     const utm = {
@@ -84,22 +80,20 @@
       medium: sp.get("utm_medium") || "sticker",
       campaign: sp.get("utm_campaign") || "mystery-code"
     };
-
-    // Ziel-URL aufbauen (so viel Tracking wie BMAC zulässt)
-    // Einige BMAC-Setups erlauben /e/10 oder custom extras – falls vorhanden, trage direkt die finale URL ein.
-    let target = PAY_URL_BASE;
+  
+    const buyBtn = document.getElementById("buyBtn");
     const params = new URLSearchParams();
     if (ref) params.set("ref", ref);
     if (utm.source) params.set("utm_source", utm.source);
     if (utm.medium) params.set("utm_medium", utm.medium);
     if (utm.campaign) params.set("utm_campaign", utm.campaign);
-
-    // Falls du später Stripe nutzt, kannst du hier stattdessen direkt die Stripe-Checkout-URL setzen.
-    const buyBtn = document.getElementById("buyBtn");
-    buyBtn.href = params.toString() ? `${target}?${params.toString()}` : target;
-
-    // Optional: Betrag anzeigen (rein visuell)
-    buyBtn.textContent = `Jetzt für ${AMOUNT_EUR} € freischalten`;
+  
+    buyBtn.href = params.toString()
+      ? `${PAY_URL_BASE}?${params.toString()}`
+      : PAY_URL_BASE;
+  
+    buyBtn.textContent = `Jetzt für 10 € freischalten`;
   </script>
+  
 </body>
 </html>
