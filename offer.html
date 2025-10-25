@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Mystery Code – Erlebe, was du nicht erwartest</title>
+  <meta name="description" content="Scanne. Bezahle 10 €. Erhalte garantiert etwas Echtes – digital oder physisch. Kein Glücksspiel, nur Neugier mit Stil." />
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="image/logo/favicon.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Seiten-spezifische Feinheiten, bleibt im Rahmen deines Designs */
+    .offer-hero {
+      padding-top: 48px;
+      padding-bottom: 24px;
+      background: radial-gradient(800px 400px at 50% 120%, rgba(212,175,55,0.08), transparent 70%), var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .offer-grid {
+      display: grid; gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 16px;
+    }
+    .offer-item {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+    .offer-item strong { color: var(--gold); }
+    .legal-note {
+      color: var(--muted);
+      font-size: var(--text-sm);
+      margin-top: 12px;
+    }
+    .cta-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:18px; }
+  </style>
+</head>
+<body>
+
+  <main class="section offer-hero">
+    <div class="wrap">
+      <div class="card center">
+        <h1 class="section__title">Was dich erwartet</h1>
+        <p class="lead" style="max-width:760px;margin:0 auto;color:var(--muted)">
+          Du investierst <strong>10 €</strong> – und erhältst <strong>garantiert</strong> etwas Echtes. 
+          Der Inhalt wird <strong>zufällig</strong> aus unserem Pool ausgewählt: mal klein, mal besonders, immer ehrlich.
+        </p>
+
+        <div class="offer-grid" style="margin-top:20px;">
+          <div class="offer-item"><strong>Digitale Inhalte</strong><br> exklusive PDFs, Rezepte, Codes, Assets, Mini-Experiences</div>
+          <div class="offer-item"><strong>Gutscheine</strong><br> kleine, aber feine Überraschungen für den Alltag</div>
+          <div class="offer-item"><strong>Physische Items</strong><br> kuratierte Kleinigkeiten – bei Gewinn: Formular für Versand</div>
+          <div class="offer-item"><strong>Special Drops</strong><br> limitierte Überraschungen für besonders aufmerksame Finder</div>
+        </div>
+
+        <div class="cta-row">
+          <!-- HINWEIS: Passe PAY_URL unten im Script auf deinen BMAC-/Zahlungslink an -->
+          <a id="buyBtn" class="btn btn--primary btn--lg" href="#" rel="noopener" target="_blank">Jetzt für 10 € freischalten</a>
+          <a class="btn btn--ghost" href="main.html">Zurück zur Startseite</a>
+        </div>
+
+        <p class="legal-note">
+          Jeder Beitrag erhält einen digitalen oder physischen Inhalt. Kein Glücksspiel. Keine Rückerstattung. 
+          Mit dem Klick auf „freischalten“ stimmst du dem Zufallsprinzip zu.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ==========================
+    // Konfiguration
+    // ==========================
+    // Trage hier deinen BMAC-Link ein (oder später Stripe Checkout)
+    const PAY_URL_BASE = "https://buymeacoffee.com/themysterycode"; // <-- ANPASSEN falls du einen direkten 10€-Link hast
+    const AMOUNT_EUR = 10;
+
+    // UTM/Ref aus QR (Linkly) übernehmen
+    const sp = new URLSearchParams(location.search);
+    const ref = sp.get("ref") || "";
+    const utm = {
+      source: sp.get("utm_source") || "qr",
+      medium: sp.get("utm_medium") || "sticker",
+      campaign: sp.get("utm_campaign") || "mystery-code"
+    };
+
+    // Ziel-URL aufbauen (so viel Tracking wie BMAC zulässt)
+    // Einige BMAC-Setups erlauben /e/10 oder custom extras – falls vorhanden, trage direkt die finale URL ein.
+    let target = PAY_URL_BASE;
+    const params = new URLSearchParams();
+    if (ref) params.set("ref", ref);
+    if (utm.source) params.set("utm_source", utm.source);
+    if (utm.medium) params.set("utm_medium", utm.medium);
+    if (utm.campaign) params.set("utm_campaign", utm.campaign);
+
+    // Falls du später Stripe nutzt, kannst du hier stattdessen direkt die Stripe-Checkout-URL setzen.
+    const buyBtn = document.getElementById("buyBtn");
+    buyBtn.href = params.toString() ? `${target}?${params.toString()}` : target;
+
+    // Optional: Betrag anzeigen (rein visuell)
+    buyBtn.textContent = `Jetzt für ${AMOUNT_EUR} € freischalten`;
+  </script>
+</body>
+</html>
