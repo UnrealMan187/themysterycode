@@ -1,0 +1,678 @@
+/* == Design Tokens == */
+:root {
+  --bg: #000000;
+  --bg-soft: #0f0f0f;
+  --gold: #d4af37;
+  --gold-soft: #c8a951;
+  --text: #f4f4f4;
+  --muted: #b9b9b9;
+  --border: #1a1a1a;
+  --radius: 16px;
+  --max: 1080px;
+  --gold-1: #a77b16;
+  --gold-2: #d4af37;
+  --gold-3: #f3e2a3;
+  --gold-4: #b3862d;
+  --text-sm: clamp(13px, 1.4vw, 15px);
+  --text-base: clamp(15px, 1.8vw, 18px);
+  --text-lg: clamp(22px, 2vw, 24px);
+  --text-xl: clamp(22px, 2.6vw, 36px);
+  --gold-rgb: 212, 175, 55;      /* entspricht #d4af37 */
+  --shimmer-opacity: 0.34;       /* Grundintensität */
+  --shimmer-blur: 30px;          /* Grundunschärfe */
+  --shimmer-speed: 14s;          /* Animationsdauer (langsamer = edler) */
+}
+
+.text-gold {
+  background: linear-gradient(
+    90deg,
+    var(--gold-1),
+    var(--gold-2),
+    var(--gold-3),
+    var(--gold-4)
+  );
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* dezent mehr „Tiefe“ */
+  text-shadow: 0 0 0.01px rgba(0, 0, 0, 0.01);
+}
+
+/* animierter Shine-Effekt (dezent) */
+.text-gold-shine {
+  background: linear-gradient(
+    90deg,
+    #7a5a12 0%,
+    #d4af37 20%,
+    #f3e2a3 40%,
+    #d4af37 60%,
+    #7a5a12 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: goldShine 3.5s ease-in-out infinite;
+  font-size: clamp(28px, 4vw, 40px);
+  margin: 0 0 18px;
+}
+
+/* Bewegung der Glanzspur */
+@keyframes goldShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Respektiert „Bewegung reduzieren“ */
+@media (prefers-reduced-motion: reduce) {
+  .text-gold-shine {
+    animation: none;
+  }
+}
+
+/* == Base == */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial,
+    sans-serif;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+}
+.text-base {
+  font-size: var(--text-base);
+}
+.text-lg {
+  font-size: var(--text-lg);
+}
+.text-xl {
+  font-size: var(--text-xl);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+a {
+  text-decoration: none;
+  color: var(--gold);
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* == HERO mit statischem Hintergrundbild == */
+.hero {
+  position: relative;
+  min-height: calc(var(--vh, 1vh) * 92);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+
+  background-image: url("image/img/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+/* Falls das Video genutzt wird */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.28;
+  filter: blur(2px) saturate(1.1);
+  display: none; /* Video momentan nicht aktiv */
+}
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px 0;
+}
+.hero__title {
+  font-size: clamp(36px, 6vw, 64px);
+  letter-spacing: 0.02em;
+  margin: 0 0 8px;
+  /*color: var(--gold);*/
+  background: linear-gradient(
+    90deg,
+    #7a5a12 0%,
+    #d4af37 20%,
+    #f3e2a3 40%,
+    #d4af37 60%,
+    #7a5a12 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: goldShine 3.5s ease-in-out infinite;
+  /*font-size: clamp(28px, 4vw, 40px);
+  margin: 0 0 18px;*/
+}
+.hero__subtitle {
+  margin: 0 0 22px;
+  color: #e9e6dd;
+  font-size: clamp(16px, 2.6vw, 20px);
+  font-weight: bold;
+}
+.hero__cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+/* == Layout Helpers == */
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.center {
+  text-align: center;
+}
+
+/* == Buttons == */
+.btn {
+  display: inline-block;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--gold);
+  font-weight: 600;
+  transition: 0.25s;
+}
+.btn--primary {
+  background: transparent;
+  color: var(--gold);
+}
+.btn--primary:hover {
+  background: var(--gold);
+  color: #111;
+}
+.btn--ghost {
+  border-color: #333;
+  color: #ddd;
+}
+.btn--ghost:hover {
+  background: #1d1d1d;
+}
+.btn--lg {
+  padding: 16px 24px;
+  font-size: 18px;
+}
+
+/* == QR Block == */
+.qr {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.qr img {
+  width: 180px;
+  filter: drop-shadow(0 0 18px rgba(212, 175, 55, 0.15));
+}
+.caption {
+  color: var(--muted);
+}
+
+/* == Sections == */
+.section {
+  padding: 72px 0;
+}
+.section--border {
+  border-top: 1px solid var(--border);
+}
+.section__title {
+  font-size: clamp(28px, 4vw, 40px);
+  margin: 0 0 18px;
+  color: var(--gold);
+}
+.lead {
+  color: var(--muted);
+  max-width: 840px;
+}
+
+/* == Grid & Cards == */
+.grid {
+  display: grid;
+  gap: 22px;
+}
+.grid--2 {
+  grid-template-columns: 1fr;
+}
+.grid--3 {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 800px) {
+  .grid--2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  
+}
+
+/* == Steps == */
+.steps {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.icon {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  font-size: 18px;
+}
+
+/* == Gallery == */
+.gallery {
+  gap: 20px;
+  justify-items: center;
+}
+.gallery__item img {
+  width: 180px;
+  max-width: 280px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  cursor: pointer;
+
+  /* Startzustand */
+  filter: blur(4px) brightness(0.5);
+  opacity: 0.9;
+
+  /* Smoothness + Performance */
+  transition: filter 0.6s ease, transform 0.6s ease, opacity 0.6s ease;
+  will-change: filter, transform, opacity;
+  transform: translateZ(0);
+}
+.gallery__item img:hover {
+  filter: blur(0) brightness(1.5);
+  transform: scale(1.05);
+  opacity: 1;
+}
+@media (max-width: 600px) {
+  .gallery__item img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* == FAQ == */
+.faq {
+  display: grid;
+  gap: 10px;
+  max-width: 900px;
+}
+.faq__item {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.faq__q {
+  cursor: pointer;
+  font-weight: 600;
+  color: #eaeaea;
+  list-style: none;
+}
+.faq__a {
+  color: var(--muted);
+  padding-top: 8px;
+}
+
+/* == CTA Section == */
+.section--cta {
+  border-top: 1px solid var(--border);
+  background: radial-gradient(
+      800px 400px at 50% 120%,
+      rgba(212, 175, 55, 0.1),
+      transparent 60%
+    ),
+    var(--bg);
+}
+.cta__title {
+  margin: 0 0 6px;
+  font-size: clamp(28px, 4vw, 42px);
+  color: var(--text);
+}
+.cta__subtitle {
+  margin: 0 0 20px;
+  color: var(--gold-soft);
+}
+
+/* == Footer == */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 0;
+  color: #9a9a9a;
+  text-align: center;
+}
+
+/* == Pill == */
+.pill {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--gold-soft);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+/* === Scroll-Fade-in Effekt === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+  will-change: opacity, transform;
+}
+
+.fade-in--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Zentrierung für die „Was ist The Mystery Code“-Section */
+#about {
+  display: flex;
+  align-items: center; /* vertikal mittig */
+  justify-content: center; /* horizontal mittig */
+  text-align: center; /* Textinhalt mittig */
+  min-height: auto; /*füllt Bildschirmhöhe */
+  box-sizing: border-box; /* Padding zählt zur Höhe */
+}
+
+#about.has-bg {
+  min-height: 100vh;
+  background: url("image/img/background.png") center/cover no-repeat;
+}
+
+/* Für kleinere Bildschirme: Höhe dynamisch anpassen */
+@media (max-width: 768px) {
+  #about {
+    min-height: auto; /* vermeidet abgeschnittenen Text auf Mobilgeräten */
+    padding: 80px 0; /* etwas Luft oben/unten */
+  }
+}
+
+#origin .card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: clamp(24px, 5vw, 48px);
+}
+
+#origin .lead {
+  font-size: clamp(15px, 2vw, 18px);
+  text-align: left;
+  line-height: 1.7;
+}
+
+#origin q {
+  quotes: "„" "“" "‚" "‘";
+  font-style: italic;
+  color: var(--gold-soft);
+}
+
+/* === Testimonials / Finder-Stimmen === */
+#testimonials .media-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 600px) {
+  #testimonials .media-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Karten für Medien-Items */
+.t-media {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.t-media__frame {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  display: block;
+  background: #0b0b0b;
+  object-fit: cover;
+}
+
+.t-media__caption {
+  padding: 10px 12px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: var(--text-sm, 14px);
+}
+
+/* Feed / Kommentare */
+.feed {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feed-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  background: var(--bg-soft);
+  border: 1px solid var(--muted);
+  border-radius: calc(var(--radius) - 4px);
+  padding: 12px;
+}
+
+.feed-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: radial-gradient(
+    100% 100% at 50% 0%,
+    rgba(212, 175, 55, 0.3),
+    rgba(212, 175, 55, 0.08) 60%,
+    rgba(212, 175, 55, 0.04) 100%
+  );
+  color: var(--gold);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.feed-body {
+  display: grid;
+  gap: 4px;
+}
+
+.feed-meta {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.feed-name {
+  font-weight: 600;
+}
+
+.feed-handle {
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
+.feed-text {
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* kleine Verfeinerung */
+#testimonials .section__title {
+  letter-spacing: -0.01em;
+}
+
+/* === Testimonials Layout-Fix === */
+#testimonials .grid {
+  gap: 22px; /* identisch zum globalen Grid-Abstand */
+}
+
+#testimonials .card + .grid {
+  margin-top: 22px;
+}
+
+/* === Dezenter Gold-Schimmer hinter allen Cards === */
+.card {
+  box-shadow:
+    0 0 12px rgba(212, 175, 55, 0.3),  /* sanfter Goldschimmer */
+    0 2px 6px rgba(0, 0, 0, 0.4);       /* leichter Tiefenschatten */
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+/* Optional: leichter Glow beim Hover */
+.card:hover {
+  box-shadow:
+    0 0 18px rgba(212, 175, 55, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+  
+}
+
+
+#testimonials .card {
+  position: relative;
+  overflow: hidden; /* hält den Effekt im Rahmen */
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 12px rgba(var(--gold-rgb), 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.45);
+  transition: box-shadow .4s ease, transform .3s ease;
+}
+
+/* Partikel-Schimmer: sehr große, weiche Lichter (wie Staub im Gegenlicht) */
+#testimonials .card::before {
+  content: "";
+  position: absolute;
+  inset: -45%; /* größer als die Card, damit nichts „hart“ am Rand wirkt */
+  background:
+    radial-gradient(140px 140px at 28% 32%, rgba(var(--gold-rgb), 0.18) 0%, rgba(var(--gold-rgb), 0.00) 60%) ,
+    radial-gradient(220px 220px at 72% 68%, rgba(var(--gold-rgb), 0.12) 0%, rgba(var(--gold-rgb), 0.00) 65%) ,
+    radial-gradient(110px 110px at 65% 25%, rgba(var(--gold-rgb), 0.10) 0%, rgba(var(--gold-rgb), 0.00) 55%);
+  background-repeat: no-repeat;
+  background-size: 200% 200%;
+  filter: blur(var(--shimmer-blur));
+  opacity: var(--shimmer-opacity);
+  z-index: 0;
+  pointer-events: none;
+  animation: shimmerDrift var(--shimmer-speed) ease-in-out infinite alternate;
+}
+
+/* Inhalt bleibt über dem Effekt */
+#testimonials .card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* sanfte, unregelmäßige Drift */
+@keyframes shimmerDrift {
+  0%   { background-position: 18% 22%, 82% 78%, 60% 18%; transform: translate3d(-0.3%, 0, 0); }
+  50%  { background-position: 36% 56%, 64% 44%, 70% 32%; transform: translate3d( 0.3%, 0, 0); }
+  100% { background-position: 22% 28%, 78% 74%, 62% 22%; transform: translate3d(-0.2%, 0, 0); }
+}
+
+/* ===== Mobile-Tuning ===== */
+@media (max-width: 768px) {
+  :root {
+    --shimmer-opacity: 0.26;   /* etwas leiser auf Phones */
+    --shimmer-blur: 22px;      /* weniger Blur = weniger Overdraw */
+    --shimmer-speed: 18s;      /* langsamere Bewegung */
+  }
+  #testimonials .card::before {
+    inset: -55%;               /* größer, damit es trotz weniger Blur weich bleibt */
+  }
+}
+
+/* ===== Motion-Respect ===== */
+@media (prefers-reduced-motion: reduce) {
+  #testimonials .card::before {
+    animation: none;
+    opacity: 0.22;             /* minimaler statischer Glow */
+  }
+}
+
+/* Standard: Effekt aus (keine Animation) */
+#testimonials .card::before { animation: none; opacity: 0; }
+
+/* Aktiv, wenn sichtbar */
+#testimonials .card.is-shimmering::before {
+  animation: shimmerDrift var(--shimmer-speed) ease-in-out infinite alternate;
+  opacity: var(--shimmer-opacity);
+}
+
+/* Reduced motion: weiterhin ohne Animation */
+@media (prefers-reduced-motion: reduce) {
+  #testimonials .card.is-shimmering::before {
+    animation: none;
+    opacity: 0.22;
+  }
+}
+
+
+
+
