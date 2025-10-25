@@ -1,100 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Versanddaten – The Mystery Code</title>
-  <meta name="robots" content="noindex,nofollow" />
-  <link rel="icon" href="image/logo/favicon.png" />
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    .form-wrap { max-width: 720px; margin: 0 auto; }
-    form.card { display: grid; gap: 14px; }
-    label { text-align: left; color: var(--text); font-weight: 600; }
-    input, textarea {
-      width: 100%; background: #0f0f0f; color: var(--text);
-      border: 1px solid var(--border); border-radius: 10px; padding: 12px;
-      outline: none;
-    }
-    input:focus, textarea:focus { border-color: var(--gold); }
-    .row { display: grid; gap: 12px; grid-template-columns: 1fr; }
-    @media (min-width: 720px) { .row-2 { grid-template-columns: 1fr 1fr; } }
-    .note { color: var(--muted); font-size: var(--text-sm); }
-  </style>
-</head>
-<body>
-
-  <main class="section section--border">
-    <div class="wrap form-wrap">
-      <div class="card center">
-        <h1 class="section__title">Versanddaten für deinen Artikel</h1>
-        <p class="lead" style="color:var(--muted);max-width:660px;margin:0 auto">
-          Du hast einen physischen Artikel erhalten. Bitte trage deine Daten ein, damit wir dir den Artikel zusenden können.
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lieferadresse – The Mystery Code</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section class="section fade-in center">
+      <div class="card" style="max-width:600px;margin:auto;">
+        <h2 class="section__title">Lieferadresse</h2>
+        <p class="lead">
+          Bitte gib deine Daten ein, damit wir dir deinen Gewinn zusenden können.
         </p>
+
+        <!-- ⬇️ Hier deine persönliche Endpoint-URL -->
+        <form action="https://formspree.io/f/xpwozdke" method="POST">
+          <label>
+            Vorname
+            <input type="text" name="Vorname" required />
+          </label>
+
+          <label>
+            Nachname
+            <input type="text" name="Nachname" required />
+          </label>
+
+          <label>
+            E-Mail
+            <input type="email" name="Email" required />
+          </label>
+
+          <label>
+            Telefonnummer
+            <input type="tel" name="Telefonnummer" />
+          </label>
+
+          <label>
+            Adresse
+            <textarea name="Adresse" rows="3" required></textarea>
+          </label>
+
+          <!-- Nach dem Absenden weiterleiten -->
+          <input
+            type="hidden"
+            name="_redirect"
+            value="https://themysterycode.de/thanks.html"
+          />
+
+          <button type="submit" class="btn btn--primary btn--lg">Absenden</button>
+        </form>
       </div>
-
-      <!-- HINWEIS: ACTION unten auf deine Formspree-/Getform-URL ändern -->
-      <form class="card" method="POST" action="https://formspree.io/f/YOUR_FORM_ID">
-        <!-- Meta (aus URL übernommen) -->
-        <input type="hidden" name="item" id="itemField" value="">
-        <input type="hidden" name="ref" id="refField" value="">
-        <!-- Nach erfolgreichem Absenden auf deine Danke-Seite -->
-        <input type="hidden" name="_redirect" value="https://themysterycode.de/thankyou.html">
-        <!-- Honeypot gegen Bots -->
-        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-
-        <div class="row row-2">
-          <div>
-            <label for="vorname">Vorname</label>
-            <input id="vorname" name="vorname" type="text" autocomplete="given-name" required>
-          </div>
-          <div>
-            <label for="nachname">Nachname</label>
-            <input id="nachname" name="nachname" type="text" autocomplete="family-name" required>
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label for="email">E-Mail</label>
-            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required>
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label for="telefon">Telefon (optional)</label>
-            <input id="telefon" name="telefon" type="tel" inputmode="tel" autocomplete="tel">
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label for="adresse">Adresse</label>
-            <textarea id="adresse" name="adresse" rows="4" placeholder="Straße Hausnummer, PLZ Ort, Land" required></textarea>
-          </div>
-        </div>
-
-        <div class="row">
-          <button type="submit" class="btn btn--primary btn--lg">Senden</button>
-          <p class="note">Deine Daten werden ausschließlich zur Zustellung verwendet.</p>
-        </div>
-      </form>
-
-      <div class="center" style="margin-top:12px;">
-        <a class="pill" href="main.html">Zur Startseite</a>
-      </div>
-    </div>
-  </main>
-
-  <script>
-    // Übernimmt optionale Query-Parameter z. B. ?item=GoldCoin&ref=code1
-    const q = new URLSearchParams(location.search);
-    const item = q.get("item") || "";
-    const ref  = q.get("ref")  || "";
-
-    document.getElementById("itemField").value = item;
-    document.getElementById("refField").value  = ref;
-  </script>
-</body>
+    </section>
+  </body>
 </html>
