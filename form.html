@@ -4,52 +4,136 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lieferadresse – The Mystery Code</title>
+    <link rel="icon" href="image/logo/favicon.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body class="page page--dark">
-    <main class="container">
+    <main class="container-form">
       <section class="card card--glow">
         <h1 class="headline">Lieferadresse</h1>
-        <p class="lead">Bitte gib deine Daten ein, damit wir dir deinen Gewinn zusenden können.</p>
+        <p class="lead">
+          Bitte gib deine Daten ein, damit wir dir deinen Gewinn zusenden können.
+        </p>
 
-        <form class="form grid" action="https://formspree.io/f/xpwozdke" method="POST" accept-charset="UTF-8">
+        <form
+          id="addressForm"
+          class="form form-grid"
+          action="https://formspree.io/f/xpwozdke"
+          method="POST"
+          accept-charset="UTF-8"
+        >
           <div class="field">
             <label for="vorname">Vorname</label>
-            <input id="vorname" type="text" name="Vorname" autocomplete="given-name" required />
+            <input
+              id="vorname"
+              type="text"
+              name="Vorname"
+              autocomplete="given-name"
+              required
+            />
           </div>
 
           <div class="field">
             <label for="nachname">Nachname</label>
-            <input id="nachname" type="text" name="Nachname" autocomplete="family-name" required />
+            <input
+              id="nachname"
+              type="text"
+              name="Nachname"
+              autocomplete="family-name"
+              required
+            />
           </div>
 
           <div class="field field--full">
             <label for="email">E-Mail</label>
-            <input id="email" type="email" name="Email" autocomplete="email" required />
+            <input
+              id="email"
+              type="email"
+              name="Email"
+              autocomplete="email"
+              required
+            />
           </div>
 
           <div class="field">
-            <label for="telefon">Telefonnummer <span class="hint">(optional)</span></label>
-            <input id="telefon" type="tel" name="Telefonnummer" autocomplete="tel" />
+            <label for="telefon"
+              >Telefonnummer <span class="hint">(optional)</span></label
+            >
+            <input
+              id="telefon"
+              type="tel"
+              name="Telefonnummer"
+              autocomplete="tel"
+            />
           </div>
 
           <div class="field field--full">
             <label for="adresse">Adresse</label>
-            <textarea id="adresse" name="Adresse" rows="3" autocomplete="street-address" required></textarea>
+            <textarea
+              id="adresse"
+              name="Adresse"
+              rows="3"
+              autocomplete="street-address"
+              required
+            ></textarea>
           </div>
 
-          <!-- Redirect zur eigenen Danke-Seite -->
-          <input type="hidden" name="_next" value="https://themysterycode.de/thankyou.html" />
           <!-- hübschere Betreffzeile -->
-          <input type="hidden" name="_subject" value="Gewinn: Lieferadresse eingegangen" />
+          <input
+            type="hidden"
+            name="_subject"
+            value="Gewinn: Lieferadresse eingegangen"
+          />
+
           <!-- Honeypot gegen Bots -->
-          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" />
+          <input
+            type="text"
+            name="_gotcha"
+            class="hp"
+            tabindex="-1"
+            autocomplete="off"
+          />
 
           <div class="actions field--full">
-            <button type="submit" class="btn btn--gold btn--lg">Absenden</button>
+            <button type="submit" class="btn btn--gold btn--lg">
+              Absenden
+            </button>
           </div>
         </form>
       </section>
     </main>
+
+    <!-- AJAX-Submit + Weiterleitung -->
+    <script>
+      const form = document.getElementById("addressForm");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault(); // verhindert Standard-Redirect
+        const data = new FormData(form);
+
+        try {
+          const res = await fetch(form.action, {
+            method: "POST",
+            body: data,
+            headers: { Accept: "application/json" },
+          });
+
+          if (res.ok) {
+            // eigene Danke-Seite
+            window.location.href = "https://themysterycode.de/thankyou.html";
+          } else {
+            const err = await res.json().catch(() => null);
+            const msg =
+              err && err.errors
+                ? err.errors.map((e) => e.message).join("\n")
+                : "Uups – das Absenden ist fehlgeschlagen.";
+            alert(msg);
+          }
+        } catch (error) {
+          alert("Netzwerkfehler. Bitte später erneut versuchen.");
+        }
+      });
+    </script>
   </body>
 </html>
