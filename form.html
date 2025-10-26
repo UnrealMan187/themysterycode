@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="no-js">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,46 +7,47 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <section class="section fade-in center">
+    <section class="section center">
       <div class="card" style="max-width:600px;margin:auto;">
         <h2 class="section__title">Lieferadresse</h2>
         <p class="lead">
           Bitte gib deine Daten ein, damit wir dir deinen Gewinn zusenden können.
         </p>
 
-        <!-- ⬇️ Hier deine persönliche Endpoint-URL -->
-        <form action="https://formspree.io/f/xpwozdke" method="POST">
+        <form action="https://formspree.io/f/xpwozdke" method="POST" accept-charset="UTF-8">
           <label>
             Vorname
-            <input type="text" name="Vorname" required />
+            <input type="text" name="Vorname" autocomplete="given-name" required />
           </label>
 
           <label>
             Nachname
-            <input type="text" name="Nachname" required />
+            <input type="text" name="Nachname" autocomplete="family-name" required />
           </label>
 
           <label>
             E-Mail
-            <input type="email" name="Email" required />
+            <input type="email" name="Email" autocomplete="email" required />
           </label>
 
           <label>
             Telefonnummer
-            <input type="tel" name="Telefonnummer" />
+            <input type="tel" name="Telefonnummer" autocomplete="tel" />
           </label>
 
           <label>
             Adresse
-            <textarea name="Adresse" rows="3" required></textarea>
+            <textarea name="Adresse" rows="3" autocomplete="street-address" required></textarea>
           </label>
 
-          <!-- Nach dem Absenden weiterleiten -->
-          <input
-            type="hidden"
-            name="_redirect"
-            value="https://themysterycode.de/thanks.html"
-          />
+          <!-- Redirect nach erfolgreichem Absenden (Formspree) -->
+          <input type="hidden" name="_next" value="https://themysterycode.de/thanks.html" />
+
+          <!-- Optional: Betreffzeile in der Inbox schöner -->
+          <input type="hidden" name="_subject" value="Gewinn: Lieferadresse eingegangen" />
+
+          <!-- Leises Honeypot-Feld gegen Bots -->
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
 
           <button type="submit" class="btn btn--primary btn--lg">Absenden</button>
         </form>
