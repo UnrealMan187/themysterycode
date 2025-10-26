@@ -1,57 +1,55 @@
 <!DOCTYPE html>
-<html lang="de" class="no-js">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lieferadresse – The Mystery Code</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
-    <section class="section center">
-      <div class="card" style="max-width:600px;margin:auto;">
-        <h2 class="section__title">Lieferadresse</h2>
-        <p class="lead">
-          Bitte gib deine Daten ein, damit wir dir deinen Gewinn zusenden können.
-        </p>
+  <body class="page page--dark">
+    <main class="container">
+      <section class="card card--glow">
+        <h1 class="headline">Lieferadresse</h1>
+        <p class="lead">Bitte gib deine Daten ein, damit wir dir deinen Gewinn zusenden können.</p>
 
-        <form action="https://formspree.io/f/xpwozdke" method="POST" accept-charset="UTF-8">
-          <label>
-            Vorname
-            <input type="text" name="Vorname" autocomplete="given-name" required />
-          </label>
+        <form class="form grid" action="https://formspree.io/f/xpwozdke" method="POST" accept-charset="UTF-8">
+          <div class="field">
+            <label for="vorname">Vorname</label>
+            <input id="vorname" type="text" name="Vorname" autocomplete="given-name" required />
+          </div>
 
-          <label>
-            Nachname
-            <input type="text" name="Nachname" autocomplete="family-name" required />
-          </label>
+          <div class="field">
+            <label for="nachname">Nachname</label>
+            <input id="nachname" type="text" name="Nachname" autocomplete="family-name" required />
+          </div>
 
-          <label>
-            E-Mail
-            <input type="email" name="Email" autocomplete="email" required />
-          </label>
+          <div class="field field--full">
+            <label for="email">E-Mail</label>
+            <input id="email" type="email" name="Email" autocomplete="email" required />
+          </div>
 
-          <label>
-            Telefonnummer
-            <input type="tel" name="Telefonnummer" autocomplete="tel" />
-          </label>
+          <div class="field">
+            <label for="telefon">Telefonnummer <span class="hint">(optional)</span></label>
+            <input id="telefon" type="tel" name="Telefonnummer" autocomplete="tel" />
+          </div>
 
-          <label>
-            Adresse
-            <textarea name="Adresse" rows="3" autocomplete="street-address" required></textarea>
-          </label>
+          <div class="field field--full">
+            <label for="adresse">Adresse</label>
+            <textarea id="adresse" name="Adresse" rows="3" autocomplete="street-address" required></textarea>
+          </div>
 
-          <!-- Redirect nach erfolgreichem Absenden (Formspree) -->
+          <!-- Redirect zur eigenen Danke-Seite -->
           <input type="hidden" name="_next" value="https://themysterycode.de/thanks.html" />
-
-          <!-- Optional: Betreffzeile in der Inbox schöner -->
+          <!-- hübschere Betreffzeile -->
           <input type="hidden" name="_subject" value="Gewinn: Lieferadresse eingegangen" />
+          <!-- Honeypot gegen Bots -->
+          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" />
 
-          <!-- Leises Honeypot-Feld gegen Bots -->
-          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
-
-          <button type="submit" class="btn btn--primary btn--lg">Absenden</button>
+          <div class="actions field--full">
+            <button type="submit" class="btn btn--gold btn--lg">Absenden</button>
+          </div>
         </form>
-      </div>
-    </section>
+      </section>
+    </main>
   </body>
 </html>
