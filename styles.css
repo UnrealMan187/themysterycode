@@ -464,3 +464,8 @@ form.form .hp { display: none !important; }
 @media (max-width: 720px){
   .form-grid{ grid-template-columns: 1fr; }
 }
+
+.qr-insta {
+  
+  filter: brightness(2.5); /* 1 = normal | >1 = heller | <1 = dunkler */
+}
