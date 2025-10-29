@@ -1,320 +1,607 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Mystery Code – Das Erlebnis</title>
-  <link rel="icon" href="image/logo/favicon.png" />
-  <link rel="stylesheet" href="styles.css" />
-  <meta name="description" content="Scanne. Entdecke. Erhalte einen zufälligen Reward – digital oder physisch. The Mystery Code ist kuratierte Überraschung mit Stil." />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Mystery Code – Das Erlebnis</title>
+    <link rel="icon" href="image/logo/favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta
+      name="description"
+      content="Scanne. Entdecke. Erhalte einen zufälligen Reward – digital oder physisch. The Mystery Code ist kuratierte Überraschung mit Stil."
+    />
+  </head>
+  <body>
+    <!-- HERO -->
+    <header class="hero">
+      <!-- Effekt-Canvas -->
+      <canvas class="fx-canvas" aria-hidden="true"></canvas>
 
-  <!-- HERO -->
-  <header class="hero">
-    <!-- Effekt-Canvas -->
-    <canvas class="fx-canvas" aria-hidden="true"></canvas>
-  
-    <div class="hero__inner">
-      <!--<p class="pill" style="margin-bottom:10px">The Mystery Code</p>-->
-  
-      <!-- NEUE CELEBRATION HEADLINE -->
-      <h1 class="celebrate__title">
-        Glückwunsch, du hast den Code gefunden!
-      </h1>
-  
-      <!-- Subline (optional; passe Text gern an) -->
-      <p class="hero__subtitle">Scanne. Entscheide. Erlebe – ohne leere Versprechen.</p>
-  
-      <div class="hero__cta">
-        <a class="btn btn--primary btn--lg" href="#offer">Was erwartet dich?</a>
-        <a class="btn btn--ghost btn--lg" href="#how">So funktioniert’s</a>
-      </div>
-      <div style="margin-top:120px">
-        <a class="btn btn--primary btn--lg" href="https://buymeacoffee.com/themysterycode/e/472178">Digital Box</a>
-      </div>
-    </div>
-  </header>
-  
+      <div class="hero__inner">
+        <!--<p class="pill" style="margin-bottom:10px">The Mystery Code</p>-->
 
-  <main>
+        <!-- NEUE CELEBRATION HEADLINE -->
+        <h1 class="celebrate__title">Glückwunsch, Du hast den Code gefunden!</h1>
 
-    <!-- VALUE / OFFER -->
-    <section id="offer" class="section">
-      <div class="wrap grid grid--2">
-        <div class="card fade-in">
-          <h2 class="section__title">Das bekommst du</h2>
-          <ul class="steps">
-            <li class="step">
-              <div class="icon">🎲</div>
-              <div>
-                <div class="text-lg"><strong>Zufälliger Reward</strong></div>
-                <div class="caption">Digital (z. B. exklusive PDF) oder physisch (kleines Objekt mit Story).</div>
-              </div>
-            </li>
-            <li class="step">
-              <div class="icon">🖤</div>
-              <div>
-                <div class="text-lg"><strong>Kuratierte Qualität</strong></div>
-                <div class="caption">Kein Ramsch. Wenige, ehrliche Stücke – dafür mit Charakter.</div>
-              </div>
-            </li>
-            <li class="step">
-              <div class="icon">🔑</div>
-              <div>
-                <div class="text-lg"><strong>Direkter Zugang</strong></div>
-                <div class="caption">Digitale Rewards: sofort sichtbar, Download nur auf Wunsch.</div>
-              </div>
-            </li>
-          </ul>
-          <div style="margin-top:14px">
-            <a class="btn btn--primary btn--lg" href="https://buymeacoffee.com/themysterycode/e/472178">Jetzt freischalten</a>
+        <!-- Subline (optional; passe Text gern an) -->
+        <p class="hero__subtitle">Scanne. Entscheide. Erlebe.</p>
+        <!-- Countdown: Ziffernblatt -->
+        <section id="code-timer" class="countdown" aria-live="polite">
+          <div class="countdown__dial">
+            <svg class="dial" viewBox="0 0 160 160" role="img" aria-label="Countdown 12 Stunden">
+              <!-- Hintergrund -->
+              <circle class="dial__bg" cx="80" cy="80" r="70"></circle>
+
+              <!-- Fortschrittsring -->
+              <circle class="dial__progress" cx="80" cy="80" r="62"></circle>
+
+              <!-- 12 große Ticks -->
+              <g class="ticks--major">
+                <!-- Norden / Süden / West / Ost -->
+                <line x1="80" y1="6" x2="80" y2="16" />
+                <line x1="80" y1="144" x2="80" y2="154" />
+                <line x1="6" y1="80" x2="16" y2="80" />
+                <line x1="144" y1="80" x2="154" y2="80" />
+                <!-- Diagonalen -->
+                <line x1="80" y1="6" x2="80" y2="16" transform="rotate(30 80 80)" />
+                <line x1="80" y1="6" x2="80" y2="16" transform="rotate(60 80 80)" />
+                <line x1="80" y1="6" x2="80" y2="16" transform="rotate(120 80 80)" />
+                <line x1="80" y1="6" x2="80" y2="16" transform="rotate(150 80 80)" />
+                <line x1="80" y1="144" x2="80" y2="154" transform="rotate(30 80 80)" />
+                <line x1="80" y1="144" x2="80" y2="154" transform="rotate(60 80 80)" />
+                <line x1="80" y1="144" x2="80" y2="154" transform="rotate(120 80 80)" />
+                <line x1="80" y1="144" x2="80" y2="154" transform="rotate(150 80 80)" />
+              </g>
+
+              <!-- 48 kleine Ticks (per JS gefüllt) -->
+              <g class="ticks--minor"></g>
+
+              <!-- Zeiger -->
+              <g class="needle-group" filter="url(#glow)">
+                <line id="tmc-needle" x1="80" y1="80" x2="80" y2="18" class="needle" />
+                <circle cx="80" cy="80" r="3.6" class="needle-cap" />
+              </g>
+
+              <!-- sanfter Glow-Filter -->
+              <defs>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="1.8" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+            </svg>
+
+            <div class="countdown__readout">
+              <!--<div class="readout__label">Dieser Code ist aktiv für</div>-->
+              <div class="readout__digits" id="tmc-digits">12:00:00</div>
+              <!--<div class="readout__sub">
+                Danach kann jemand anders ihn einlösen.
+              </div>-->
+            </div>
           </div>
-          <p class="caption" style="margin-top:10px">Sichere Zahlung via Buy Me a Coffee / Stripe.</p>
-        </div>
+        </section>
 
-        <div class="card fade-in">
-          <h2 class="section__title">Warum „Mystery“?</h2>
-          <p class="lead">Weil echtes Erleben dort beginnt, wo du Kontrolle loslässt. Du wählst die Tür – nicht, was dahinter liegt.</p>
-          <div class="qr" style="margin-top:10px">
-            <img src="image/qrcode/qrinsta.svg" alt="QR – Instagram" class="qr-insta" />
-            <div class="caption">Folge dem Echo: @themysterycode</div>
+        <div class="hero__cta">
+          <a class="btn btn--primary btn--lg" href="#offer">Was Dich erwartet</a>
+          <a class="btn btn--ghost btn--lg" href="#how">Zum Ablauf</a>
+        </div>
+        <div style="margin-top: 120px">
+          <a
+            class="btn btn--primary btn--lg"
+            href="https://buymeacoffee.com/themysterycode/e/472178"
+            >Digital Box</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- VALUE / OFFER -->
+      <section id="offer" class="section">
+        <div class="wrap grid grid--2">
+          <div class="card fade-in">
+            <h2 class="section__title center">Das bekommst du</h2>
+            <div class="rule--gold" aria-hidden="true"></div>
+            <ul class="steps">
+              <li class="step">
+                <div class="icon">🎲</div>
+                <div>
+                  <div class="text-lg"><strong>Zufälliger Reward</strong></div>
+                  <div class="caption">
+                    Digital (z. B. exklusive PDF, Gutschein etc.) oder physisch (z. B. Smartphone,
+                    Tablet etc.)
+                  </div>
+                </div>
+              </li>
+              <li class="step">
+                <div class="icon">🖤</div>
+                <div>
+                  <div class="text-lg">
+                    <strong>Kuratierte Qualität</strong>
+                  </div>
+                  <div class="caption">
+                    Wir setzen auf Artikel mit Charakter, statt Ramsch oder Temu.
+                  </div>
+                </div>
+              </li>
+              <li class="step">
+                <div class="icon">🔑</div>
+                <div>
+                  <div class="text-lg"><strong>Direkter Zugang</strong></div>
+                  <div class="caption">
+                    <b style="color: var(--gold)">Digitale Rewards:</b> sofort sichtbar, Download
+                    nach Kauf.
+                  </div>
+                  <div class="caption">
+                    <b style="color: var(--gold)">Physische Rewards:</b> Du wirst auf unsere
+                    Kontakt-Seite weitergeleitet, trägst deine Daten ein und bekommst den Artikel
+                    zugeschickt.
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div style="margin-top: 14px; text-align: center">
+              <a
+                class="btn btn--primary btn--lg"
+                href="https://buymeacoffee.com/themysterycode/e/472178"
+                >Jetzt freischalten</a
+              >
+            </div>
+            <!--<p class="caption" style="margin-top:10px">Sichere Zahlung via Buy Me a Coffee / Stripe.</p>-->
+          </div>
+
+          <div class="card fade-in">
+            <h2 class="section__title center">Warum „Mystery“?</h2>
+            <div class="rule--gold" aria-hidden="true"></div>
+            <p class="lead">
+              Weil echtes Erleben dort beginnt, wo du Kontrolle loslässt. Du wählst die Tür – nicht,
+              was dahinter liegt.
+            </p>
+            <div class="qr" style="margin-top: 10px">
+              <img src="image/qrcode/qrinsta.svg" alt="QR – Instagram" class="qr-insta" />
+              <div class="caption">
+                Folge uns auf Insta:
+                <a href="https://www.instagram.com/themysterycode.de/">@themysterycode.de</a>
+              </div>
+              <a
+                class="footer__social"
+                href="https://www.instagram.com/themysterycode.de/"
+                target="_blank"
+                rel="noopener"
+                ><img src="image/icons/instagram.svg" alt="Instagram"
+              /></a>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- HOW IT WORKS -->
-    <section id="how" class="section section--border">
-      <div class="wrap">
-        <h2 class="section__title center">So funktioniert’s</h2>
-        <ol class="steps">
-          <li class="step fade-in">
-            <div class="icon">1</div>
-            <div>Du klickst auf <strong>„Jetzt freischalten“</strong> und landest auf der Bezahlseite (BMC/Stripe).</div>
-          </li>
-          <li class="step fade-in">
-            <div class="icon">2</div>
-            <div>Nach dem Kauf wirst du zu <code>reward.html</code> weitergeleitet. Ein <strong>zufälliger Reward</strong> erscheint.</div>
-          </li>
-          <li class="step fade-in">
-            <div class="icon">3</div>
-            <div><strong>Digitaler Reward</strong>: Du kannst die PDF ansehen und optional downloaden – <em>kein Auto-Download</em>.</div>
-          </li>
-          <li class="step fade-in">
-            <div class="icon">4</div>
-            <div><strong>Physischer Reward</strong>: Link führt zu <code>form.html</code> → du trägst deine Lieferadresse ein → <code>thankyou.html</code>.</div>
-          </li>
-        </ol>
-        <div class="center" style="margin-top:12px">
-          <a class="btn btn--primary btn--lg" href="https://buymeacoffee.com/themysterycode/e/472178">Jetzt freischalten</a>
+      <!-- HOW IT WORKS -->
+      <section id="how" class="section section--border">
+        <div class="wrap">
+          <div class="card fade-in" style="max-width: 860px; margin: 0 auto">
+            <h2 class="section__title center">So funktioniert’s</h2>
+            <div class="rule--gold" aria-hidden="true"></div>
+
+            <!-- dezente Countdown-Überleitung -->
+            <p class="note center">
+              Jeder Code bleibt <a href="#code-timer">12&nbsp;Stunden</a>
+              aktiv. Danach verliert er seine Gültigkeit – damit auch andere die Möglichkeit haben,
+              ihren eigenen Moment zu erleben.
+            </p>
+
+            <!--<div class="rule--gold" aria-hidden="true"></div>-->
+
+            <!-- Fließtext -->
+            <div class="prose">
+              <p>
+                Über den Button <strong>„Jetzt freischalten“</strong> aktivierst du deinen Code und
+                wirst sicher zur Bezahlseite weitergeleitet.
+              </p>
+              <p>
+                Nach der Aktivierung öffnet sich dein persönlicher Reward – einzigartig und zufällig
+                ausgewählt.
+              </p>
+              <p>
+                Handelt es sich um einen <strong>digitalen Reward</strong>, kannst du ihn direkt
+                ansehen oder speichern. Es startet <em>kein</em> automatischer Download.
+              </p>
+              <p>
+                Bei einem <strong>physischen Reward</strong> wirst du auf ein kurzes Formular
+                geleitet, um deine Lieferadresse einzutragen. Nach dem Absenden erhältst du eine
+                Bestätigung und dein Reward wird vorbereitet.
+              </p>
+            </div>
+
+            <div class="center" style="margin-top: 18px">
+              <a
+                class="btn btn--primary btn--lg"
+                href="https://buymeacoffee.com/themysterycode/e/472178"
+              >
+                Jetzt freischalten
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- WHAT’S INSIDE (Teaser) -->
-    <section class="section">
-      <div class="wrap grid grid--3">
-        <div class="card fade-in">
-          <div class="pill">Digital</div>
-          <h3 class="text-lg" style="margin:10px 0 6px">Exklusive PDFs</h3>
-          <p class="caption">Kurz, scharf, sammelbar. Kein Spam, kein Bullshit.</p>
+      <!-- WHAT’S INSIDE (Teaser) -->
+      <section class="section" id="whats-inside">
+        <div class="wrap">
+          <h2 class="section__title center">What’s Inside</h2>
+          <div class="rule--gold" aria-hidden="true"></div>
+
+          <div class="grid grid--3">
+            <!-- Digital -->
+            <div class="card fade-in">
+              <div class="pill">Digital</div>
+              <h3 class="text-lg gold-heading">Digitale Rewards, die sich lohnen.</h3>
+              <p class="caption">
+                Von exklusiven Kochbüchern und individuellen Trainings- & Ernährungsplänen bis hin
+                zu inspirierenden E-Books, Gutscheinen zwischen <strong>15 € und 150 €</strong>
+                sowie vielen weiteren digitalen Alltagshelfern, die dir wirklich etwas bringen.
+                <br /><span class="note"
+                  >Kein Auto-Download – du entscheidest selbst, was du behalten möchtest.</span
+                >
+              </p>
+            </div>
+
+            <!-- Physisch -->
+            <div class="card fade-in">
+              <div class="pill">Physisch</div>
+              <h3 class="text-lg gold-heading">Echte Gegenstände. Echte Werte.</h3>
+              <p class="caption">
+                Smartphones, Tablets, Smartwatches, Kopfhörer oder besondere Design-Items – seltene
+                physische Rewards mit spürbarem Wert.
+                <br />Jeder Artikel wird zufällig ausgewählt, jede Stückzahl ist limitiert.
+                <br /><span class="note"
+                  >Nur wer seinen Code rechtzeitig einlöst, hat die Chance auf diese
+                  Highlights.</span
+                >
+              </p>
+            </div>
+
+            <!-- Community -->
+            <div class="card fade-in">
+              <div class="pill">Community</div>
+              <h3 class="text-lg gold-heading">Dein Moment gehört dazu.</h3>
+              <p class="caption">
+                Teile dein Erlebnis auf
+                <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram.</a>
+                <br />Zeig, was dein Code freigeschaltet hat – und werde Teil der Geschichte.
+              </p>
+            </div>
+          </div>
         </div>
-        <div class="card fade-in">
-          <div class="pill">Physisch</div>
-          <h3 class="text-lg" style="margin:10px 0 6px">Objekte mit Story</h3>
-          <p class="caption">Kleine Stücke mit Bedeutung. Wenige, aber ehrlich.</p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="section section--border fade-in">
+        <div class="wrap">
+          <h2 class="section__title">FAQ</h2>
+
+          <div class="faq">
+            <details class="faq__item">
+              <summary class="faq__q">Kann ich mir den Reward aussuchen?</summary>
+              <div class="faq__a">
+                Nein. Das ist der Punkt. Du entscheidest dich für das Erlebnis - nicht für´s
+                Ergebnis.
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary class="faq__q">Kann es auch sein, dass ich nichts bekomme?</summary>
+              <div class="faq__a">
+                Nein. Du bekommst in jedem Fall immer etwas. Manchmal ist es etwas kleines, manchmal
+                ist es etwas großes.
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary class="faq__q">Ist das ein Gewinnspiel?</summary>
+              <div class="faq__a">
+                Nein. Es ist ein digitales Erlebnisprodukt – kein Glücksspiel.
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary class="faq__q">Staret ein Autodownload?</summary>
+              <div class="faq__a">
+                Nein. Du siehst den Inahlt und entscheidest selbst, ob du die Datei behalten
+                möchtest.
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary class="faq__q">Was passiert bei physischen Rewards?</summary>
+              <div class="faq__a">
+                Du wirst zu einem Formular weitergeleitet. Dort musst du dann deine Daten und
+                Lieferadresse eintragen.<br />
+                Danach bekommst du eine Nachricht, das deine Sendung bearbeitet wird. Wir packen
+                dein Paket und versenden es an die von dir angegebene Adresse.
+              </div>
+            </details>
+          </div>
         </div>
-        <div class="card fade-in">
-          <div class="pill">Community</div>
-          <h3 class="text-lg" style="margin:10px 0 6px">Dein Moment</h3>
-          <p class="caption">Teile dein Erlebnis später auf <strong>#TheMysteryCode</strong>.</p>
+      </section>
+    </main>
+
+    <!-- FOOTER (gleiche Struktur wie besprochen) -->
+    <footer class="footer">
+      <div class="wrap footer__inner">
+        <div class="footer__links">
+          <a href="impressum.html">Impressum</a>
+          <a href="datenschutz.html">Datenschutzerklärung</a>
         </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="section section--border">
-      <div class="wrap faq">
-        <h2 class="section__title">FAQ</h2>
-
-        <div class="faq__item fade-in">
-          <div class="faq__q">Kann ich mir den Reward aussuchen?</div>
-          <div class="faq__a">Nein. Das ist der Punkt. Du entscheidest dich fürs Erlebnis – nicht fürs Ergebnis.</div>
-        </div>
-
-        <div class="faq__item fade-in">
-          <div class="faq__q">Startet ein Auto-Download?</div>
-          <div class="faq__a">Nein. Du siehst den Inhalt und entscheidest selbst, ob du die PDF lädst.</div>
-        </div>
-
-        <div class="faq__item fade-in">
-          <div class="faq__q">Was passiert bei physischen Rewards?</div>
-          <div class="faq__a">Du erhältst einen Link zur <code>form.html</code>. Nach dem Absenden wirst du zu <code>thankyou.html</code> weitergeleitet.</div>
-        </div>
-
-        <div class="center" style="margin-top:20px">
-          <a class="btn btn--primary btn--lg" href="https://buymeacoffee.com/themysterycode/e/472178">Jetzt freischalten</a>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER (gleiche Struktur wie besprochen) -->
-  <footer class="footer">
-    <div class="wrap footer__inner">
-      <div class="footer__links">
-        <a href="impressum.html">Impressum</a>
-        <a href="datenschutz.html">Datenschutzerklärung</a>
-      </div>
-      <div class="footer__social">
-        <a href="https://www.instagram.com/themysterycode.de/" target="_blank" rel="noopener"><img src="image/icons/instagram.svg" alt="Instagram" /></a>
-        <!--<a href="https://www.tiktok.com/@themysterycode" target="_blank" rel="noopener"><img src="image/icons/tiktok.svg" alt="TikTok" /></a>
+        <div class="footer__social">
+          <a href="https://www.instagram.com/themysterycode.de/" target="_blank" rel="noopener"
+            ><img src="image/icons/instagram.svg" alt="Instagram"
+          /></a>
+          <!--<a href="https://www.tiktok.com/@themysterycode" target="_blank" rel="noopener"><img src="image/icons/tiktok.svg" alt="TikTok" /></a>
         <a href="https://x.com/themysterycode" target="_blank" rel="noopener"><img src="image/icons/x.svg" alt="X" /></a>
-        <a href="https://www.youtube.com/@themysterycode" target="_blank" rel="noopener"><img src="image/icons/youtube.svg" alt="YouTube" /></a>
+        <a href="https://www.youtube.com/@themysterycode" target="_blank" rel="noopener"><img src="image/icons/youtube.svg" alt="YouTube" /></a>-->
+        </div>
+        <p class="footer__copy">© 2025 The Mystery Code – All rights reserved.</p>
       </div>
-      <p class="footer__copy">© 2025 The Mystery Code</p>
-    </div>-->
-  </footer>
+    </footer>
 
-  <!-- Minimaler Fade-in-Skript für .fade-in Elemente -->
-  <script>
-    /* ---------------------------
+    <!-- Minimaler Fade-in-Skript für .fade-in Elemente -->
+    <script>
+      /* ---------------------------
        1) Fade-in der Sektionen
     ----------------------------*/
-    const els = document.querySelectorAll('.fade-in');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('fade-in--visible');
-          obs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.15 });
-    els.forEach(el => obs.observe(el));
-  
-    /* -------------------------------------------
-       2) Hero-Feuerwerk (7s) + Mini-Glitter (5s)
+      const els = document.querySelectorAll(".fade-in");
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("fade-in--visible");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+      els.forEach((el) => obs.observe(el));
+
+      /* -------------------------------------------
+       2. Hero-Feuerwerk (7s) + Mini-Glitter (5s)
     --------------------------------------------*/
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const canvas = document.querySelector(".fx-canvas");
-    if (!canvas || prefersReduced) {
-      // Falls kein Canvas im DOM ist oder Nutzer Bewegung reduziert → sauber beenden
-      console.debug("Celebration disabled (no canvas or prefers-reduced-motion).");
-    } else {
-      const ctx = canvas.getContext("2d");
-      let W, H, particles = [], rockets = [], running = false, startTime = 0;
-      const COLORS = ["#D4AF37", "#F3E2A3", "#B8860B", "#ffffff"];
-  
-      function resize() {
-        // Größe am Hero ausrichten
-        const parent = canvas.parentElement;
-        W = canvas.width  = parent.clientWidth;
-        H = canvas.height = parent.clientHeight;
-      }
-      new ResizeObserver(resize).observe(canvas.parentElement);
-  
-      function rand(min, max) { return Math.random() * (max - min) + min; }
-  
-      function burst(x, y, amount = 120, power = 9) {
-        for (let i = 0; i < amount; i++) {
-          const angle = Math.random() * Math.PI * 2;
-          const speed = rand(power * 0.4, power);
-          particles.push({
-            x, y,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed,
-            g: 0.18,
-            life: rand(60, 120),
-            size: rand(2, 4),
-            color: COLORS[(Math.random() * COLORS.length) | 0],
-            rotation: rand(0, Math.PI * 2),
-            vr: rand(-0.2, 0.2)
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const canvas = document.querySelector(".fx-canvas");
+      if (!canvas || prefersReduced) {
+        // Falls kein Canvas im DOM ist oder Nutzer Bewegung reduziert → sauber beenden
+        console.debug("Celebration disabled (no canvas or prefers-reduced-motion).");
+      } else {
+        const ctx = canvas.getContext("2d");
+        let W,
+          H,
+          particles = [],
+          rockets = [],
+          running = false,
+          startTime = 0;
+        const COLORS = ["#D4AF37", "#F3E2A3", "#B8860B", "#ffffff"];
+
+        function resize() {
+          // Größe am Hero ausrichten
+          const parent = canvas.parentElement;
+          W = canvas.width = parent.clientWidth;
+          H = canvas.height = parent.clientHeight;
+        }
+        new ResizeObserver(resize).observe(canvas.parentElement);
+
+        function rand(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        function burst(x, y, amount = 120, power = 9) {
+          for (let i = 0; i < amount; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = rand(power * 0.4, power);
+            particles.push({
+              x,
+              y,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              g: 0.18,
+              life: rand(60, 120),
+              size: rand(2, 4),
+              color: COLORS[(Math.random() * COLORS.length) | 0],
+              rotation: rand(0, Math.PI * 2),
+              vr: rand(-0.2, 0.2)
+            });
+          }
+        }
+
+        function spawnRocket() {
+          rockets.push({
+            x: rand(W * 0.25, W * 0.75),
+            y: H + 10,
+            vx: rand(-0.7, 0.7),
+            vy: rand(-7.5, -9.5),
+            life: rand(40, 60),
+            color: COLORS[(Math.random() * COLORS.length) | 0]
           });
         }
-      }
-  
-      function spawnRocket() {
-        rockets.push({
-          x: rand(W * 0.25, W * 0.75),
-          y: H + 10,
-          vx: rand(-0.7, 0.7),
-          vy: rand(-7.5, -9.5),
-          life: rand(40, 60),
-          color: COLORS[(Math.random() * COLORS.length) | 0]
-        });
-      }
-  
-      function step() {
-        if (!running) return;
-        ctx.clearRect(0, 0, W, H);
-  
-        // Raketen
-        for (let i = rockets.length - 1; i >= 0; i--) {
-          const r = rockets[i];
-          r.x += r.vx; r.y += r.vy; r.vy += 0.08; r.life--;
-          ctx.strokeStyle = r.color; ctx.lineWidth = 2;
-          ctx.beginPath(); ctx.moveTo(r.x, r.y + 8); ctx.lineTo(r.x, r.y); ctx.stroke();
-          if (r.life <= 0 || r.vy > -2) { burst(r.x, r.y, 90, 8.5); rockets.splice(i, 1); }
-        }
-  
-        // Partikel
-        for (let i = particles.length - 1; i >= 0; i--) {
-          const p = particles[i];
-          p.x += p.vx; p.y += p.vy; p.vy += p.g;
-          p.rotation += p.vr; p.life--;
-          p.vx *= 0.992; p.vy *= 0.992;
-  
-          ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rotation);
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.4);
-          ctx.restore();
-  
-          if (p.y > H - 2) { p.vy *= -0.2; p.vx *= 0.8; p.y = H - 2; p.life -= 3; }
-          if (p.life <= 0) particles.splice(i, 1);
-        }
-  
-        // Auto-Stop nach ~7s, sobald alles „abgeklungen“ ist
-        if (performance.now() - startTime > 7000 && particles.length === 0 && rockets.length === 0) {
-          running = false;
-        } else {
-          requestAnimationFrame(step);
-        }
-      }
-  
-      function celebrate(full = true) {
-        resize();
-        if (full) {
-          // Großes Feuerwerk (7s)
-          burst(W * 0.5,  H * 0.35, 150, 10);
-          burst(W * 0.25, H * 0.42, 110, 8.5);
-          burst(W * 0.75, H * 0.42, 110, 8.5);
-          for (let i = 0; i < 4; i++) spawnRocket();
-        } else {
-          // Dezente Mini-Glitter-Welle (Loop)
-          burst(rand(W * 0.3, W * 0.7), rand(H * 0.3, H * 0.5), 40, 5);
-        }
-        startTime = performance.now();
-        if (!running) { running = true; requestAnimationFrame(step); }
-      }
-  
-      // Start: einmal bei erstem Sichtkontakt, danach alle 5s Mini-Loop
-      const hero = document.querySelector(".hero");
-      const heroObserver = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            celebrate(true);
-            heroObserver.disconnect();
-            setInterval(() => celebrate(false), 5000);
+
+        function step() {
+          if (!running) return;
+          ctx.clearRect(0, 0, W, H);
+
+          // Raketen
+          for (let i = rockets.length - 1; i >= 0; i--) {
+            const r = rockets[i];
+            r.x += r.vx;
+            r.y += r.vy;
+            r.vy += 0.08;
+            r.life--;
+            ctx.strokeStyle = r.color;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(r.x, r.y + 8);
+            ctx.lineTo(r.x, r.y);
+            ctx.stroke();
+            if (r.life <= 0 || r.vy > -2) {
+              burst(r.x, r.y, 90, 8.5);
+              rockets.splice(i, 1);
+            }
           }
-        });
-      }, { threshold: 0.6 });
-      heroObserver.observe(hero);
-    }
-  </script>
-  
-</body>
+
+          // Partikel
+          for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += p.g;
+            p.rotation += p.vr;
+            p.life--;
+            p.vx *= 0.992;
+            p.vy *= 0.992;
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.4);
+            ctx.restore();
+
+            if (p.y > H - 2) {
+              p.vy *= -0.2;
+              p.vx *= 0.8;
+              p.y = H - 2;
+              p.life -= 3;
+            }
+            if (p.life <= 0) particles.splice(i, 1);
+          }
+
+          // Auto-Stop nach ~7s, sobald alles „abgeklungen“ ist
+          if (
+            performance.now() - startTime > 7000 &&
+            particles.length === 0 &&
+            rockets.length === 0
+          ) {
+            running = false;
+          } else {
+            requestAnimationFrame(step);
+          }
+        }
+
+        function celebrate(full = true) {
+          resize();
+          if (full) {
+            // Großes Feuerwerk (7s)
+            burst(W * 0.5, H * 0.35, 150, 10);
+            burst(W * 0.25, H * 0.42, 110, 8.5);
+            burst(W * 0.75, H * 0.42, 110, 8.5);
+            for (let i = 0; i < 4; i++) spawnRocket();
+          } else {
+            // Dezente Mini-Glitter-Welle (Loop)
+            burst(rand(W * 0.3, W * 0.7), rand(H * 0.3, H * 0.5), 40, 5);
+          }
+          startTime = performance.now();
+          if (!running) {
+            running = true;
+            requestAnimationFrame(step);
+          }
+        }
+
+        // Start: einmal bei erstem Sichtkontakt, danach alle 5s Mini-Loop
+        const hero = document.querySelector(".hero");
+        const heroObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                celebrate(true);
+                heroObserver.disconnect();
+                setInterval(() => celebrate(false), 5000);
+              }
+            });
+          },
+          { threshold: 0.6 }
+        );
+        heroObserver.observe(hero);
+      }
+    </script>
+    <!--== Countdown Timer ==-->
+    <script>
+      (function () {
+        const SECS_TOTAL = 12 * 60 * 60; // 12 Stunden
+        const KEY = "tmc_offer_expiry_v2_12h"; // neuer Key (trennt sich von alter Version)
+
+        const dial = document.querySelector(".dial");
+        const progress = dial?.querySelector(".dial__progress");
+        const minorGroup = dial?.querySelector(".ticks--minor");
+        const needle = document.getElementById("tmc-needle");
+        const label = document.querySelector(".readout__label");
+        const sub = document.querySelector(".readout__sub");
+        if (!dial || !progress || !minorGroup || !needle) return;
+
+        // 48 kleine Ticks hinzufügen
+        (function addMinorTicks() {
+          const center = 80,
+            rOuter = 70,
+            rInner = 64;
+          for (let i = 0; i < 60; i++) {
+            if (i % 5 === 0) continue; // große Ticks gibt's schon
+            const ang = (i / 60) * Math.PI * 2;
+            const x1 = center + Math.sin(ang) * rInner;
+            const y1 = center - Math.cos(ang) * rInner;
+            const x2 = center + Math.sin(ang) * (rInner + 4.5);
+            const y2 = center - Math.cos(ang) * (rInner + 4.5);
+            const ln = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            ln.setAttribute("x1", x1.toFixed(2));
+            ln.setAttribute("y1", y1.toFixed(2));
+            ln.setAttribute("x2", x2.toFixed(2));
+            ln.setAttribute("y2", y2.toFixed(2));
+            minorGroup.appendChild(ln);
+          }
+        })();
+
+        const CIRC = Math.PI * 2 * 62; // Umfang des Progress-Rings (r=62)
+        progress.style.strokeDasharray = String(CIRC);
+
+        // Start-/Ablaufzeit pro Besucher
+        const now = Date.now();
+        let expiry = parseInt(localStorage.getItem(KEY), 10);
+        if (isNaN(expiry) || expiry < now) {
+          expiry = now + SECS_TOTAL * 1000;
+          localStorage.setItem(KEY, String(expiry));
+        }
+
+        function update() {
+          const nowMs = Date.now();
+          let remain = Math.max(0, Math.floor((expiry - nowMs) / 1000));
+
+          // Fortschrittsring = verbleibender Anteil
+          const p = remain / SECS_TOTAL; // 1 → frisch, 0 → abgelaufen
+          progress.style.strokeDashoffset = String(CIRC * (1 - p));
+          // Digitale Anzeige im Zentrum
+          const digits = document.getElementById("tmc-digits");
+          if (digits) {
+            const h = Math.floor(remain / 3600);
+            const m = Math.floor((remain % 3600) / 60);
+            const s = Math.floor(remain % 60);
+            digits.textContent = `${h.toString().padStart(2, "0")}:${m
+              .toString()
+              .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+          }
+
+          // Zeiger: 12 Uhr = voller Start, im Uhrzeigersinn bis 0
+          // 0s verbleibend → zeigt exakt nach unten (eine volle Umdrehung)
+          const angle = -90 + (1 - p) * 360; // -90deg = oben
+          needle.setAttribute("transform", `rotate(${angle} 80 80)`);
+
+          if (remain <= 0) {
+            label.textContent = "Der Code ist erloschen.";
+            sub.textContent = "Vielleicht findet dich der nächste.";
+            return; // stop
+          }
+          setTimeout(update, 1000);
+        }
+        update();
+      })();
+    </script>
+  </body>
 </html>
