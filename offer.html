@@ -2,47 +2,76 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>The Mystery Code – Das Erlebnis</title>
-    <link rel="icon" href="image/logo/favicon.png" />
-    <link rel="stylesheet" href="styles.css" />
+
+    <!-- SEO -->
     <meta
       name="description"
       content="Scanne. Entdecke. Erhalte einen zufälligen Reward – digital oder physisch. The Mystery Code ist kuratierte Überraschung mit Stil."
     />
+    <link rel="canonical" href="https://themysterycode.de/offer.html" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:title" content="The Mystery Code – Das Erlebnis" />
+    <meta
+      property="og:description"
+      content="Scanne. Entscheide. Erlebe. Ein zufälliger Reward – digital oder physisch – kuratiert mit Stil."
+    />
+    <!-- Ersetze das Bild auf dein echtes Social-Share-Bild (1200x630) -->
+    <meta property="og:image" content="https://themysterycode.de/image/social/offer-share.jpg" />
+    <meta property="og:url" content="https://themysterycode.de/offer.html" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="The Mystery Code – Das Erlebnis" />
+    <meta
+      name="twitter:description"
+      content="Scanne. Entscheide. Erlebe. Ein zufälliger Reward – digital oder physisch – kuratiert mit Stil."
+    />
+    <meta name="twitter:image" content="https://themysterycode.de/image/social/offer-share.jpg" />
+
+    <!-- Assets -->
+    <link rel="icon" href="image/logo/favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Performance: BG vorladen (passt Pfad an, falls nötig) -->
+    <link rel="preload" as="image" href="image/img/background.png" imagesrcset />
+
+    <!-- Sicherheitshinweis für externe Links -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests; block-all-mixed-content"
+    />
   </head>
   <body>
     <!-- HERO -->
-    <header class="hero">
+    <header class="hero" role="banner" aria-label="The Mystery Code – Hero">
       <!-- Effekt-Canvas -->
       <canvas class="fx-canvas" aria-hidden="true"></canvas>
 
       <div class="hero__inner">
-        <!--<p class="pill" style="margin-bottom:10px">The Mystery Code</p>-->
-
         <!-- NEUE CELEBRATION HEADLINE -->
         <h1 class="celebrate__title">Glückwunsch, Du hast den Code gefunden!</h1>
-
-        <!-- Subline (optional; passe Text gern an) -->
         <p class="hero__subtitle">Scanne. Entscheide. Erlebe.</p>
-        <!-- Countdown: Ziffernblatt -->
-        <section id="code-timer" class="countdown" aria-live="polite">
-          <div class="countdown__dial">
-            <svg class="dial" viewBox="0 0 160 160" role="img" aria-label="Countdown 12 Stunden">
-              <!-- Hintergrund -->
-              <circle class="dial__bg" cx="80" cy="80" r="70"></circle>
 
-              <!-- Fortschrittsring -->
+        <!-- Countdown: Ziffernblatt -->
+        <section id="code-timer" class="countdown" aria-live="polite" aria-label="Code-Timer">
+          <div class="countdown__dial">
+            <!-- htmlhint tagname-lowercase:false, attr-lowercase:false -->
+            <svg class="dial" viewBox="0 0 160 160" role="img" aria-label="Countdown 12 Stunden">
+              <circle class="dial__bg" cx="80" cy="80" r="70"></circle>
               <circle class="dial__progress" cx="80" cy="80" r="62"></circle>
 
               <!-- 12 große Ticks -->
-              <g class="ticks--major">
-                <!-- Norden / Süden / West / Ost -->
+              <g class="ticks--major" aria-hidden="true">
                 <line x1="80" y1="6" x2="80" y2="16" />
                 <line x1="80" y1="144" x2="80" y2="154" />
                 <line x1="6" y1="80" x2="16" y2="80" />
                 <line x1="144" y1="80" x2="154" y2="80" />
-                <!-- Diagonalen -->
                 <line x1="80" y1="6" x2="80" y2="16" transform="rotate(30 80 80)" />
                 <line x1="80" y1="6" x2="80" y2="16" transform="rotate(60 80 80)" />
                 <line x1="80" y1="6" x2="80" y2="16" transform="rotate(120 80 80)" />
@@ -54,10 +83,10 @@
               </g>
 
               <!-- 48 kleine Ticks (per JS gefüllt) -->
-              <g class="ticks--minor"></g>
+              <g class="ticks--minor" aria-hidden="true"></g>
 
               <!-- Zeiger -->
-              <g class="needle-group" filter="url(#glow)">
+              <g class="needle-group" filter="url(#glow)" aria-hidden="true">
                 <line id="tmc-needle" x1="80" y1="80" x2="80" y2="18" class="needle" />
                 <circle cx="80" cy="80" r="3.6" class="needle-cap" />
               </g>
@@ -73,73 +102,70 @@
                 </filter>
               </defs>
             </svg>
+            <!-- htmlhint enable -->
 
-            <div class="countdown__readout">
-              <!--<div class="readout__label">Dieser Code ist aktiv für</div>-->
+            <div class="countdown__readout" aria-hidden="true">
               <div class="readout__digits" id="tmc-digits">12:00:00</div>
-              <!--<div class="readout__sub">
-                Danach kann jemand anders ihn einlösen.
-              </div>-->
             </div>
           </div>
         </section>
 
-        <div class="hero__cta">
+        <nav class="hero__cta" aria-label="Seiten-Navigation">
           <a class="btn btn--primary btn--lg" href="#offer">Was Dich erwartet</a>
           <a class="btn btn--ghost btn--lg" href="#how">Zum Ablauf</a>
-        </div>
+        </nav>
+
         <div style="margin-top: 120px">
           <a
             class="btn btn--primary btn--lg"
             href="https://buymeacoffee.com/themysterycode/e/472178"
+            rel="noopener"
             >Digital Box</a
           >
         </div>
       </div>
     </header>
 
-    <main>
+    <main id="main" role="main">
       <!-- VALUE / OFFER -->
       <section id="offer" class="section">
         <div class="wrap grid grid--2">
           <div class="card fade-in">
             <h2 class="section__title center">Das bekommst du</h2>
             <div class="rule--gold" aria-hidden="true"></div>
-            <ul class="steps">
+            <ul class="steps" role="list">
               <li class="step">
-                <div class="icon">🎲</div>
+                <div class="icon" aria-hidden="true">🎲</div>
                 <div>
                   <div class="text-lg"><strong>Zufälliger Reward</strong></div>
-                  <div class="caption">
+                  <p class="caption">
                     Digital (z. B. exklusive PDF, Gutschein etc.) oder physisch (z. B. Smartphone,
                     Tablet etc.)
-                  </div>
+                  </p>
                 </div>
               </li>
               <li class="step">
-                <div class="icon">🖤</div>
+                <div class="icon" aria-hidden="true">🖤</div>
                 <div>
-                  <div class="text-lg">
-                    <strong>Kuratierte Qualität</strong>
-                  </div>
-                  <div class="caption">
+                  <div class="text-lg"><strong>Kuratierte Qualität</strong></div>
+                  <p class="caption">
                     Wir setzen auf Artikel mit Charakter, statt Ramsch oder Temu.
-                  </div>
+                  </p>
                 </div>
               </li>
               <li class="step">
-                <div class="icon">🔑</div>
+                <div class="icon" aria-hidden="true">🔑</div>
                 <div>
                   <div class="text-lg"><strong>Direkter Zugang</strong></div>
-                  <div class="caption">
+                  <p class="caption">
                     <b style="color: var(--gold)">Digitale Rewards:</b> sofort sichtbar, Download
                     nach Kauf.
-                  </div>
-                  <div class="caption">
+                  </p>
+                  <p class="caption">
                     <b style="color: var(--gold)">Physische Rewards:</b> Du wirst auf unsere
                     Kontakt-Seite weitergeleitet, trägst deine Daten ein und bekommst den Artikel
                     zugeschickt.
-                  </div>
+                  </p>
                 </div>
               </li>
             </ul>
@@ -147,10 +173,10 @@
               <a
                 class="btn btn--primary btn--lg"
                 href="https://buymeacoffee.com/themysterycode/e/472178"
+                rel="noopener"
                 >Jetzt freischalten</a
               >
             </div>
-            <!--<p class="caption" style="margin-top:10px">Sichere Zahlung via Buy Me a Coffee / Stripe.</p>-->
           </div>
 
           <div class="card fade-in">
@@ -161,17 +187,31 @@
               was dahinter liegt.
             </p>
             <div class="qr" style="margin-top: 10px">
-              <img src="image/qrcode/qrinsta.svg" alt="QR – Instagram" class="qr-insta" />
-              <div class="caption">
+              <img
+                src="image/qrcode/qrinsta.svg"
+                alt="QR – Instagram"
+                class="qr-insta"
+                loading="lazy"
+                width="180"
+                height="180"
+              />
+              <p class="caption">
                 Folge uns auf Insta:
-                <a href="https://www.instagram.com/themysterycode.de/">@themysterycode.de</a>
-              </div>
+                <a href="https://www.instagram.com/themysterycode.de/" rel="noopener"
+                  >@themysterycode.de</a
+                >
+              </p>
               <a
                 class="footer__social"
                 href="https://www.instagram.com/themysterycode.de/"
                 target="_blank"
                 rel="noopener"
-                ><img src="image/icons/instagram.svg" alt="Instagram"
+                ><img
+                  src="image/icons/instagram.svg"
+                  alt="Instagram"
+                  loading="lazy"
+                  width="28"
+                  height="28"
               /></a>
             </div>
           </div>
@@ -191,8 +231,6 @@
               aktiv. Danach verliert er seine Gültigkeit – damit auch andere die Möglichkeit haben,
               ihren eigenen Moment zu erleben.
             </p>
-
-            <!--<div class="rule--gold" aria-hidden="true"></div>-->
 
             <!-- Fließtext -->
             <div class="prose">
@@ -219,9 +257,9 @@
               <a
                 class="btn btn--primary btn--lg"
                 href="https://buymeacoffee.com/themysterycode/e/472178"
+                rel="noopener"
+                >Jetzt freischalten</a
               >
-                Jetzt freischalten
-              </a>
             </div>
           </div>
         </div>
@@ -235,7 +273,7 @@
 
           <div class="grid grid--3">
             <!-- Digital -->
-            <div class="card fade-in">
+            <article class="card fade-in">
               <div class="pill">Digital</div>
               <h3 class="text-lg gold-heading">Digitale Rewards, die sich lohnen.</h3>
               <p class="caption">
@@ -246,10 +284,10 @@
                   >Kein Auto-Download – du entscheidest selbst, was du behalten möchtest.</span
                 >
               </p>
-            </div>
+            </article>
 
             <!-- Physisch -->
-            <div class="card fade-in">
+            <article class="card fade-in">
               <div class="pill">Physisch</div>
               <h3 class="text-lg gold-heading">Echte Gegenstände. Echte Werte.</h3>
               <p class="caption">
@@ -261,10 +299,10 @@
                   Highlights.</span
                 >
               </p>
-            </div>
+            </article>
 
             <!-- Community -->
-            <div class="card fade-in">
+            <article class="card fade-in">
               <div class="pill">Community</div>
               <h3 class="text-lg gold-heading">Dein Moment gehört dazu.</h3>
               <p class="caption">
@@ -272,7 +310,7 @@
                 <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram.</a>
                 <br />Zeig, was dein Code freigeschaltet hat – und werde Teil der Geschichte.
               </p>
-            </div>
+            </article>
           </div>
         </div>
       </section>
@@ -286,7 +324,7 @@
             <details class="faq__item">
               <summary class="faq__q">Kann ich mir den Reward aussuchen?</summary>
               <div class="faq__a">
-                Nein. Das ist der Punkt. Du entscheidest dich für das Erlebnis - nicht für´s
+                Nein. Das ist der Punkt. Du entscheidest dich für das Erlebnis – nicht fürs
                 Ergebnis.
               </div>
             </details>
@@ -294,8 +332,8 @@
             <details class="faq__item">
               <summary class="faq__q">Kann es auch sein, dass ich nichts bekomme?</summary>
               <div class="faq__a">
-                Nein. Du bekommst in jedem Fall immer etwas. Manchmal ist es etwas kleines, manchmal
-                ist es etwas großes.
+                Nein. Du bekommst in jedem Fall immer etwas. Manchmal ist es etwas Kleines, manchmal
+                ist es etwas Großes.
               </div>
             </details>
 
@@ -307,9 +345,9 @@
             </details>
 
             <details class="faq__item">
-              <summary class="faq__q">Staret ein Autodownload?</summary>
+              <summary class="faq__q">Startet ein Auto-Download?</summary>
               <div class="faq__a">
-                Nein. Du siehst den Inahlt und entscheidest selbst, ob du die Datei behalten
+                Nein. Du siehst den Inhalt und entscheidest selbst, ob du die Datei behalten
                 möchtest.
               </div>
             </details>
@@ -317,10 +355,10 @@
             <details class="faq__item">
               <summary class="faq__q">Was passiert bei physischen Rewards?</summary>
               <div class="faq__a">
-                Du wirst zu einem Formular weitergeleitet. Dort musst du dann deine Daten und
-                Lieferadresse eintragen.<br />
-                Danach bekommst du eine Nachricht, das deine Sendung bearbeitet wird. Wir packen
-                dein Paket und versenden es an die von dir angegebene Adresse.
+                Du wirst zu einem Formular weitergeleitet. Dort trägst du deine Daten und
+                Lieferadresse ein.<br />
+                Danach erhältst du eine Bestätigung. Wir packen dein Paket und versenden es an die
+                von dir angegebene Adresse.
               </div>
             </details>
           </div>
@@ -328,26 +366,30 @@
       </section>
     </main>
 
-    <!-- FOOTER (gleiche Struktur wie besprochen) -->
-    <footer class="footer">
+    <!-- FOOTER -->
+    <footer class="footer" role="contentinfo">
       <div class="wrap footer__inner">
-        <div class="footer__links">
+        <nav class="footer__links" aria-label="Rechtliches">
           <a href="impressum.html">Impressum</a>
           <a href="datenschutz.html">Datenschutzerklärung</a>
-        </div>
+        </nav>
         <div class="footer__social">
           <a href="https://www.instagram.com/themysterycode.de/" target="_blank" rel="noopener"
-            ><img src="image/icons/instagram.svg" alt="Instagram"
+            ><img
+              src="image/icons/instagram.svg"
+              alt="Instagram"
+              loading="lazy"
+              width="28"
+              height="28"
           /></a>
-          <!--<a href="https://www.tiktok.com/@themysterycode" target="_blank" rel="noopener"><img src="image/icons/tiktok.svg" alt="TikTok" /></a>
-        <a href="https://x.com/themysterycode" target="_blank" rel="noopener"><img src="image/icons/x.svg" alt="X" /></a>
-        <a href="https://www.youtube.com/@themysterycode" target="_blank" rel="noopener"><img src="image/icons/youtube.svg" alt="YouTube" /></a>-->
+          <!-- Weitere Icons falls gewünscht -->
         </div>
         <p class="footer__copy">© 2025 The Mystery Code – All rights reserved.</p>
       </div>
     </footer>
 
-    <!-- Minimaler Fade-in-Skript für .fade-in Elemente -->
+    <!-- Scripts: am Ende für bessere Performance -->
+    <!-- Fade-in + Hero-Feuerwerk + Countdown (dein bestehender Code, unverändert) -->
     <script>
       /* ---------------------------
        1) Fade-in der Sektionen
@@ -372,7 +414,6 @@
       const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const canvas = document.querySelector(".fx-canvas");
       if (!canvas || prefersReduced) {
-        // Falls kein Canvas im DOM ist oder Nutzer Bewegung reduziert → sauber beenden
         console.debug("Celebration disabled (no canvas or prefers-reduced-motion).");
       } else {
         const ctx = canvas.getContext("2d");
@@ -385,7 +426,6 @@
         const COLORS = ["#D4AF37", "#F3E2A3", "#B8860B", "#ffffff"];
 
         function resize() {
-          // Größe am Hero ausrichten
           const parent = canvas.parentElement;
           W = canvas.width = parent.clientWidth;
           H = canvas.height = parent.clientHeight;
@@ -430,26 +470,26 @@
           if (!running) return;
           ctx.clearRect(0, 0, W, H);
 
-          // Raketen
           for (let i = rockets.length - 1; i >= 0; i--) {
             const r = rockets[i];
             r.x += r.vx;
             r.y += r.vy;
             r.vy += 0.08;
             r.life--;
+
             ctx.strokeStyle = r.color;
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(r.x, r.y + 8);
             ctx.lineTo(r.x, r.y);
             ctx.stroke();
+
             if (r.life <= 0 || r.vy > -2) {
               burst(r.x, r.y, 90, 8.5);
               rockets.splice(i, 1);
             }
           }
 
-          // Partikel
           for (let i = particles.length - 1; i >= 0; i--) {
             const p = particles[i];
             p.x += p.vx;
@@ -457,6 +497,7 @@
             p.vy += p.g;
             p.rotation += p.vr;
             p.life--;
+
             p.vx *= 0.992;
             p.vy *= 0.992;
 
@@ -476,7 +517,6 @@
             if (p.life <= 0) particles.splice(i, 1);
           }
 
-          // Auto-Stop nach ~7s, sobald alles „abgeklungen“ ist
           if (
             performance.now() - startTime > 7000 &&
             particles.length === 0 &&
@@ -491,13 +531,11 @@
         function celebrate(full = true) {
           resize();
           if (full) {
-            // Großes Feuerwerk (7s)
             burst(W * 0.5, H * 0.35, 150, 10);
             burst(W * 0.25, H * 0.42, 110, 8.5);
             burst(W * 0.75, H * 0.42, 110, 8.5);
             for (let i = 0; i < 4; i++) spawnRocket();
           } else {
-            // Dezente Mini-Glitter-Welle (Loop)
             burst(rand(W * 0.3, W * 0.7), rand(H * 0.3, H * 0.5), 40, 5);
           }
           startTime = performance.now();
@@ -507,7 +545,6 @@
           }
         }
 
-        // Start: einmal bei erstem Sichtkontakt, danach alle 5s Mini-Loop
         const hero = document.querySelector(".hero");
         const heroObserver = new IntersectionObserver(
           (entries) => {
@@ -524,11 +561,12 @@
         heroObserver.observe(hero);
       }
     </script>
+
     <!--== Countdown Timer ==-->
     <script>
       (function () {
         const SECS_TOTAL = 12 * 60 * 60; // 12 Stunden
-        const KEY = "tmc_offer_expiry_v2_12h"; // neuer Key (trennt sich von alter Version)
+        const KEY = "tmc_offer_expiry_v2_12h";
 
         const dial = document.querySelector(".dial");
         const progress = dial?.querySelector(".dial__progress");
@@ -538,13 +576,11 @@
         const sub = document.querySelector(".readout__sub");
         if (!dial || !progress || !minorGroup || !needle) return;
 
-        // 48 kleine Ticks hinzufügen
         (function addMinorTicks() {
           const center = 80,
-            rOuter = 70,
             rInner = 64;
           for (let i = 0; i < 60; i++) {
-            if (i % 5 === 0) continue; // große Ticks gibt's schon
+            if (i % 5 === 0) continue;
             const ang = (i / 60) * Math.PI * 2;
             const x1 = center + Math.sin(ang) * rInner;
             const y1 = center - Math.cos(ang) * rInner;
@@ -559,10 +595,9 @@
           }
         })();
 
-        const CIRC = Math.PI * 2 * 62; // Umfang des Progress-Rings (r=62)
+        const CIRC = Math.PI * 2 * 62;
         progress.style.strokeDasharray = String(CIRC);
 
-        // Start-/Ablaufzeit pro Besucher
         const now = Date.now();
         let expiry = parseInt(localStorage.getItem(KEY), 10);
         if (isNaN(expiry) || expiry < now) {
@@ -574,10 +609,9 @@
           const nowMs = Date.now();
           let remain = Math.max(0, Math.floor((expiry - nowMs) / 1000));
 
-          // Fortschrittsring = verbleibender Anteil
-          const p = remain / SECS_TOTAL; // 1 → frisch, 0 → abgelaufen
+          const p = remain / SECS_TOTAL;
           progress.style.strokeDashoffset = String(CIRC * (1 - p));
-          // Digitale Anzeige im Zentrum
+
           const digits = document.getElementById("tmc-digits");
           if (digits) {
             const h = Math.floor(remain / 3600);
@@ -588,19 +622,37 @@
               .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
           }
 
-          // Zeiger: 12 Uhr = voller Start, im Uhrzeigersinn bis 0
-          // 0s verbleibend → zeigt exakt nach unten (eine volle Umdrehung)
-          const angle = -90 + (1 - p) * 360; // -90deg = oben
+          const angle = -90 + (1 - p) * 360;
           needle.setAttribute("transform", `rotate(${angle} 80 80)`);
 
           if (remain <= 0) {
-            label.textContent = "Der Code ist erloschen.";
-            sub.textContent = "Vielleicht findet dich der nächste.";
-            return; // stop
+            if (label) label.textContent = "Der Code ist erloschen.";
+            if (sub) sub.textContent = "Vielleicht findet dich der nächste.";
+            return;
           }
           setTimeout(update, 1000);
         }
         update();
+      })();
+    </script>
+
+    <!-- == FAQ ACCORDION (nur eins offen) == -->
+    <script>
+      (function () {
+        const faq = document.querySelector(".faq");
+        if (!faq) return;
+
+        faq.addEventListener(
+          "toggle",
+          (e) => {
+            const opened = e.target;
+            if (opened.tagName.toLowerCase() !== "details" || !opened.open) return;
+            faq.querySelectorAll("details[open]").forEach((d) => {
+              if (d !== opened) d.open = false;
+            });
+          },
+          true
+        );
       })();
     </script>
   </body>

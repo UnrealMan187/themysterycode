@@ -338,6 +338,9 @@ html {
   color: var(--muted);
   padding-top: 8px;
 }
+.faq__a[hidden] {
+  display: none;
+}
 
 /* == CTA Section == */
 .section--cta {
