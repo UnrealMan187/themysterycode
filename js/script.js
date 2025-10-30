@@ -277,3 +277,13 @@
     history.scrollRestoration = "manual";
   }
 })();
+
+(function () {
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+  if (location.hash) {
+    window.scrollTo(0, 0);
+    history.replaceState(null, "", location.pathname + location.search);
+  }
+})();
