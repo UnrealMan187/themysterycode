@@ -295,28 +295,34 @@
   }
 })();
 
-// --- TMC: QR-Scan Logging ---
+// --- TMC: QR-Scan Logging mit 10-Minuten-Throttle ---
 (function () {
   try {
     const p = new URLSearchParams(location.search);
     const src = p.get("src") || "direct";
     const code = p.get("code") || "unknown";
 
-    // Nur melden, wenn es wirklich ein QR-Besuch ist
-    if (src === "qr" && code !== "unknown") {
-      fetch("https://themysterycode.p-ohrner89.workers.dev", {
-        // <-- ① WORKER-URL
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          "x-tmc-secret": "9f3c2a7d6e5b41f2c9a1d0e8b3c4d5f6"
-        },
-        body: JSON.stringify({
-          src,
-          code,
-          ua: navigator.userAgent
-        })
-      }).catch(() => {});
-    }
+    if (!(src === "qr" && code !== "unknown")) return;
+
+    const KEY = `tmc:last:${src}:${code}`;
+    const now = Date.now();
+    const last = Number(localStorage.getItem(KEY) || 0);
+    const TEN_MIN = 10 * 60 * 1000;
+
+    // nur loggen, wenn der letzte Eintrag >10 min her ist
+    if (now - last < TEN_MIN) return;
+
+    fetch("https://DEIN-WORKER.workers.dev", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-tmc-secret": "DEIN_TMC_INGEST_SECRET"
+      },
+      body: JSON.stringify({ src, code, ua: navigator.userAgent })
+    })
+      .then(() => {
+        localStorage.setItem(KEY, String(now));
+      })
+      .catch(() => {});
   } catch (e) {}
 })();
