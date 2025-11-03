@@ -304,7 +304,7 @@
 
     // Nur melden, wenn es wirklich ein QR-Besuch ist
     if (src === "qr" && code !== "unknown") {
-      fetch("https://themysterycode.p-ohrner89.workers.dev", {
+      fetch("https://*-themysterycode.p-ohrner89.workers.dev", {
         // <-- ① WORKER-URL
         method: "POST",
         headers: {
