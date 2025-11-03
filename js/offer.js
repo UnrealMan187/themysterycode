@@ -307,7 +307,7 @@
     const KEY = `tmc:last:${src}:${code}`;
     const now = Date.now();
     const last = Number(localStorage.getItem(KEY) || 0);
-    const TEN_MIN = 10 * 60 * 1000;
+    const TEN_MIN = 20 * 1000;
 
     // nur loggen, wenn der letzte Eintrag >10 min her ist
     if (now - last < TEN_MIN) return;
