@@ -1,8 +1,6 @@
 // js/reward.js
-// - Startet KEINEN Autodownload. Der Nutzer klickt bewusst.
-// - Lädt die PDF per fetch() vollständig in den Speicher (blob).
-// - Stößt den lokalen Download an (ohne Browser-Navigation).
-// - Leitet erst NACH erfolgreichem Start des Downloads (kleiner Delay) weiter.
+// Klick → fetch→blob→Download → Redirect
+// Soft-Lock: pro Browser/Device nur 1x (lokal). Für harte Limits bräuchten wir später einen Worker mit Einmal-Token.
 
 (function () {
   const wrap = document.getElementById("reward");
@@ -11,8 +9,19 @@
   const fallback = document.getElementById("fallback");
   const fallbackLink = document.getElementById("fallbackLink");
 
-  // Pfad aus HTML-Attribut (wartbar ohne JS-Änderung)
+  // PDF-Pfad aus HTML
   const pdfPath = wrap?.dataset?.pdf || "/downloads/tmc-digital.pdf";
+
+  // Soft-Lock-Key
+  const LOCK_KEY = "tmc:reward:downloaded";
+
+  // Wer schon geladen hat, kommt nicht mehr auf reward.html
+  try {
+    if (localStorage.getItem(LOCK_KEY)) {
+      location.replace("/thankyou.html?from=reward"); // ersetzt History -> back bringt dich NICHT zurück
+      return;
+    }
+  } catch {}
 
   function setState(txt) {
     if (state) state.textContent = txt;
@@ -24,24 +33,24 @@
 
   async function handleDownload() {
     try {
+      // Doppel-Klicks verhindern
       btn.disabled = true;
+
       setState("Lade PDF …");
 
-      // 1) Datei laden (keine Browser-Navigation)
+      // Datei laden – live testen: https://themysterycode.de/downloads/tmc-digital.pdf
       const res = await fetch(pdfPath, { cache: "no-store" });
       if (!res.ok) throw new Error(`Download fehlgeschlagen (HTTP ${res.status})`);
 
-      // Optionaler Content-Type-Check
-      const ct = res.headers.get("content-type") || "";
-      if (!ct.includes("pdf")) {
-        // Schutz: wenn der Server z. B. eine HTML-Fehlerseite liefert,
-        // brechen wir ab und zeigen den Fallback-Link.
-        throw new Error(`Unerwarteter Inhaltstyp: ${ct}`);
+      // Manche lokalen Server setzen falschen Content-Type.
+      // Statt strikt auf "application/pdf" zu bestehen, prüfen wir grob die Größe.
+      const blob = await res.blob();
+      if (blob.size < 1024) {
+        // 48 Byte = HTML-Fehlerseite o.ä. → Fallback anzeigen
+        throw new Error("Datei zu klein – vermutlich Fehlerseite statt PDF");
       }
 
-      const blob = await res.blob(); // Datei ist vollständig geladen
-
-      // 2) Lokalen Download anstoßen (ohne Seite zu verlassen)
+      // Lokalen Download anstoßen (ohne Navigieren)
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -51,17 +60,22 @@
       a.remove();
       URL.revokeObjectURL(url);
 
+      // Soft-Lock setzen: ab jetzt ist der Download als „erledigt“ markiert
+      try {
+        localStorage.setItem(LOCK_KEY, String(Date.now()));
+      } catch {}
+
       setState("Download gestartet. Du wirst gleich weitergeleitet …");
 
-      // 3) Weiterleitung NACH dem Auslösen des Downloads
+      // Redirect erst nach dem Anstoßen des Downloads
       setTimeout(() => {
-        location.href = "/thankyou.html?from=reward";
-      }, 5500);
+        // replace statt assign → Back bringt dich nicht zurück auf reward.html
+        location.replace("/thankyou.html?from=reward");
+      }, 1200);
     } catch (err) {
       console.error("[reward]", err);
       setState("Der automatische Download konnte nicht gestartet werden.");
       showFallback();
-    } finally {
       btn.disabled = false;
     }
   }
