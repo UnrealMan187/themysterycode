@@ -1,0 +1,12 @@
+.reward-card {
+  max-width: 720px;
+  margin: 6rem auto;
+}
+.hint {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 0.75rem;
+}
+.is-hidden {
+  display: none;
+}

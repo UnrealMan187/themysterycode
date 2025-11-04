@@ -31,3 +31,25 @@
     history.scrollRestoration = "manual";
   }
 })();
+
+(async () => {
+  try {
+    const p = new URLSearchParams(location.search);
+    const from = p.get("from") || "unknown";
+    await fetch("https://themysterycode.p-ohrner89.workers.dev/", {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-tmc-secret": "DEIN_TMC_INGEST_SECRET" },
+      body: JSON.stringify({ src: "thankyou", code: from, ua: navigator.userAgent })
+    });
+  } catch {}
+})();
+
+document.getElementById("copy").addEventListener("click", async () => {
+  const v = document.getElementById("igtext").value;
+  try {
+    await navigator.clipboard.writeText(v);
+    alert("Text kopiert.");
+  } catch {
+    prompt("Manuell kopieren:", v);
+  }
+});

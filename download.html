@@ -1,0 +1,22 @@
+<section class="card">
+  <h1>Deine Digitale Belohnung</h1>
+  <p>Danke! Lade dir jetzt deine Datei herunter.</p>
+
+  <!-- Passe den Pfad an -->
+  <a id="dl" class="btn btn-gold" href="/downloads/tmc-digital.zip" download>
+    ⬇️ Jetzt herunterladen
+  </a>
+
+  <p class="muted" id="next">Du wirst gleich weitergeleitet …</p>
+</section>
+
+<script>
+  // Weiterleitung 1: nach Klick auf Download (sanfter Delay)
+  const dl = document.getElementById("dl");
+  dl.addEventListener("click", () => {
+    setTimeout(() => (location.href = "/thankyou.html?from=reward"), 1500);
+  });
+
+  // Weiterleitung 2 (Fallback): selbst wenn niemand klickt, nach 12s weiter
+  setTimeout(() => (location.href = "/thankyou.html?from=reward&auto=1"), 12000);
+</script>
