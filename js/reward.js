@@ -6,7 +6,7 @@
   const fallback = document.getElementById("fallback");
   const fallbackLink = document.getElementById("fallbackLink");
 
-  const pdfPath = wrap?.dataset?.pdf || "/downloads/tmc-digital.pdf";
+  const pdfPath = wrap?.dataset?.pdf || "/downloads/expose-birdly.pdf";
   const LOCK_KEY = "tmc:reward:downloaded";
 
   // Sofortiger Redirect, wenn bereits geladen (Soft-Lock)
