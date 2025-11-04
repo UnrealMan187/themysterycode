@@ -56,7 +56,7 @@
       // 3) Weiterleitung NACH dem Auslösen des Downloads
       setTimeout(() => {
         location.href = "/thankyou.html?from=reward";
-      }, 1500);
+      }, 3500);
     } catch (err) {
       console.error("[reward]", err);
       setState("Der automatische Download konnte nicht gestartet werden.");
