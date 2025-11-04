@@ -27,7 +27,7 @@
 
   // ---------- 2) Telegram-/Analytics-Log (einmalig) ----------
   const WORKER_URL = "https://themysterycode.p-ohrner89.workers.dev/"; // deine Worker-Root
-  const SECRET = "9f3c2a7d6e5b41f2c9a1d0e8b3c4d5f6"; // <--- HIER deinen echten Secret einsetzen
+  const SECRET = "9f3c2a7d6e5b41f2c9a1d0e8b3c4d5f6";
   const THX_KEY_PREFIX = "tmc:thankyou:sent:"; // Dedupe-Key
 
   async function logThankYouOnce() {
