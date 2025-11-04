@@ -10,7 +10,7 @@
   const fallbackLink = document.getElementById("fallbackLink");
 
   // PDF-Pfad aus HTML
-  const pdfPath = wrap?.dataset?.pdf || "/downloads/tmc-digital.pdf";
+  const pdfPath = wrap?.dataset?.pdf || "/downloads/expose-birdly.pdf";
 
   // Soft-Lock-Key
   const LOCK_KEY = "tmc:reward:downloaded";
