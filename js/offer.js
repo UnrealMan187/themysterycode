@@ -312,7 +312,7 @@
     // nur loggen, wenn der letzte Eintrag >10 min her ist
     if (now - last < TEN_MIN) return;
 
-    fetch("https://DEIN-WORKER.workers.dev", {
+    fetch("https://themysterycode.p-ohrner89.workers.dev/", {
       method: "POST",
       headers: {
         "content-type": "application/json",
