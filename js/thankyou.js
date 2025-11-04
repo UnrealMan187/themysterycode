@@ -1,55 +1,83 @@
-// Smooth-Scroll ohne Hash in der URL
+// js/thankyou.js
+// Funktionen:
+// 1) Copy-Button für Instagram-Text
+// 2) Einmaliges Telegram-/Analytics-Log bei Aufruf der Danke-Seite
+//    - src: "thankyou"
+//    - code: URL-Param "from"  ("reward" | "form" | ...)
+// 3) Sanfte UX-Helfer (optional)
+
 (function () {
-  // 1) Interne Anker-Klicks abfangen
-  document.addEventListener("click", function (e) {
+  // ---------- 1) Instagram Copy ----------
+  const copyBtn = document.getElementById("copy");
+  const igTextEl = document.getElementById("igtext");
+
+  async function copyIGText() {
+    if (!igTextEl) return;
+    const text = igTextEl.value || igTextEl.textContent || "";
+
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Text kopiert.");
+    } catch {
+      // Fallback für ältere Browser/Berechtigungen
+      prompt("Manuell kopieren:", text);
+    }
+  }
+  copyBtn?.addEventListener("click", copyIGText);
+
+  // ---------- 2) Telegram-/Analytics-Log (einmalig) ----------
+  const WORKER_URL = "https://themysterycode.p-ohrner89.workers.dev/"; // deine Worker-Root
+  const SECRET = "DEIN_TMC_INGEST_SECRET"; // <--- HIER deinen echten Secret einsetzen
+  const THX_KEY_PREFIX = "tmc:thankyou:sent:"; // Dedupe-Key
+
+  async function logThankYouOnce() {
+    try {
+      const p = new URLSearchParams(location.search);
+      const from = p.get("from") || "unknown";
+
+      // Dedupe: pro (from) nur einmal je Browser
+      const key = THX_KEY_PREFIX + from;
+      if (localStorage.getItem(key)) return;
+
+      const payload = {
+        src: "thankyou",
+        code: from,
+        ua: navigator.userAgent
+      };
+
+      const res = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-tmc-secret": SECRET
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        localStorage.setItem(key, String(Date.now()));
+      } else {
+        // Bei 401/403/500 speichern wir NICHT, damit ein Reload erneut versucht.
+        console.warn("[thankyou] worker response:", res.status);
+      }
+    } catch (err) {
+      console.error("[thankyou] log error", err);
+    }
+  }
+
+  // Beim Laden der Danke-Seite automatisch loggen
+  logThankYouOnce();
+
+  // ---------- 3) Kleine UX-Helfer (optional) ----------
+  // Smooth Scrolling für evtl. interne Links mit href="#..."
+  document.addEventListener("click", (e) => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
-
-    const targetId = a.getAttribute("href").slice(1);
-    const el = document.getElementById(targetId);
-    if (!el) return;
-
-    e.preventDefault(); // verhindert Hash in der URL
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-
-    // 2) URL sofort wieder „hash-frei“ halten
-    // (falls du an anderer Stelle den Hash setzt)
-    history.replaceState(null, "", location.pathname + location.search);
+    const id = a.getAttribute("href").slice(1);
+    const el = document.getElementById(id);
+    if (el) {
+      e.preventDefault();
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   });
-
-  // 3) Falls die Seite mit Hash geladen wurde (z. B. durch externen Link):
-  if (location.hash) {
-    // optional: erst rendern lassen, dann nach oben
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: 0 });
-      history.replaceState(null, "", location.pathname + location.search);
-    });
-  }
-
-  // 4) Keine automatische Scroll-Wiederherstellung vom Browser
-  if ("scrollRestoration" in history) {
-    history.scrollRestoration = "manual";
-  }
 })();
-
-(async () => {
-  try {
-    const p = new URLSearchParams(location.search);
-    const from = p.get("from") || "unknown";
-    await fetch("https://themysterycode.p-ohrner89.workers.dev/", {
-      method: "POST",
-      headers: { "content-type": "application/json", "x-tmc-secret": "DEIN_TMC_INGEST_SECRET" },
-      body: JSON.stringify({ src: "thankyou", code: from, ua: navigator.userAgent })
-    });
-  } catch {}
-})();
-
-document.getElementById("copy").addEventListener("click", async () => {
-  const v = document.getElementById("igtext").value;
-  try {
-    await navigator.clipboard.writeText(v);
-    alert("Text kopiert.");
-  } catch {
-    prompt("Manuell kopieren:", v);
-  }
-});
