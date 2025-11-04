@@ -316,7 +316,7 @@
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "x-tmc-secret": "DEIN_TMC_INGEST_SECRET"
+        "x-tmc-secret": "9f3c2a7d6e5b41f2c9a1d0e8b3c4d5f6"
       },
       body: JSON.stringify({ src, code, ua: navigator.userAgent })
     })
