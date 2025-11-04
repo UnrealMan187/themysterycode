@@ -6,23 +6,24 @@
     <title>Belohnung – The Mystery Code</title>
     <meta name="robots" content="noindex,nofollow" />
     <link rel="icon" href="/image/logo/favicon.png" />
-    <link rel="stylesheet" href="css/reward.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/css/reward.css" />
   </head>
   <body class="page page--dark">
     <main class="container">
-      <section class="card card--glow reward-card">
+      <section class="card reward-card">
         <h1 class="headline">Deine digitale Belohnung</h1>
-        <p class="lead">Wir bereiten deinen Download vor. Klicke auf „Jetzt herunterladen“.</p>
+        <p class="lead">Klicke auf den Button, um die PDF herunterzuladen.</p>
 
-        <!-- Wir übergeben den PDF-Pfad per data-Attribut (wartbar ohne JS-Änderung) -->
+        <!-- HIER nur den Pfad anpassen -->
         <div id="reward" data-pdf="/downloads/tmc-digital.pdf">
-          <button id="btnDownload" class="btn btn--gold btn--lg">⬇️ Jetzt herunterladen</button>
-          <p id="state" class="hint">Sicherer Download über unsere Server …</p>
+          <button id="btnDownload" class="btn btn--gold btn--lg">⬇️ PDF herunterladen</button>
 
-          <!-- Fallback-Link, falls fetch scheitert -->
+          <p id="state" class="hint">Bereit zum Download.</p>
+
+          <!-- Fallback-Link erscheint nur bei Fehler -->
           <p id="fallback" class="hint is-hidden">
-            Falls nichts passiert, <a id="fallbackLink" href="#" download>klicke hier</a>.
+            Falls nichts passiert, <a id="fallbackLink" href="#" download>hier direkt laden</a>.
           </p>
         </div>
       </section>
