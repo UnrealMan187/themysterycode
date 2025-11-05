@@ -376,3 +376,66 @@
     })
     .render("#paypal-button-container");
 })();
+// === PayPal Checkout: robustes Rendern ===
+(function () {
+  let rendering = false;
+
+  function resolveAfterPurchase() {
+    const params = new URLSearchParams(location.search);
+    const item = (params.get("item") || "").toLowerCase();
+    if (item === "digital") return "/reward.html?from=paypal";
+    if (item === "physical") return "/form.html?from=paypal";
+    return "/thankyou.html?from=paypal";
+  }
+
+  function renderButtons() {
+    const box = document.getElementById("paypal-button-container");
+    if (!window.paypal || !box || rendering) return;
+    rendering = true;
+
+    // alte Reste entfernen (wichtig nach „Zurück“)
+    box.innerHTML = "";
+
+    paypal
+      .Buttons({
+        style: { layout: "vertical", color: "gold", shape: "pill", label: "pay", tagline: false },
+        createOrder: (data, actions) =>
+          actions.order.create({
+            purchase_units: [
+              {
+                description: "The Mystery Code – Zugang",
+                amount: { value: "10.00", currency_code: "EUR" }
+              }
+            ]
+          }),
+        onApprove: async (data, actions) => {
+          await actions.order.capture();
+          location.href = resolveAfterPurchase();
+        },
+        onError: (err) => {
+          console.error("PayPal error:", err);
+          alert("Die Zahlung konnte nicht abgeschlossen werden. Bitte versuche es erneut.");
+        }
+      })
+      .render("#paypal-button-container")
+      .finally(() => {
+        // nach Render-Versuch wieder freigeben
+        rendering = false;
+      });
+  }
+
+  // wird von der SDK onload aufgerufen (siehe Script-Tag)
+  window.initPayPal = function () {
+    renderButtons();
+  };
+
+  // Fix für „Zurück“-Navigation (bfcache) & Tab-Wechsel
+  window.addEventListener("pageshow", (e) => {
+    const isBack =
+      e.persisted || performance.getEntriesByType("navigation")[0]?.type === "back_forward";
+    if (isBack) renderButtons();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") renderButtons();
+  });
+})();
