@@ -189,3 +189,35 @@
     text-align: left;
   }
 }
+/* Sticky CTA (unten) */
+.sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  z-index: 60;
+  display: none; /* wird via JS ein-/ausgeblendet */
+  justify-content: center;
+  pointer-events: none; /* damit nur der Inhalt klickbar ist */
+}
+.sticky-cta__inner {
+  pointer-events: auto;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(15, 15, 18, 0.85);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+.sticky-cta__price {
+  font-weight: 700;
+}
+@media (max-width: 520px) {
+  .sticky-cta__inner {
+    gap: 10px;
+    padding: 9px 10px;
+  }
+}

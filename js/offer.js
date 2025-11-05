@@ -363,3 +363,47 @@
   // Falls SDK schon da (Cache), direkt rendern
   if (window.paypal) renderButtons();
 })();
+
+// 7) === Sticky CTA steuern: sichtbar, wenn #checkout NICHT im Viewport ===
+(function () {
+  const bar = document.getElementById("stickyCta");
+  const target = document.getElementById("checkout");
+  if (!bar || !target) return;
+
+  function setVisible(v) {
+    bar.style.display = v ? "flex" : "none";
+    bar.setAttribute("aria-hidden", v ? "false" : "true");
+  }
+
+  // Wenn IntersectionObserver verfügbar ist: eleganter Modus
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        const e = entries[0];
+        // ist der Checkout zu >= 20% sichtbar? Dann Sticky ausblenden
+        setVisible(!(e && e.isIntersecting && e.intersectionRatio > 0.2));
+      },
+      { threshold: [0, 0.2, 0.6, 1] }
+    );
+    io.observe(target);
+  } else {
+    // Fallback: Scroll-Position (zeigt CTA ab 35% Scrolltiefe)
+    const onScroll = () => {
+      const scrolled = window.scrollY || document.documentElement.scrollTop || 0;
+      const max = document.documentElement.scrollHeight - window.innerHeight || 1;
+      const ratio = scrolled / max;
+      setVisible(ratio > 0.35);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  // Bei „Zurück“ aus bfcache prüfen
+  window.addEventListener("pageshow", () => {
+    // sofort neu bewerten (Observer löst evtl. nicht direkt aus)
+    const rect = target.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const visible = rect.top < vh * 0.8 && rect.bottom > vh * 0.2;
+    setVisible(!visible);
+  });
+})();
