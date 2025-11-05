@@ -407,3 +407,84 @@
     setVisible(!visible);
   });
 })();
+// === Social Proof: "Heute X Codes gefunden" (nur Client, monotonic per User/Tag) ===
+(function () {
+  const EL = document.querySelector(".proof__text strong"); // <strong>27</strong>
+  if (!EL) return;
+
+  // -- Konfiguration (gern anpassen) --
+  const BASE_MIN = 12; // Startwert am Tagesanfang (inkl.)
+  const BASE_MAX = 38; // Startwert am Tagesanfang (inkl.)
+  const BUMP_MIN = 3; // Erhöhung bei Wiederkehr
+  const BUMP_MAX = 11; // Erhöhung bei Wiederkehr
+  const BUMP_COOLDOWN_MS = 5 * 60 * 1000; // mindestens 5 Min. zwischen Erhöhungen
+  const SOFT_DRIFT = true; // während Seite offen: langsam steigern
+  const SOFT_DRIFT_EVERY_MS = 3 * 60 * 1000; // alle ~3 Min. + Jitter
+  const SOFT_DRIFT_DELTA_MIN = 1;
+  const SOFT_DRIFT_DELTA_MAX = 2;
+  const CAP_TODAY = 264; // Obergrenze für einen Nutzer pro Tag
+
+  const KEY = "tmc:proof:v1";
+  const now = Date.now();
+
+  function ymd(d) {
+    const dt = new Date(d);
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, "0");
+    const da = String(dt.getDate()).padStart(2, "0");
+    return `${y}-${m}-${da}`;
+  }
+  const today = ymd(now);
+
+  function rnd(a, b) {
+    return Math.floor(Math.random() * (b - a + 1)) + a;
+  }
+
+  // laden / initialisieren
+  let state;
+  try {
+    state = JSON.parse(localStorage.getItem(KEY) || "null");
+  } catch (e) {
+    state = null;
+  }
+  if (!state || state.date !== today) {
+    state = {
+      date: today,
+      value: rnd(BASE_MIN, BASE_MAX),
+      lastBump: now
+    };
+  } else {
+    // Wiederkehr am selben Tag: ggf. erhöhen
+    if (now - (state.lastBump || 0) >= BUMP_COOLDOWN_MS) {
+      state.value = Math.min(CAP_TODAY, state.value + rnd(BUMP_MIN, BUMP_MAX));
+      state.lastBump = now;
+    }
+  }
+
+  // Rendern
+  function render() {
+    EL.textContent = String(state.value);
+  }
+  render();
+  localStorage.setItem(KEY, JSON.stringify(state));
+
+  // Soft Drift: während Nutzer auf der Seite bleibt, langsam steigen lassen
+  if (SOFT_DRIFT) {
+    function scheduleDrift() {
+      const jitter = rnd(-30, 30) * 1000; // +- 30s
+      const delay = Math.max(30_000, SOFT_DRIFT_EVERY_MS + jitter);
+      setTimeout(() => {
+        // nur leicht erhöhen, niemals über CAP
+        const delta = rnd(SOFT_DRIFT_DELTA_MIN, SOFT_DRIFT_DELTA_MAX);
+        if (state.value < CAP_TODAY) {
+          state.value = Math.min(CAP_TODAY, state.value + delta);
+          state.lastBump = Date.now();
+          localStorage.setItem(KEY, JSON.stringify(state));
+          render();
+        }
+        scheduleDrift();
+      }, delay);
+    }
+    scheduleDrift();
+  }
+})();
