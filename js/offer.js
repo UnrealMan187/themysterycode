@@ -417,7 +417,7 @@
     BASE_MAX = 38; // Startwert pro Tag
   const INTERVAL_MS = 10 * 1000; // alle 1 min kleiner Drift
   const INTERVAL_DELTA_MIN = 1,
-    INTERVAL_DELTA_MAX = 2;
+    INTERVAL_DELTA_MAX = 8;
   const REVISIT_COOLDOWN_MS = 60 * 1000; // min. 1 min zwischen größeren Bumps (Tab-Wechsel/Rückkehr)
   const REVISIT_DELTA_MIN = 3,
     REVISIT_DELTA_MAX = 7;
