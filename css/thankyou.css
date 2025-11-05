@@ -1,0 +1,35 @@
+.thanks-hero:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(900px 420px at 50% 120%, rgba(212, 175, 55, 0.1), transparent 65%);
+  pointer-events: none;
+}
+.share-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.btn--ghost {
+  border-color: #333;
+  color: #ddd;
+}
+.copy-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.copy-area {
+  width: 100%;
+  max-width: 760px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-soft);
+  padding: 12px;
+}
+.muted {
+  color: var(--muted);
+}

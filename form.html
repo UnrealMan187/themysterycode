@@ -6,66 +6,191 @@
     <title>Lieferadresse – The Mystery Code</title>
     <link rel="icon" href="image/logo/favicon.png" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/form.css" />
   </head>
 
-  <body class="page page--dark">
-    <main class="container-form">
-      <section class="card card--glow">
-        <h1 class="headline">Lieferadresse</h1>
-        <p class="lead">Bitte gib deine Daten ein, damit wir dir deinen Gewinn zusenden können.</p>
+  <body class="form-page">
+    <!-- HERO: nutzt dein bestehendes Hintergrundbild und Gold-Text -->
+    <header class="hero" role="banner">
+      <div class="wrap hero__inner">
+        <h1 class="hero__title">Fast geschafft.</h1>
+        <p class="hero__subtitle">Sichere dir den Versand – und mach den Moment offiziell.</p>
+      </div>
+    </header>
 
-        <form
-          id="addressForm"
-          class="form form-grid"
-          action="https://formspree.io/f/xpwozdke"
-          method="POST"
-          accept-charset="UTF-8"
-        >
-          <div class="field">
-            <label for="vorname">Vorname</label>
-            <input id="vorname" type="text" name="Vorname" autocomplete="given-name" required />
+    <main class="section">
+      <div class="wrap grid grid--2" style="align-items: start">
+        <!-- LINKER BLOCK: FORMULAR (edle Card mit Glow) -->
+        <section class="card card--glow fade-in" aria-labelledby="form-title">
+          <h2 id="form-title" class="headline">Lieferadresse</h2>
+          <p class="lead" style="margin: 0 0 18px">
+            Bitte gib deine Lieferadresse ein, damit wir dir deinen Artikel zusenden können.
+          </p>
+
+          <form
+            id="addressForm"
+            class="form form-grid"
+            action="https://formspree.io/f/xpwozdke"
+            method="POST"
+            accept-charset="UTF-8"
+          >
+            <div class="field">
+              <label for="vorname">Vorname</label>
+              <input
+                id="vorname"
+                type="text"
+                name="Vorname"
+                autocomplete="given-name"
+                placeholder="z. B. Alex"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="nachname">Nachname</label>
+              <input
+                id="nachname"
+                type="text"
+                name="Nachname"
+                autocomplete="family-name"
+                placeholder="z. B. Keller"
+                required
+              />
+            </div>
+
+            <div class="field field--full">
+              <label for="email">E-Mail</label>
+              <input
+                id="email"
+                type="email"
+                name="Email"
+                autocomplete="email"
+                placeholder="dein.name@mail.de"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="telefon">Telefonnummer <span class="hint">(optional)</span></label>
+              <input
+                id="telefon"
+                type="tel"
+                name="Telefonnummer"
+                autocomplete="tel"
+                placeholder="+49 …"
+              />
+            </div>
+
+            <div class="field field--full">
+              <label for="adresse">Adresse</label>
+              <textarea
+                id="adresse"
+                name="Adresse"
+                rows="3"
+                autocomplete="street-address"
+                placeholder="Straße, Nr., PLZ, Ort"
+                required
+              ></textarea>
+            </div>
+
+            <!-- hübschere Betreffzeile -->
+            <input type="hidden" name="_subject" value="Bestellung: Lieferadresse eingegangen" />
+            <!-- Honeypot gegen Bots -->
+            <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" />
+
+            <div class="actions field--full">
+              <button type="submit" class="btn btn--gold btn--lg">Absenden &amp; bestätigen</button>
+            </div>
+
+            <p class="note field--full" style="text-align: center; margin-top: 6px">
+              Deine Daten werden nur zur Zustellung genutzt. Kein Spam, keine Weitergabe.
+            </p>
+          </form>
+        </section>
+
+        <!-- RECHTER BLOCK: VISUALS / VERKAUFSPSYCHOLOGIE -->
+        <aside class="card fade-in" aria-labelledby="visu-title">
+          <h2 id="visu-title" class="section__title" style="text-align: center">
+            Was jetzt passiert
+          </h2>
+
+          <!-- Mini-Schritte als Vertrauensaufbau -->
+          <ul class="steps" role="list" style="margin-bottom: 18px">
+            <li class="step">
+              <div class="icon" aria-hidden="true">📝</div>
+              <div><strong>1) Daten sichern</strong><br />Du bestätigst nur die Zustellung.</div>
+            </li>
+            <li class="step">
+              <div class="icon" aria-hidden="true">📦</div>
+              <div>
+                <strong>2) Vorbereitung</strong><br />Wir machen dein Paket versandfertig und melden
+                dir den Versandstatus.
+              </div>
+            </li>
+            <li class="step">
+              <div class="icon" aria-hidden="true">✨</div>
+              <div>
+                <strong>3) Lieferung</strong><br />Du bekommst deinen Artikel an deine angegebene
+                Adresse geliefert.
+              </div>
+            </li>
+          </ul>
+
+          <!-- Visuelle Teaser – nutzt deine vorhandenen Bilder -->
+          <div class="gallery">
+            <figure class="gallery__item">
+              <img src="image/img/gutschein.png" alt="Gutschein/Value" />
+            </figure>
+            <figure class="gallery__item">
+              <img src="image/img/smartphone.png" alt="Beispiel: Tech" />
+            </figure>
+            <figure class="gallery__item">
+              <img src="image/img/kochbuch.png" alt="Beispiel: Print/Digital" />
+            </figure>
+            <figure class="gallery__item">
+              <img src="image/img/reise.png" alt="Beispiel: Erlebnis" />
+            </figure>
           </div>
 
-          <div class="field">
-            <label for="nachname">Nachname</label>
-            <input id="nachname" type="text" name="Nachname" autocomplete="family-name" required />
+          <hr class="rule--gold" />
+
+          <!-- Sozialer Nudge -->
+          <div class="center">
+            <p class="caption">Teile dein Erlebnis – andere wollen wissen, ob es echt ist.</p>
+            <a
+              class="btn btn--primary"
+              href="https://www.instagram.com/themysterycode.de/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram öffnen
+            </a>
           </div>
-
-          <div class="field field--full">
-            <label for="email">E-Mail</label>
-            <input id="email" type="email" name="Email" autocomplete="email" required />
-          </div>
-
-          <div class="field">
-            <label for="telefon">Telefonnummer <span class="hint">(optional)</span></label>
-            <input id="telefon" type="tel" name="Telefonnummer" autocomplete="tel" />
-          </div>
-
-          <div class="field field--full">
-            <label for="adresse">Adresse</label>
-            <textarea
-              id="adresse"
-              name="Adresse"
-              rows="3"
-              autocomplete="street-address"
-              required
-            ></textarea>
-          </div>
-
-          <!-- hübschere Betreffzeile -->
-          <input type="hidden" name="_subject" value="Gewinn: Lieferadresse eingegangen" />
-
-          <!-- Honeypot gegen Bots -->
-          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" />
-
-          <div class="actions field--full">
-            <button type="submit" class="btn btn--gold btn--lg">Absenden</button>
-          </div>
-        </form>
-      </section>
+        </aside>
+      </div>
     </main>
 
-    <!-- AJAX-Submit + Weiterleitung -->
+    <!-- Footer wie auf main.html -->
+    <footer class="footer">
+      <div class="wrap footer__inner">
+        <div class="footer__links">
+          <a href="html/impressum.html">Impressum</a>
+          <a href="html/datenschutz.html">Cookies &amp; Datenschutz</a>
+        </div>
+        <div class="footer__social">
+          <a href="https://www.instagram.com/themysterycode.de/" target="_blank" rel="noopener">
+            <img src="image/icons/instagram.png" alt="Instagram" />
+          </a>
+        </div>
+        <p class="footer__copy">© 2025 The Mystery Code – All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- AJAX-Submit + Weiterleitung (deine bestehende Logik) -->
     <script src="js/form.js"></script>
   </body>
+  <!-- AJAX-Submit + Weiterleitung -->
+  <script src="js/form.js"></script>
+  <!-- Globale Effekte (Fade-in, ggf. Hero-Animationen etc.) -->
+  <script src="js/script.js"></script>
 </html>

@@ -1,0 +1,14 @@
+/* --- FORMULAR-SEITE: Symmetrische Kartenhöhe ------------------ */
+.grid--2 {
+  align-items: stretch; /* beide Spalten gleich hoch */
+}
+
+.grid--2 > .card {
+  display: flex;
+  flex-direction: column; /* Inhalt vertikal anordnen */
+  justify-content: space-between; /* gleichmäßig verteilen */
+  height: 100%; /* volle Spaltenhöhe */
+}
+.card aside .gallery {
+  margin-top: auto;
+}

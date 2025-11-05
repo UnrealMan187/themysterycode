@@ -1,0 +1,8 @@
+code,city,spot_name,spot_details,status,placed_on,batch,qr_filename,short_url,notes
+code,city,spot_name,spot_details,status,placed_on,batch,qr_filename,short_url,notes
+MANNHEIM-01,Mannheim,Hbf Ausgang West,"Plakatwand links, Augehöhe",planned,,BATCH-2025-11,TMC_QR_MANNHEIM-01_black.png,https://themysterycode.de/c/MANNHEIM-01,
+MANNHEIM-02,Mannheim,Paradeplatz,"Laternenmast, 1,6 m Höhe",planned,,BATCH-2025-11,TMC_QR_MANNHEIM-02_black.png,https://themysterycode.de/c/MANNHEIM-02,
+KARLSRUHE-01,Karlsruhe,Ettlinger Tor,"Schaukasten innen",planned,,BATCH-2025-11,TMC_QR_KARLSRUHE-01_black.png,https://themysterycode.de/c/KARLSRUHE-01,
+HEIDELBERG-01,Heidelberg,Bismarckplatz,"Geländer Ost",planned,,BATCH-2025-11,TMC_QR_HEIDELBERG-01_black.png,https://themysterycode.de/c/HEIDELBERG-01,
+SHISHABAR-01,Mannheim,Shishabar XY,"Eingangstür, unten rechts",planned,,BATCH-2025-11,TMC_QR_SHISHABAR-01_black.png,https://themysterycode.de/c/SHISHABAR-01,
+DOENER-01,Mannheim,Dönerbude XY,"Kassenbereich",planned,,BATCH-2025-11,TMC_QR_DOENER-01_black.png,https://themysterycode.de/c/DOENER-01,
