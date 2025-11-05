@@ -41,14 +41,21 @@
     <!-- Performance: BG vorladen -->
     <link rel="preload" as="image" href="image/img/background.png" imagesrcset />
 
-    <!-- Nur Upgrade, keine strenge CSP, damit PayPal-SDK nicht blockiert wird -->
+    <!-- CSP (locker genug fürs PayPal-SDK) -->
     <meta
       http-equiv="Content-Security-Policy"
       content="upgrade-insecure-requests; block-all-mixed-content"
     />
   </head>
   <body>
+    <!-- ===================== -->
+    <!-- HERO – ruhig & clean -->
+    <!-- ===================== -->
     <header class="hero" role="banner" aria-label="The Mystery Code – Hero">
+      <!-- optionales Video (momentan deaktiviert, nur BG-Bild aktiv) -->
+      <!-- <video class="hero__bg" autoplay muted loop playsinline src="image/video/hero.mp4"></video> -->
+
+      <!-- Effekt-Canvas (Feuerwerk) -->
       <canvas class="fx-canvas" aria-hidden="true"></canvas>
 
       <!-- Sticky Mini-Countdown (oben rechts) -->
@@ -63,7 +70,7 @@
               <line x1="6" y1="80" x2="16" y2="80" />
               <line x1="144" y1="80" x2="154" y2="80" />
             </g>
-            <!-- WICHTIG: diese Gruppe fehlte – notwendig für dein JS -->
+            <!-- wichtig für dein JS: Minor-Ticks-Container -->
             <g class="ticks--minor" aria-hidden="true"></g>
 
             <g class="needle-group" filter="url(#glow)" aria-hidden="true">
@@ -86,61 +93,141 @@
         </div>
       </aside>
 
-      <!-- Entschlankter Hero-Stack -->
-      <div class="hero__stack">
+      <!-- Minimaler Hero-Stack (keine Bezahl-Elemente) -->
+      <div class="hero__inner hero__stack">
         <h1 class="celebrate__title">Du hast den Code gefunden.</h1>
-        <p class="hero__subtitle">Entsperre dein Erlebnis. Ein Preis. Ein Zufall.</p>
-
+        <p class="hero__subtitle">Willkommen im Inner Circle. Ein Preis. Ein Zufall.</p>
         <p class="trustline--inline">
           <span>10&nbsp;€</span> · <span>Sichere Zahlung via PayPal</span> · <span>Kein Abo</span>
         </p>
-
-        <section class="checkout card card--glow" id="checkout" aria-label="Jetzt freischalten">
-          <div class="checkout__head">
-            <div class="checkout__price">
-              <span class="amount">10&nbsp;€</span>
-              <span class="note">einmalig</span>
-            </div>
-            <div class="checkout__copy">
-              <strong>Zufallsprinzip:</strong> Du erhältst zufällig einen digitalen oder physischen
-              Reward.
-            </div>
-          </div>
-
-          <div class="checkout__body">
-            <div id="paypal-button-container"></div>
-            <p class="checkout__guarantee">Schnell, sicher &amp; ohne Abo. Zahlung über PayPal.</p>
-          </div>
-        </section>
-
-        <a class="btn btn--primary btn--lg hero__cta-main" href="#checkout">Jetzt entsperren</a>
+        <a class="btn btn--primary btn--lg hero__cta-main" href="#about">Weiter entdecken</a>
       </div>
     </header>
 
+    <!-- ===================== -->
+    <!-- FUNNEL-BODY -->
+    <!-- ===================== -->
     <main id="main" role="main">
-      <!-- (Inhalt unverändert) -->
-      <!-- ... dein restlicher Content ... -->
-      <section id="offer" class="section">
-        <!-- ... -->
+      <!-- S1: Was du gefunden hast -->
+      <section id="about" class="section fade-in">
+        <div class="wrap center prose">
+          <h2 class="section__title">Was du gefunden hast</h2>
+          <div class="rule--gold"></div>
+          <p>
+            Nicht jeder findet den Code. Wer es tut, entscheidet sich, das Unbekannte zu öffnen.
+            <strong>The Mystery Code</strong> ist kein Produkt – es ist ein Erlebnis.
+          </p>
+          <p class="note">Kuratiert. Minimalistisch. Unerwartet.</p>
+        </div>
       </section>
-      <section id="how" class="section section--border">
-        <!-- ... -->
+
+      <!-- S2: Wie es funktioniert (3 Steps) -->
+      <section id="how" class="section section--border fade-in">
+        <div class="wrap">
+          <h2 class="section__title center">Wie es funktioniert</h2>
+          <ul class="steps">
+            <li class="step">
+              <div class="icon">1</div>
+              <div>
+                <strong>Scannen &amp; Ankommen</strong><br />
+                Du bist hier, weil du einen Code entdeckt hast. Gut so.
+              </div>
+            </li>
+            <li class="step">
+              <div class="icon">2</div>
+              <div>
+                <strong>Entsperren</strong><br />
+                Einmalig 10&nbsp;€. Keine Mitgliedschaft. Keine Werbung.
+              </div>
+            </li>
+            <li class="step">
+              <div class="icon">3</div>
+              <div>
+                <strong>Erhalten</strong><br />
+                Du bekommst zufällig einen <em>digitalen</em> oder <em>physischen</em> Reward.
+              </div>
+            </li>
+          </ul>
+        </div>
       </section>
-      <section class="section" id="whats-inside">
-        <!-- ... -->
+
+      <!-- S3: Warum es sich lohnt (Psychologie) -->
+      <section id="why" class="section fade-in">
+        <div class="wrap grid grid--3">
+          <div class="card">
+            <h3 class="gold-heading">Einmaligkeit</h3>
+            <p class="lead">Jeder Code ist eine Momentaufnahme – kein Massenprodukt, kein Spam.</p>
+          </div>
+          <div class="card">
+            <h3 class="gold-heading">Überraschung</h3>
+            <p class="lead">
+              Es geht nicht um den Preis, sondern um das Gefühl, es verdient zu haben.
+            </p>
+          </div>
+          <div class="card">
+            <h3 class="gold-heading">Stil</h3>
+            <p class="lead">
+              Reduziert, ruhig, kuratiert – kein Kirmes-Glücksspiel, sondern Haltung.
+            </p>
+          </div>
+        </div>
       </section>
+
+      <!-- S4: Checkout (erst hier verkaufen) -->
+      <section
+        id="checkout"
+        class="section section--border fade-in"
+        aria-label="Jetzt freischalten"
+      >
+        <div class="wrap">
+          <div class="checkout card card--glow">
+            <div class="checkout__head">
+              <div class="checkout__price">
+                <span class="amount">10&nbsp;€</span>
+                <span class="note">einmalig</span>
+              </div>
+              <div class="checkout__copy">
+                <strong>Zufallsprinzip:</strong> Du erhältst zufällig einen digitalen oder
+                physischen Reward.
+              </div>
+            </div>
+
+            <div class="checkout__body">
+              <div id="paypal-button-container"></div>
+              <p class="checkout__guarantee center">
+                Schnell, sicher &amp; ohne Abo. Zahlung über PayPal.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S5: FAQ / Einwände -->
       <section id="faq" class="section section--border fade-in">
-        <!-- ... -->
+        <div class="wrap faq">
+          <details class="faq__item">
+            <summary class="faq__q">Was bekomme ich genau?</summary>
+            <div class="faq__a">Einen kuratierten, zufälligen Reward – digital oder physisch.</div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Wie schnell erhalte ich den Reward?</summary>
+            <div class="faq__a">
+              Digital sofort. Physische Artikel werden zügig abgefragt &amp; versendet.
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Gibt es ein Abo oder versteckte Kosten?</summary>
+            <div class="faq__a">Nein. Einmalig 10&nbsp;€. Keine wiederkehrenden Gebühren.</div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Kann ich wählen: digital oder physisch?</summary>
+            <div class="faq__a">Nein. Der Reiz ist das Zufallsprinzip. Das macht den Code aus.</div>
+          </details>
+        </div>
       </section>
     </main>
-    <!--<div class="sticky-cta" id="stickyCta" aria-hidden="true">
-      <div class="sticky-cta__inner">
-        <span class="sticky-cta__price">10&nbsp;€</span>
-        <a class="btn btn--primary" href="#checkout">Jetzt entsperren</a>
-      </div>
-    </div>-->
 
-    <!-- Sticky Bottom CTA -->
+    <!-- Sticky Bottom CTA (erscheint, wenn Checkout nicht sichtbar ist) -->
     <div class="sticky-cta" id="stickyCta" aria-hidden="true">
       <div class="sticky-cta__inner">
         <div class="sticky-cta__proof">
@@ -157,11 +244,11 @@
           </svg>
           <span class="proof__text">Heute&nbsp;<strong>27</strong>&nbsp;Codes&nbsp;gefunden</span>
         </div>
-        <!--<span class="sticky-cta__price">10&nbsp;€</span>-->
         <a class="btn btn--primary" href="#checkout">Jetzt entsperren</a>
       </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer" role="contentinfo">
       <div class="wrap footer__inner">
         <nav class="footer__links" aria-label="Rechtliches">
@@ -183,11 +270,14 @@
       </div>
     </footer>
 
+    <!-- PayPal SDK (muss vor offer.js geladen werden, ruft window.initPayPal() auf) -->
     <script
       src="https://www.paypal.com/sdk/js?client-id=AbQMETbSymjnzm5EVEcEIjXX_8Pj1F2hUKIf-PRcLALG1c9cgpjHwhbew1kgL_k-udi9I0r8BdH01FpJ&currency=EUR&intent=capture&enable-funding=card&disable-funding=paylater,sepa"
       onload="window.initPayPal && window.initPayPal()"
       data-sdk-integration-source="button"
     ></script>
+
+    <!-- Seite-spezifisches JS -->
     <script src="js/offer.js" defer></script>
   </body>
 </html>

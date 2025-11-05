@@ -1,13 +1,67 @@
 /* =======================================================
    offer.js – JS für offer.html
    Struktur:
+   0) Smooth-Scroll für interne Anker
+   0b) Hero-Intro (sanftes Einblenden, ohne extra CSS)
+   0c) Micro-Interaktionen für Steps
    1) Fade-in der Sektionen
    2) Hero-Feuerwerk (7s) + Mini-Glitter (alle 5s)
    3) Countdown (12h) mit Ziffernblatt + Zeiger
    4) FAQ-Accordion: nur ein <details> offen
    5) QR-Scan-Logging (Worker)
    6) PayPal Checkout (robustes Rendering)
+   7) Sticky CTA visibility
+   8) Social Proof (live, monoton, random Interval)
 ======================================================= */
+
+/* 0) Smooth-Scroll für interne Anker ----------------------*/
+(() => {
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = decodeURIComponent(a.getAttribute("href").slice(1));
+    const target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+})();
+
+/* 0b) Hero-Intro (sanftes Einblenden) --------------------*/
+(() => {
+  const title = document.querySelector(".celebrate__title");
+  const sub = document.querySelector(".hero__subtitle");
+  const trust = document.querySelector(".trustline--inline");
+  [title, sub, trust].forEach((el, i) => {
+    if (!el) return;
+    el.style.opacity = "0";
+    el.style.transform = "translateY(6px)";
+    el.style.transition = "opacity .6s ease, transform .6s ease";
+    // zweites RAF, damit die Startwerte sicher gesetzt sind
+    requestAnimationFrame(() =>
+      setTimeout(() => {
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      }, 80 + i * 90)
+    );
+  });
+})();
+
+/* 0c) Micro-Interaktionen für Steps ----------------------*/
+(() => {
+  const steps = document.querySelectorAll(".step");
+  steps.forEach((s) => {
+    s.style.transition = "box-shadow .25s ease, transform .25s ease";
+    s.addEventListener("mouseenter", () => {
+      s.style.boxShadow = "0 10px 24px rgba(0,0,0,.32)";
+      s.style.transform = "translateY(-1px)";
+    });
+    s.addEventListener("mouseleave", () => {
+      s.style.boxShadow = "";
+      s.style.transform = "translateY(0)";
+    });
+  });
+})();
 
 /* 1) Fade-in der Sektionen --------------------------------*/
 (() => {
@@ -255,7 +309,7 @@
   );
 })();
 
-/* 5) TMC: QR-Scan Logging mit 20s-Throttle -----------------*/
+/* 5) TMC: QR-Scan Logging mit Throttle --------------------*/
 (() => {
   try {
     const p = new URLSearchParams(location.search);
@@ -364,8 +418,8 @@
   if (window.paypal) renderButtons();
 })();
 
-// 7) === Sticky CTA steuern: sichtbar, wenn #checkout NICHT im Viewport ===
-(function () {
+/* 7) Sticky CTA steuern: sichtbar, wenn #checkout NICHT im Viewport */
+(() => {
   const bar = document.getElementById("stickyCta");
   const target = document.getElementById("checkout");
   if (!bar || !target) return;
@@ -375,19 +429,16 @@
     bar.setAttribute("aria-hidden", v ? "false" : "true");
   }
 
-  // Wenn IntersectionObserver verfügbar ist: eleganter Modus
   if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver(
       (entries) => {
         const e = entries[0];
-        // ist der Checkout zu >= 20% sichtbar? Dann Sticky ausblenden
         setVisible(!(e && e.isIntersecting && e.intersectionRatio > 0.2));
       },
       { threshold: [0, 0.2, 0.6, 1] }
     );
     io.observe(target);
   } else {
-    // Fallback: Scroll-Position (zeigt CTA ab 35% Scrolltiefe)
     const onScroll = () => {
       const scrolled = window.scrollY || document.documentElement.scrollTop || 0;
       const max = document.documentElement.scrollHeight - window.innerHeight || 1;
@@ -398,33 +449,30 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
-  // Bei „Zurück“ aus bfcache prüfen
   window.addEventListener("pageshow", () => {
-    // sofort neu bewerten (Observer löst evtl. nicht direkt aus)
     const rect = target.getBoundingClientRect();
     const vh = window.innerHeight || document.documentElement.clientHeight;
     const visible = rect.top < vh * 0.8 && rect.bottom > vh * 0.2;
     setVisible(!visible);
   });
 })();
-// === Social Proof: "Heute X Codes gefunden" – live, monoton, ohne Reload ===
-(function () {
+
+/* 8) Social Proof: "Heute X Codes gefunden" – live, monoton, random Interval */
+(() => {
   const STR = document.querySelector(".proof__text strong");
   if (!STR) return;
 
   // ------- Konfiguration -------
   const BASE_MIN = 12,
     BASE_MAX = 38; // Startwert pro Tag
-  const INTERVAL_MS = 10 * 1000; // alle 1 min kleiner Drift
   const INTERVAL_DELTA_MIN = 1,
-    INTERVAL_DELTA_MAX = 8;
-  const REVISIT_COOLDOWN_MS = 60 * 1000; // min. 1 min zwischen größeren Bumps (Tab-Wechsel/Rückkehr)
+    INTERVAL_DELTA_MAX = 8; // kleiner Drift
+  const REVISIT_COOLDOWN_MS = 60 * 1000; // min. 1 min zwischen Revisit-Bumps
   const REVISIT_DELTA_MIN = 3,
     REVISIT_DELTA_MAX = 7;
   const CAP_TODAY = 264; // Obergrenze pro Nutzer+Tag
-  const KEY = "tmc:proof:v2"; // neue Version -> sauberes Reset
+  const KEY = "tmc:proof:v2"; // Versioniert
 
-  // ------- Helpers -------
   const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
   const ymd = (t) => {
     const d = new Date(t);
@@ -434,7 +482,7 @@
   };
   const today = ymd(Date.now());
 
-  // Aus Storage laden / neu initialisieren
+  // Laden / init
   let st;
   try {
     st = JSON.parse(localStorage.getItem(KEY) || "null");
@@ -445,62 +493,81 @@
     st = { date: today, value: rnd(BASE_MIN, BASE_MAX), lastBump: Date.now() };
   }
 
-  // SAFETY: Falls im DOM (z.B. durch altes Rendern) ein höherer Wert steht, niemals zurückgehen
+  // Niemals rückwärts (DOM > State)
   const domVal = parseInt((STR.textContent || "").replace(/\D/g, ""), 10);
-  if (!Number.isNaN(domVal)) {
-    st.value = Math.max(st.value, domVal);
-  }
+  if (!Number.isNaN(domVal)) st.value = Math.max(st.value, domVal);
 
-  // Persist & initial render
-  function persist() {
-    localStorage.setItem(KEY, JSON.stringify(st));
-  }
-  function renderImmediate() {
-    STR.textContent = String(st.value);
-  }
+  const persist = () => localStorage.setItem(KEY, JSON.stringify(st));
+  const renderImmediate = () => (STR.textContent = String(st.value));
 
-  // Sanfte CountUp-Animation (nur nach oben, nie zurück)
   function animateTo(next) {
     next = Math.min(CAP_TODAY, next);
     if (next <= st.value) {
-      // nie rückwärts animieren
       st.value = next;
       persist();
       renderImmediate();
       return;
     }
-    const start = st.value;
-    const diff = next - start;
-    const steps = Math.min(12, diff);
-    const stepVal = Math.max(1, Math.floor(diff / steps));
+    const start = st.value,
+      diff = next - start;
+    const steps = Math.min(12, diff),
+      stepVal = Math.max(1, Math.floor(diff / steps));
     let cur = start;
     STR.classList.add("tmc-proof-pulse");
     const tick = () => {
       cur = Math.min(next, cur + stepVal);
-      st.value = cur; // State folgt Anzeige (monoton)
+      st.value = cur;
       persist();
       STR.textContent = String(cur);
-      if (cur < next) {
-        requestAnimationFrame(tick);
-      } else {
-        setTimeout(() => STR.classList.remove("tmc-proof-pulse"), 120);
-      }
+      if (cur < next) requestAnimationFrame(tick);
+      else setTimeout(() => STR.classList.remove("tmc-proof-pulse"), 120);
     };
     requestAnimationFrame(tick);
   }
 
-  // Initial anzeigen
   renderImmediate();
   persist();
 
-  // Wiederkehr-Bump (Tab wird aktiv / Back-Forward-Cache)
+  function bumpOnceRandom(minAdd, maxAdd) {
+    if (st.value >= CAP_TODAY) return false;
+    const add = rnd(minAdd, maxAdd);
+    animateTo(Math.min(CAP_TODAY, st.value + add));
+    st.lastBump = Date.now();
+    persist();
+    return true;
+  }
+
+  // Zufälliger Intervall mit 60s-Garantie
+  const MIN_INTERVAL_MS = 18 * 1000;
+  const MAX_INTERVAL_MS = 60 * 1000;
+  let driftTimer = null,
+    watchdogTimer = null;
+
+  function clearTimers() {
+    if (driftTimer) clearTimeout(driftTimer);
+    if (watchdogTimer) clearTimeout(watchdogTimer);
+    driftTimer = watchdogTimer = null;
+  }
+  function scheduleNextDrift() {
+    clearTimers();
+    const delay = rnd(MIN_INTERVAL_MS, MAX_INTERVAL_MS);
+    driftTimer = setTimeout(() => {
+      bumpOnceRandom(INTERVAL_DELTA_MIN, INTERVAL_DELTA_MAX);
+      scheduleNextDrift();
+    }, delay);
+    watchdogTimer = setTimeout(() => {
+      bumpOnceRandom(INTERVAL_DELTA_MIN, INTERVAL_DELTA_MAX);
+      scheduleNextDrift();
+    }, MAX_INTERVAL_MS + 200);
+  }
+  scheduleNextDrift();
+
+  // Revisit-Bumps
   function maybeRevisitBump() {
     const now = Date.now();
-    if (now - (st.lastBump || 0) >= REVISIT_COOLDOWN_MS && st.value < CAP_TODAY) {
-      const add = rnd(REVISIT_DELTA_MIN, REVISIT_DELTA_MAX);
-      animateTo(Math.min(CAP_TODAY, st.value + add));
-      st.lastBump = Date.now();
-      persist();
+    if (now - (st.lastBump || 0) >= REVISIT_COOLDOWN_MS) {
+      bumpOnceRandom(REVISIT_DELTA_MIN, REVISIT_DELTA_MAX);
+      scheduleNextDrift();
     }
   }
   document.addEventListener("visibilitychange", () => {
@@ -510,95 +577,13 @@
     maybeRevisitBump();
   });
 
-  // Drift-Intervall (läuft, solange Seite offen ist)
-  //let timer;
-  //function scheduleDrift() {
-  //clearTimeout(timer);
-  //const jitter = rnd(-10, 10) * 1000; // +-10s Jitter
-  //const delay = Math.max(20_000, INTERVAL_MS + jitter);
-  //timer = setTimeout(() => {
-  //if (st.value < CAP_TODAY) {
-  //const add = rnd(INTERVAL_DELTA_MIN, INTERVAL_DELTA_MAX);
-  //animateTo(Math.min(CAP_TODAY, st.value + add));
-  //st.lastBump = Date.now();
-  //persist();
-  //}
-  //scheduleDrift();
-  //}, delay);
-  //}
-  //scheduleDrift();
-
-  // --- Zufälliger Intervall mit 60s-Garantie ---
-  const MIN_INTERVAL_MS = 4 * 1000; // frühestes nächstes Plus (z.B. 18s)
-  const MAX_INTERVAL_MS = 60 * 1000; // spätestens nach 60s muss es steigen
-  let driftTimer = null,
-    watchdogTimer = null;
-
-  function bumpOnceRandom(minAdd, maxAdd) {
-    if (st.value >= CAP_TODAY) return false;
-    const add = rnd(minAdd, maxAdd);
-    const next = Math.min(CAP_TODAY, st.value + add);
-    animateTo(next);
-    st.lastBump = Date.now();
-    persist();
-    return true;
-  }
-
-  function clearTimers() {
-    if (driftTimer) clearTimeout(driftTimer);
-    if (watchdogTimer) clearTimeout(watchdogTimer);
-    driftTimer = watchdogTimer = null;
-  }
-
-  function scheduleNextDrift() {
-    clearTimers();
-
-    // 1) Zufälliger „normaler“ Drift (zwischen MIN und MAX)
-    const delay = rnd(MIN_INTERVAL_MS, MAX_INTERVAL_MS);
-    driftTimer = setTimeout(() => {
-      bumpOnceRandom(INTERVAL_DELTA_MIN, INTERVAL_DELTA_MAX);
-      scheduleNextDrift(); // rekursiv weiterplanen
-    }, delay);
-
-    // 2) Watchdog: Falls innerhalb MAX nichts passiert ist, erzwinge ein Plus
-    watchdogTimer = setTimeout(() => {
-      // Wenn der Drift schon ausgelöst hat, wurde weitergeplant und dieser Timer gecleart.
-      // Falls nicht, stoßen wir hier sicher EINEN Bump an und planen danach neu.
-      bumpOnceRandom(INTERVAL_DELTA_MIN, INTERVAL_DELTA_MAX);
-      scheduleNextDrift();
-    }, MAX_INTERVAL_MS + 200); // +200ms Puffer
-  }
-
-  // Start
-  scheduleNextDrift();
-
-  // Bei Rückkehr in den Tab ggf. sofort bumpen (mit Cooldown), dann neu planen
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState !== "visible") return;
-    const now = Date.now();
-    if (now - (st.lastBump || 0) >= REVISIT_COOLDOWN_MS) {
-      bumpOnceRandom(REVISIT_DELTA_MIN, REVISIT_DELTA_MAX);
-      scheduleNextDrift();
-    }
-  });
-
-  // Auch beim bfcache-Return prüfen
-  window.addEventListener("pageshow", () => {
-    const now = Date.now();
-    if (now - (st.lastBump || 0) >= REVISIT_COOLDOWN_MS) {
-      bumpOnceRandom(REVISIT_DELTA_MIN, REVISIT_DELTA_MAX);
-      scheduleNextDrift();
-    }
-  });
-
-  // Extra-Safety: Nie unter aktuell sichtbaren Wert gehen (falls extern manipuliert)
+  // Extra-Safety (nie unter angezeigten Wert)
   new MutationObserver(() => {
     const shown = parseInt((STR.textContent || "").replace(/\D/g, ""), 10);
     if (!Number.isNaN(shown) && shown > st.value) {
       st.value = shown;
       persist();
     } else if (!Number.isNaN(shown) && shown < st.value) {
-      // Korrigiere DOM nach oben (sollte nie passieren, aber sicher ist sicher)
       STR.textContent = String(st.value);
     }
   }).observe(STR, { characterData: true, subtree: true, childList: true });

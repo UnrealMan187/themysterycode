@@ -1,5 +1,103 @@
-/* ===== offer.html CRO: Hero-Stack + Checkout ===== */
-.hero__stack {
+/* =========================================================
+   The Mystery Code – offer.css (Funnel-Version)
+   Bereiche:
+   0) Basics & Utilities
+   1) Hero (ruhig, clean) + Countdown-Badge
+   2) Sections (About, How, Why)
+   3) Cards, Grid, Steps
+   4) Checkout
+   5) FAQ
+   6) Sticky-CTA (unten) + Social Proof
+   7) Animations (fade-in, pulse)
+   ========================================================= */
+
+/* ============= 0) Basics & Utilities ==================== */
+:root {
+  /* dezente Gold-Anmutung – ohne grelles Gelb */
+  --gold: #c8a86a;
+  --muted: #a8a8ad;
+  --bg-soft: rgba(255, 255, 255, 0.06);
+  --bd-soft: rgba(255, 255, 255, 0.08);
+}
+
+.wrap {
+  width: min(1100px, 92vw);
+  margin-inline: auto;
+}
+
+.center {
+  text-align: center;
+}
+.prose {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.section {
+  padding: clamp(42px, 6vw, 84px) 0;
+}
+
+.section--border {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.section__title {
+  font-size: clamp(1.4rem, 1.1rem + 1.6vw, 2rem);
+  letter-spacing: 0.2px;
+  margin: 0 0 10px;
+}
+
+.rule--gold {
+  width: 84px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 12px auto 20px;
+}
+
+.lead {
+  color: var(--muted);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: clamp(14px, 2.5vw, 22px);
+}
+
+.card--glow {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.gold-heading {
+  color: #fff;
+  margin: 0 0 8px;
+  letter-spacing: 0.2px;
+  position: relative;
+}
+.gold-heading::after {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 2px;
+  margin-top: 8px;
+  background: var(--gold);
+  opacity: 0.85;
+}
+
+/* ============= 1) HERO (ruhig & clean) ================== */
+.hero {
+  position: relative;
+  min-height: clamp(72vh, 72vh + 4vw, 88vh);
+  display: grid;
+  place-items: center;
+  padding: clamp(56px, 8vw, 86px) 0 36px;
+  /* BG-Bild kommt aus styles.css – hier nur sicherstellen, dass es full-bleed erscheint */
+  overflow: hidden;
+}
+
+.hero__inner.hero__stack {
   display: grid;
   gap: 16px;
   max-width: 840px;
@@ -7,22 +105,140 @@
   text-align: center;
 }
 
-.trustline {
-  display: flex;
-  gap: 14px;
-  justify-content: center;
-  flex-wrap: wrap;
-  color: var(--muted, #aaa);
-  font-size: 0.98rem;
-}
-.trustline li {
-  list-style: none;
-  padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.celebrate__title {
+  font-size: clamp(1.8rem, 1.2rem + 2.4vw, 3rem);
+  letter-spacing: 0.3px;
+  margin: 0;
 }
 
+.hero__subtitle {
+  color: var(--muted);
+  margin: -2px 0 6px;
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.15rem);
+}
+
+/* dezente Trustline (eine Zeile) */
+.trustline--inline {
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+/* Effekt-Canvas (Feuerwerk) */
+.fx-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ===== Countdown-Badge (oben rechts, ohne Hintergrund) === */
+.countdown-badge {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 60;
+  padding: 6px;
+  border-radius: 14px;
+  /* Kein Backdrop – reduziert, ruhig */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.countdown__dial--mini {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+.countdown-badge .dial__bg {
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 2;
+}
+.countdown-badge .dial__progress {
+  stroke: var(--gold);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+.countdown-badge .needle {
+  stroke: #fff;
+  stroke-width: 1.6;
+}
+.countdown-badge .needle-cap {
+  fill: #fff;
+  opacity: 0.9;
+}
+.countdown-badge .readout__digits {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 700 14px/1.1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  letter-spacing: 0.4px;
+}
+
+/* ============= 2) SECTIONS =============================== */
+/* About */
+#about .note {
+  color: var(--muted);
+}
+
+/* ============= 3) GRID / STEPS / CARDS ================== */
+.grid {
+  display: grid;
+  gap: clamp(12px, 3vw, 20px);
+}
+.grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 880px) {
+  .grid--3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .grid--3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(10px, 2.6vw, 18px);
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+@media (max-width: 860px) {
+  .steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.step .icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font: 700 14px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: #000;
+  background: var(--gold);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* ============= 4) CHECKOUT =============================== */
 .checkout {
   margin: 8px auto 0;
   max-width: 720px;
@@ -32,7 +248,7 @@
 .checkout__head {
   display: flex;
   gap: 16px;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 10px;
@@ -45,32 +261,18 @@
 .checkout__price .note {
   display: block;
   font-size: 0.9rem;
-  color: var(--muted, #a8a8ad);
+  color: var(--muted);
 }
-
-.item-toggle {
-  display: inline-flex;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.03);
+.checkout__copy {
+  color: #b4b4b8;
+  font-size: 0.95rem;
+  max-width: 420px;
+  text-align: right;
 }
-.item-toggle__btn {
-  appearance: none;
-  background: transparent;
-  color: #eaeaea;
-  padding: 10px 14px;
-  border: 0;
-  font: 600 14px/1.1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  cursor: pointer;
-  transition: background 0.18s ease, color 0.18s ease;
-}
-.item-toggle__btn.is-active {
-  background: rgba(200, 168, 106, 0.18);
-  color: #fff;
-}
-.item-toggle__btn + .item-toggle__btn {
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
+@media (max-width: 720px) {
+  .checkout__copy {
+    text-align: left;
+  }
 }
 
 .checkout__body {
@@ -78,18 +280,39 @@
   gap: 10px;
 }
 .checkout__guarantee {
-  color: var(--muted, #a8a8ad);
+  color: var(--muted);
   font-size: 0.95rem;
   text-align: center;
 }
 
-/* PayPal-Container optisch zentrieren */
+/* PayPal-Container zentrieren */
 #paypal-button-container {
   display: grid;
   justify-content: center;
 }
 
-/* Sticky Bottom Bar (erscheint nach Scroll) */
+/* ============= 5) FAQ =================================== */
+.faq {
+  display: grid;
+  gap: 8px;
+}
+.faq__item {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.faq__q {
+  cursor: pointer;
+  font-weight: 600;
+  outline: none;
+}
+.faq__a {
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* ============= 6) STICKY CTA (unten) ==================== */
 .sticky-cta {
   position: fixed;
   left: 0;
@@ -98,19 +321,25 @@
   z-index: 60;
   display: none; /* JS blendet ein/aus */
   justify-content: center;
-  pointer-events: none;
+  pointer-events: none; /* nur Inhalt klickbar */
 }
+
 .sticky-cta__inner {
   pointer-events: auto;
   display: flex;
-  flex-direction: column-reverse; /* Button unten, Text oben */
+  flex-direction: column-reverse; /* Button unten, Text oben (dein Wunsch) */
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
   border-radius: 14px;
+  /* bewusst transparent – ruhig, minimalistisch */
+  /* Hintergrund/Border bei Bedarf aktivieren:
+  background: rgba(10,10,12,.72);
+  border: 1px solid rgba(255,255,255,.08);
+  */
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
-  /* transparent gelassen – passt zu deinem Minimal-Look */
 }
+
 .sticky-cta__price {
   font-weight: 700;
   letter-spacing: 0.2px;
@@ -120,171 +349,37 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--muted, #aaa);
+  color: var(--muted);
   font-size: 0.86rem;
   opacity: 0.95;
 }
-
 .proof__icon {
   flex-shrink: 0;
   filter: drop-shadow(0 0 1px rgba(200, 168, 106, 0.2));
 }
-
 .proof__text strong {
-  color: #c8a86a;
+  color: var(--gold);
   font-weight: 600;
 }
 
-/* Falls du ab 700px doch horizontal willst, nimm DIESEN EINEN Block: */
-/*@media (min-width: 700px) {
-  .sticky-cta__inner {*/
-/* flex-direction: row; */ /* auskommentiert, weil du column-reverse willst */
-/*gap: 12px;
-  }
-  .sticky-cta__proof {
-    margin-right: 6px;
-  }
-}*/
-
-/* Ab Tablet: horizontale Anordnung, Button rechts */
-@media (min-width: 700px) {
-  .sticky-cta__inner {
-    flex-direction: column-reverse; /* Desktop: Reihe */
-    gap: 12px;
-  }
-  .sticky-cta__proof {
-    margin-right: 6px;
-  }
-  @media (min-width: 400px) {
-    .sticky-cta__inner {
-      flex-direction: column-reverse; /* Desktop: Reihe */
-      gap: 12px;
-    }
-    .sticky-cta__proof {
-      margin-right: 6px;
-    }
-  }
-  @media (max-width: 560px) {
-    .checkout {
-      padding: 12px;
-    }
-    .item-toggle__btn {
-      padding: 10px 12px;
-    }
-  }
-  /* === Dezente Sticky-Countdown-Badge (oben rechts) === */
-  .countdown-badge {
-    position: fixed;
-    top: 14px;
-    right: 14px;
-    z-index: 60;
-    padding: 6px;
-    border-radius: 14px;
-    /*background: rgba(15, 15, 18, 0.6);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.08);*/
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-  }
-  .countdown__dial--mini {
-    position: relative;
-    width: 120px;
-    height: 120px;
-  }
-  .countdown-badge .dial__bg {
-    stroke: rgba(255, 255, 255, 0.1);
-    stroke-width: 2;
-  }
-  .countdown-badge .dial__progress {
-    stroke: #c8a86a;
-    stroke-width: 3;
-    stroke-linecap: round;
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-  }
-  .countdown-badge .needle {
-    stroke: #fff;
-    stroke-width: 1.6;
-  }
-  .countdown-badge .needle-cap {
-    fill: #fff;
-    opacity: 0.9;
-  }
-  .countdown-badge .readout__digits {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    font: 700 14px/1.1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    letter-spacing: 0.4px;
-  }
-
-  /* Ruhigere Trustline (eine Zeile) */
-  .trustline--inline {
-    color: var(--muted, #a8a8ad);
-    font-size: 0.98rem;
-    margin-top: -2px;
-  }
-
-  /* Checkout-Head entspannen */
-  .checkout__head {
-    align-items: flex-end;
-  }
-  .checkout__copy {
-    color: var(--muted, #b4b4b8);
-    font-size: 0.95rem;
-    max-width: 420px;
-    text-align: right;
-  }
-  @media (max-width: 720px) {
-    .checkout__copy {
-      text-align: left;
-    }
-  }
-  /* Sticky CTA (unten) */
-  .sticky-cta {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 12px;
-    z-index: 60;
-    display: none; /* wird via JS ein-/ausgeblendet */
-    justify-content: center;
-    pointer-events: none; /* damit nur der Inhalt klickbar ist */
-  }
-  .sticky-cta__price {
-    font-weight: 700;
-  }
-  @media (max-width: 520px) {
-    .sticky-cta__inner {
-      gap: 10px;
-      padding: 9px 10px;
-    }
-  }
-  /* === Social Proof im Sticky CTA === */
-  .sticky-cta__proof {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--muted, #aaa);
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-right: 10px;
-    opacity: 0.9;
-  }
-  .proof__icon {
-    flex-shrink: 0;
-    filter: drop-shadow(0 0 2px rgba(200, 168, 106, 0.2));
-  }
-  .proof__text strong {
-    color: #c8a86a;
-    font-weight: 600;
-  }
-  @media (max-width: 520px) {
-    .sticky-cta__proof {
-      display: none;
-    } /* mobil zu klein – ausblenden */
-  }
+/* Falls du später auf Desktop horizontal willst, EIN sauberer Breakpoint reicht:
+@media (min-width: 700px){
+  .sticky-cta__inner{ flex-direction: row; gap: 12px; }
+  .sticky-cta__proof{ margin-right: 6px; }
 }
+*/
+
+/* ============= 7) ANIMATIONEN =========================== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.fade-in--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .tmc-proof-pulse {
   animation: tmcPulse 0.28s ease-out;
 }
@@ -297,5 +392,12 @@
   }
   100% {
     text-shadow: 0 0 0 rgba(200, 168, 106, 0);
+  }
+}
+
+/* Kleinere Tweaks */
+@media (max-width: 560px) {
+  .checkout {
+    padding: 12px;
   }
 }
