@@ -5,13 +5,14 @@
    2) Hero-Feuerwerk (7s) + Mini-Glitter (alle 5s)
    3) Countdown (12h) mit Ziffernblatt + Zeiger
    4) FAQ-Accordion: nur ein <details> offen
+   5) QR-Scan-Logging (Worker)
+   6) PayPal Checkout (robustes Rendering)
 ======================================================= */
 
 /* 1) Fade-in der Sektionen --------------------------------*/
 (() => {
   const els = document.querySelectorAll(".fade-in");
   if (!els.length) return;
-
   const obs = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
@@ -84,7 +85,6 @@
     if (!running) return;
     ctx.clearRect(0, 0, W, H);
 
-    // Raketen
     for (let i = rockets.length - 1; i >= 0; i--) {
       const r = rockets[i];
       r.x += r.vx;
@@ -103,7 +103,6 @@
       }
     }
 
-    // Partikel
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
       p.x += p.vx;
@@ -113,14 +112,12 @@
       p.life--;
       p.vx *= 0.992;
       p.vy *= 0.992;
-
       ctx.save();
       ctx.translate(p.x, p.y);
       ctx.rotate(p.rotation);
       ctx.fillStyle = p.color;
       ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.4);
       ctx.restore();
-
       if (p.y > H - 2) {
         p.vy *= -0.2;
         p.vx *= 0.8;
@@ -130,7 +127,7 @@
       if (p.life <= 0) particles.splice(i, 1);
     }
 
-    if (performance.now() - startTime > 7000 && particles.length === 0 && rockets.length === 0) {
+    if (performance.now() - startTime > 7000 && !particles.length && !rockets.length) {
       running = false;
     } else {
       requestAnimationFrame(step);
@@ -172,7 +169,7 @@
 
 /* 3) Countdown (12h) --------------------------------------*/
 (() => {
-  const SECS_TOTAL = 12 * 60 * 60; // 12 Stunden
+  const SECS_TOTAL = 12 * 60 * 60;
   const KEY = "tmc_offer_expiry_v2_12h";
 
   const dial = document.querySelector(".dial");
@@ -183,12 +180,11 @@
   const sub = document.querySelector(".readout__sub");
   if (!dial || !progress || !minorGroup || !needle) return;
 
-  // 48 kleine Ticks hinzufügen
   (function addMinorTicks() {
     const center = 80,
       rInner = 64;
     for (let i = 0; i < 60; i++) {
-      if (i % 5 === 0) continue; // große Ticks gibt's schon
+      if (i % 5 === 0) continue;
       const ang = (i / 60) * Math.PI * 2;
       const x1 = center + Math.sin(ang) * rInner;
       const y1 = center - Math.cos(ang) * rInner;
@@ -203,7 +199,7 @@
     }
   })();
 
-  const CIRC = Math.PI * 2 * 62; // r=62
+  const CIRC = Math.PI * 2 * 62;
   progress.style.strokeDasharray = String(CIRC);
 
   const now = Date.now();
@@ -216,8 +212,7 @@
   function update() {
     const nowMs = Date.now();
     let remain = Math.max(0, Math.floor((expiry - nowMs) / 1000));
-
-    const p = remain / SECS_TOTAL; // 1 → frisch, 0 → abgelaufen
+    const p = remain / SECS_TOTAL;
     progress.style.strokeDashoffset = String(CIRC * (1 - p));
 
     const digits = document.getElementById("tmc-digits");
@@ -230,13 +225,13 @@
         .padStart(2, "0")}`;
     }
 
-    const angle = -90 + (1 - p) * 360; // -90deg = oben
+    const angle = -90 + (1 - p) * 360;
     needle.setAttribute("transform", `rotate(${angle} 80 80)`);
 
     if (remain <= 0) {
       if (label) label.textContent = "Der Code ist erloschen.";
       if (sub) sub.textContent = "Vielleicht findet dich der nächste.";
-      return; // stop
+      return;
     }
     setTimeout(update, 1000);
   }
@@ -247,7 +242,6 @@
 (() => {
   const faq = document.querySelector(".faq");
   if (!faq) return;
-
   faq.addEventListener(
     "toggle",
     (e) => {
@@ -261,56 +255,19 @@
   );
 })();
 
-// Smooth-Scroll ohne Hash in der URL
-(function () {
-  // 1) Interne Anker-Klicks abfangen
-  document.addEventListener("click", function (e) {
-    const a = e.target.closest('a[href^="#"]');
-    if (!a) return;
-
-    const targetId = a.getAttribute("href").slice(1);
-    const el = document.getElementById(targetId);
-    if (!el) return;
-
-    e.preventDefault(); // verhindert Hash in der URL
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-
-    // 2) URL sofort wieder „hash-frei“ halten
-    // (falls du an anderer Stelle den Hash setzt)
-    history.replaceState(null, "", location.pathname + location.search);
-  });
-
-  // 3) Falls die Seite mit Hash geladen wurde (z. B. durch externen Link):
-  if (location.hash) {
-    // optional: erst rendern lassen, dann nach oben
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: 0 });
-      history.replaceState(null, "", location.pathname + location.search);
-    });
-  }
-
-  // 4) Keine automatische Scroll-Wiederherstellung vom Browser
-  if ("scrollRestoration" in history) {
-    history.scrollRestoration = "manual";
-  }
-})();
-
-// --- TMC: QR-Scan Logging mit 10-Minuten-Throttle ---
-(function () {
+/* 5) TMC: QR-Scan Logging mit 20s-Throttle -----------------*/
+(() => {
   try {
     const p = new URLSearchParams(location.search);
     const src = p.get("src") || "direct";
     const code = p.get("code") || "unknown";
-
     if (!(src === "qr" && code !== "unknown")) return;
 
     const KEY = `tmc:last:${src}:${code}`;
     const now = Date.now();
     const last = Number(localStorage.getItem(KEY) || 0);
-    const TEN_MIN = 20 * 1000;
-
-    // nur loggen, wenn der letzte Eintrag >10 min her ist
-    if (now - last < TEN_MIN) return;
+    const THROTTLE = 20 * 1000;
+    if (now - last < THROTTLE) return;
 
     fetch("https://themysterycode.p-ohrner89.workers.dev/", {
       method: "POST",
@@ -320,63 +277,12 @@
       },
       body: JSON.stringify({ src, code, ua: navigator.userAgent })
     })
-      .then(() => {
-        localStorage.setItem(KEY, String(now));
-      })
+      .then(() => localStorage.setItem(KEY, String(now)))
       .catch(() => {});
   } catch (e) {}
 })();
-// === PayPal Checkout (Standard) ===
-(function () {
-  const box = document.getElementById("paypal-button-container");
-  if (!window.paypal || !box) return;
 
-  // Optional: item aus URL (offer.html?item=digital|physical)
-  const params = new URLSearchParams(location.search);
-  const item = (params.get("item") || "").toLowerCase();
-
-  // Nach erfolgreicher Zahlung: Ziel-URL
-  function afterPurchase() {
-    if (item === "digital") return "/reward.html?from=paypal";
-    if (item === "physical") return "/form.html?from=paypal";
-    return "/thankyou.html?from=paypal";
-  }
-
-  paypal
-    .Buttons({
-      style: {
-        layout: "vertical",
-        color: "gold",
-        shape: "pill",
-        label: "pay",
-        tagline: false
-      },
-
-      // Bestellung erzeugen (10,00 EUR)
-      createOrder: (data, actions) =>
-        actions.order.create({
-          purchase_units: [
-            {
-              description: "The Mystery Code – Zugang",
-              amount: { value: "10.00", currency_code: "EUR" }
-            }
-          ]
-        }),
-
-      // Zahlung erfassen & weiterleiten
-      onApprove: async (data, actions) => {
-        await actions.order.capture();
-        location.href = afterPurchase();
-      },
-
-      onError: (err) => {
-        console.error("PayPal error:", err);
-        alert("Die Zahlung konnte nicht abgeschlossen werden. Bitte versuche es erneut.");
-      }
-    })
-    .render("#paypal-button-container");
-})();
-// === PayPal Checkout: robustes Rendern ===
+/* 6) PayPal Checkout – robustes Rendering ------------------*/
 (function () {
   let rendering = false;
 
@@ -392,8 +298,6 @@
     const box = document.getElementById("paypal-button-container");
     if (!window.paypal || !box || rendering) return;
     rendering = true;
-
-    // alte Reste entfernen (wichtig nach „Zurück“)
     box.innerHTML = "";
 
     paypal
@@ -419,17 +323,16 @@
       })
       .render("#paypal-button-container")
       .finally(() => {
-        // nach Render-Versuch wieder freigeben
         rendering = false;
       });
   }
 
-  // wird von der SDK onload aufgerufen (siehe Script-Tag)
+  // vom SDK onload getriggert (siehe offer.html)
   window.initPayPal = function () {
     renderButtons();
   };
 
-  // Fix für „Zurück“-Navigation (bfcache) & Tab-Wechsel
+  // „Zurück“-Navigation & Tab-Wechsel
   window.addEventListener("pageshow", (e) => {
     const isBack =
       e.persisted || performance.getEntriesByType("navigation")[0]?.type === "back_forward";
@@ -438,4 +341,7 @@
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") renderButtons();
   });
+
+  // Falls SDK schon vorher geladen war
+  if (window.paypal) renderButtons();
 })();
