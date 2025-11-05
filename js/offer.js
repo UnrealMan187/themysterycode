@@ -529,7 +529,7 @@
   //scheduleDrift();
 
   // --- Zufälliger Intervall mit 60s-Garantie ---
-  const MIN_INTERVAL_MS = 18 * 1000; // frühestes nächstes Plus (z.B. 18s)
+  const MIN_INTERVAL_MS = 4 * 1000; // frühestes nächstes Plus (z.B. 18s)
   const MAX_INTERVAL_MS = 60 * 1000; // spätestens nach 60s muss es steigen
   let driftTimer = null,
     watchdogTimer = null;
