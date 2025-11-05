@@ -417,7 +417,7 @@
   const BASE_MAX = 38; // Startwert am Tagesanfang (inkl.)
   const BUMP_MIN = 3; // Erhöhung bei Wiederkehr
   const BUMP_MAX = 11; // Erhöhung bei Wiederkehr
-  const BUMP_COOLDOWN_MS = 5 * 60 * 1000; // mindestens 5 Min. zwischen Erhöhungen
+  const BUMP_COOLDOWN_MS = 1 * 60 * 1000; // mindestens 5 Min. zwischen Erhöhungen
   const SOFT_DRIFT = true; // während Seite offen: langsam steigern
   const SOFT_DRIFT_EVERY_MS = 3 * 60 * 1000; // alle ~3 Min. + Jitter
   const SOFT_DRIFT_DELTA_MIN = 1;
