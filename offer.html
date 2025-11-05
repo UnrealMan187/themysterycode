@@ -388,8 +388,13 @@
         <p class="footer__copy">© 2025 The Mystery Code – All rights reserved.</p>
       </div>
     </footer>
-    <!-- PayPal -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AbQMETbSymjnzm5EVEcEIjXX_8Pj1F2hUKIf-PRcLALG1c9cgpjHwhbew1kgL_k-udi9I0r8BdH01FpJ&currency=EUR&intent=capture"></script>
+    <!-- PayPal SDK (Live) -->
+    <script
+      src="https://www.paypal.com/sdk/js?client-id=AbQMETbSymjnzm5EVEcEIjXX_8Pj1F2hUKIf-PRcLALG1c9cgpjHwhbew1kgL_k-udi9I0r8BdH01FpJ
+&currency=EUR&intent=capture"
+      onload="window.initPayPal && window.initPayPal()"
+      data-sdk-integration-source="button"
+    ></script>
     <script src="js/offer.js" defer></script>
   </body>
 </html>
