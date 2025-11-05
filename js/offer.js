@@ -326,3 +326,53 @@
       .catch(() => {});
   } catch (e) {}
 })();
+// === PayPal Checkout (Standard) ===
+(function () {
+  const box = document.getElementById("paypal-button-container");
+  if (!window.paypal || !box) return;
+
+  // Optional: item aus URL (offer.html?item=digital|physical)
+  const params = new URLSearchParams(location.search);
+  const item = (params.get("item") || "").toLowerCase();
+
+  // Nach erfolgreicher Zahlung: Ziel-URL
+  function afterPurchase() {
+    if (item === "digital") return "/reward.html?from=paypal";
+    if (item === "physical") return "/form.html?from=paypal";
+    return "/thankyou.html?from=paypal";
+  }
+
+  paypal
+    .Buttons({
+      style: {
+        layout: "vertical",
+        color: "gold",
+        shape: "pill",
+        label: "pay",
+        tagline: false
+      },
+
+      // Bestellung erzeugen (10,00 EUR)
+      createOrder: (data, actions) =>
+        actions.order.create({
+          purchase_units: [
+            {
+              description: "The Mystery Code – Zugang",
+              amount: { value: "10.00", currency_code: "EUR" }
+            }
+          ]
+        }),
+
+      // Zahlung erfassen & weiterleiten
+      onApprove: async (data, actions) => {
+        await actions.order.capture();
+        location.href = afterPurchase();
+      },
+
+      onError: (err) => {
+        console.error("PayPal error:", err);
+        alert("Die Zahlung konnte nicht abgeschlossen werden. Bitte versuche es erneut.");
+      }
+    })
+    .render("#paypal-button-container");
+})();
