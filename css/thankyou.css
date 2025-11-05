@@ -33,3 +33,69 @@
 .muted {
   color: var(--muted);
 }
+/* ---- Thankyou: Copy-Text-Area (edel) ---- */
+.copy-area {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: rgba(18, 18, 22, 0.6);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset, 0 14px 32px rgba(0, 0, 0, 0.45),
+    0 0 60px -30px rgba(200, 168, 106, 0.35);
+  padding: 12px 12px 14px;
+}
+
+#igtext {
+  width: 100%;
+  min-height: 120px;
+  max-height: 300px;
+  resize: none; /* ruhiger Look */
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--text, #e8e8ea);
+  font: 500 15.5px/1.55 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  letter-spacing: 0.2px;
+  padding: 6px 2px 0;
+  caret-color: #c8a86a; /* Gold-Caret */
+}
+
+/* Fokus-Ring in Gold */
+#igtext:focus {
+  box-shadow: 0 0 0 3px rgba(200, 168, 106, 0.28);
+  border-radius: 10px;
+}
+
+/* dezente Scrollbar (WebKit) */
+#igtext::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+#igtext::-webkit-scrollbar-thumb {
+  background: rgba(200, 168, 106, 0.35);
+  border-radius: 10px;
+}
+#igtext::selection {
+  background: rgba(200, 168, 106, 0.25);
+}
+
+/* Button-Zeile */
+.copy-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.copy-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 8px 8px;
+  margin: -2px -2px 2px; /* bündig an den Rand der Card */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: #c8c8ce;
+  font-size: 0.92rem;
+  background: linear-gradient(180deg, rgba(200, 168, 106, 0.08), rgba(200, 168, 106, 0));
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}

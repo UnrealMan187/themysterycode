@@ -71,3 +71,36 @@
     }
   });
 })();
+// In js/thankyou.js – am Ende oder nach DOMContentLoaded einfügen:
+(function () {
+  const ta = document.getElementById("igtext");
+  if (!ta) return;
+
+  // Auto-Height beim Laden und bei Eingaben (falls du Text änderst)
+  const autosize = () => {
+    ta.style.height = "auto";
+    ta.style.height = ta.scrollHeight + "px";
+  };
+  autosize();
+  ta.addEventListener("input", autosize);
+
+  // Beim Fokus: gesamten Text markieren (komfortabel fürs Kopieren)
+  ta.addEventListener(
+    "focus",
+    () => {
+      ta.select();
+    },
+    { once: false }
+  );
+
+  // Optional: Beim Klick auf den Kopier-Button gleich selektieren
+  const btn = document.getElementById("copy");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      ta.select();
+      try {
+        document.execCommand("copy"); // Fallback für ältere Browser
+      } catch {}
+    });
+  }
+})();
