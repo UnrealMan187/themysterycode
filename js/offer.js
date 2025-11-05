@@ -407,24 +407,24 @@
     setVisible(!visible);
   });
 })();
-// === Social Proof: "Heute X Codes gefunden" – live & animiert ===
+// === Social Proof: "Heute X Codes gefunden" – live, monoton, ohne Reload ===
 (function () {
-  const STR_EL = document.querySelector(".proof__text strong"); // <strong>27</strong>
-  if (!STR_EL) return;
+  const STR = document.querySelector(".proof__text strong");
+  if (!STR) return;
 
-  // --- Konfiguration ---
+  // ------- Konfiguration -------
   const BASE_MIN = 12,
-    BASE_MAX = 38; // Startwert am Tagesanfang
-  const BUMP_MIN = 3,
-    BUMP_MAX = 7; // Erhöhung bei Wiederkehr/Intervall
-  const DRIFT_DELTA_MIN = 1,
-    DRIFT_DELTA_MAX = 2; // Mini-Drift während Seite offen
-  const DRIFT_EVERY_MS = 60 * 1000; // alle 1 min eine kleine Erhöhung (dein Wunsch)
-  const REVISIT_COOLDOWN_MS = 60 * 1000; // mind. 1 min zwischen „größeren“ Erhöhungen
-  const CAP_TODAY = 180; // Obergrenze pro User/Tag
-  const KEY = "tmc:proof:v1";
+    BASE_MAX = 38; // Startwert pro Tag
+  const INTERVAL_MS = 60 * 1000; // alle 1 min kleiner Drift
+  const INTERVAL_DELTA_MIN = 1,
+    INTERVAL_DELTA_MAX = 2;
+  const REVISIT_COOLDOWN_MS = 60 * 1000; // min. 1 min zwischen größeren Bumps (Tab-Wechsel/Rückkehr)
+  const REVISIT_DELTA_MIN = 3,
+    REVISIT_DELTA_MAX = 7;
+  const CAP_TODAY = 180; // Obergrenze pro Nutzer+Tag
+  const KEY = "tmc:proof:v2"; // neue Version -> sauberes Reset
 
-  // --- Helpers ---
+  // ------- Helpers -------
   const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
   const ymd = (t) => {
     const d = new Date(t);
@@ -434,76 +434,109 @@
   };
   const today = ymd(Date.now());
 
-  // Zustand laden/initialisieren
+  // Aus Storage laden / neu initialisieren
   let st;
   try {
     st = JSON.parse(localStorage.getItem(KEY) || "null");
-  } catch (_) {
+  } catch {
     st = null;
   }
   if (!st || st.date !== today) {
     st = { date: today, value: rnd(BASE_MIN, BASE_MAX), lastBump: Date.now() };
-  } else {
-    if (Date.now() - (st.lastBump || 0) >= REVISIT_COOLDOWN_MS) {
-      st.value = Math.min(CAP_TODAY, st.value + rnd(BUMP_MIN, BUMP_MAX));
-      st.lastBump = Date.now();
-    }
   }
 
-  // Sanfte Count-Up-Animation
+  // SAFETY: Falls im DOM (z.B. durch altes Rendern) ein höherer Wert steht, niemals zurückgehen
+  const domVal = parseInt((STR.textContent || "").replace(/\D/g, ""), 10);
+  if (!Number.isNaN(domVal)) {
+    st.value = Math.max(st.value, domVal);
+  }
+
+  // Persist & initial render
+  function persist() {
+    localStorage.setItem(KEY, JSON.stringify(st));
+  }
+  function renderImmediate() {
+    STR.textContent = String(st.value);
+  }
+
+  // Sanfte CountUp-Animation (nur nach oben, nie zurück)
   function animateTo(next) {
-    const cur = Number(STR_EL.textContent.replace(/\D/g, "")) || 0;
-    if (next <= cur) {
-      STR_EL.textContent = String(next);
+    next = Math.min(CAP_TODAY, next);
+    if (next <= st.value) {
+      // nie rückwärts animieren
+      st.value = next;
+      persist();
+      renderImmediate();
       return;
     }
-    const diff = next - cur;
-    const steps = Math.min(12, diff); // max 12 Steps
+    const start = st.value;
+    const diff = next - start;
+    const steps = Math.min(12, diff);
     const stepVal = Math.max(1, Math.floor(diff / steps));
-    let val = cur;
-    STR_EL.classList.add("tmc-proof-pulse"); // mini-Highlight
+    let cur = start;
+    STR.classList.add("tmc-proof-pulse");
     const tick = () => {
-      val = Math.min(next, val + stepVal);
-      STR_EL.textContent = String(val);
-      if (val < next) requestAnimationFrame(tick);
-      else setTimeout(() => STR_EL.classList.remove("tmc-proof-pulse"), 150);
+      cur = Math.min(next, cur + stepVal);
+      st.value = cur; // State folgt Anzeige (monoton)
+      persist();
+      STR.textContent = String(cur);
+      if (cur < next) {
+        requestAnimationFrame(tick);
+      } else {
+        setTimeout(() => STR.classList.remove("tmc-proof-pulse"), 120);
+      }
     };
     requestAnimationFrame(tick);
   }
 
-  // Render initial
-  STR_EL.textContent = String(st.value);
-  localStorage.setItem(KEY, JSON.stringify(st));
+  // Initial anzeigen
+  renderImmediate();
+  persist();
 
-  // Geplanter „Soft-Drift“ (sichtbar, ohne Reload)
-  let driftTimer;
+  // Wiederkehr-Bump (Tab wird aktiv / Back-Forward-Cache)
+  function maybeRevisitBump() {
+    const now = Date.now();
+    if (now - (st.lastBump || 0) >= REVISIT_COOLDOWN_MS && st.value < CAP_TODAY) {
+      const add = rnd(REVISIT_DELTA_MIN, REVISIT_DELTA_MAX);
+      animateTo(Math.min(CAP_TODAY, st.value + add));
+      st.lastBump = Date.now();
+      persist();
+    }
+  }
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") maybeRevisitBump();
+  });
+  window.addEventListener("pageshow", () => {
+    maybeRevisitBump();
+  });
+
+  // Drift-Intervall (läuft, solange Seite offen ist)
+  let timer;
   function scheduleDrift() {
-    clearTimeout(driftTimer);
-    const jitter = rnd(-10, 10) * 1000; // +-10s
-    const delay = Math.max(20_000, DRIFT_EVERY_MS + jitter);
-    driftTimer = setTimeout(() => {
+    clearTimeout(timer);
+    const jitter = rnd(-10, 10) * 1000; // +-10s Jitter
+    const delay = Math.max(20_000, INTERVAL_MS + jitter);
+    timer = setTimeout(() => {
       if (st.value < CAP_TODAY) {
-        const add = rnd(DRIFT_DELTA_MIN, DRIFT_DELTA_MAX);
-        const next = Math.min(CAP_TODAY, st.value + add);
-        st.value = next;
+        const add = rnd(INTERVAL_DELTA_MIN, INTERVAL_DELTA_MAX);
+        animateTo(Math.min(CAP_TODAY, st.value + add));
         st.lastBump = Date.now();
-        localStorage.setItem(KEY, JSON.stringify(st));
-        animateTo(next);
+        persist();
       }
       scheduleDrift();
     }, delay);
   }
   scheduleDrift();
 
-  // Wenn Nutzer zurückkehrt / Tab wieder aktiv → einmal prüfen & ggf. bumpen
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState !== "visible") return;
-    if (Date.now() - (st.lastBump || 0) >= REVISIT_COOLDOWN_MS && st.value < CAP_TODAY) {
-      const next = Math.min(CAP_TODAY, st.value + rnd(DRIFT_DELTA_MIN, DRIFT_DELTA_MAX));
-      st.value = next;
-      st.lastBump = Date.now();
-      localStorage.setItem(KEY, JSON.stringify(st));
-      animateTo(next);
+  // Extra-Safety: Nie unter aktuell sichtbaren Wert gehen (falls extern manipuliert)
+  new MutationObserver(() => {
+    const shown = parseInt((STR.textContent || "").replace(/\D/g, ""), 10);
+    if (!Number.isNaN(shown) && shown > st.value) {
+      st.value = shown;
+      persist();
+    } else if (!Number.isNaN(shown) && shown < st.value) {
+      // Korrigiere DOM nach oben (sollte nie passieren, aber sicher ist sicher)
+      STR.textContent = String(st.value);
     }
-  });
+  }).observe(STR, { characterData: true, subtree: true, childList: true });
 })();
