@@ -511,22 +511,85 @@
   });
 
   // Drift-Intervall (läuft, solange Seite offen ist)
-  let timer;
-  function scheduleDrift() {
-    clearTimeout(timer);
-    const jitter = rnd(-10, 10) * 1000; // +-10s Jitter
-    const delay = Math.max(20_000, INTERVAL_MS + jitter);
-    timer = setTimeout(() => {
-      if (st.value < CAP_TODAY) {
-        const add = rnd(INTERVAL_DELTA_MIN, INTERVAL_DELTA_MAX);
-        animateTo(Math.min(CAP_TODAY, st.value + add));
-        st.lastBump = Date.now();
-        persist();
-      }
-      scheduleDrift();
-    }, delay);
+  //let timer;
+  //function scheduleDrift() {
+  //clearTimeout(timer);
+  //const jitter = rnd(-10, 10) * 1000; // +-10s Jitter
+  //const delay = Math.max(20_000, INTERVAL_MS + jitter);
+  //timer = setTimeout(() => {
+  //if (st.value < CAP_TODAY) {
+  //const add = rnd(INTERVAL_DELTA_MIN, INTERVAL_DELTA_MAX);
+  //animateTo(Math.min(CAP_TODAY, st.value + add));
+  //st.lastBump = Date.now();
+  //persist();
+  //}
+  //scheduleDrift();
+  //}, delay);
+  //}
+  //scheduleDrift();
+
+  // --- Zufälliger Intervall mit 60s-Garantie ---
+  const MIN_INTERVAL_MS = 18 * 1000; // frühestes nächstes Plus (z.B. 18s)
+  const MAX_INTERVAL_MS = 60 * 1000; // spätestens nach 60s muss es steigen
+  let driftTimer = null,
+    watchdogTimer = null;
+
+  function bumpOnceRandom(minAdd, maxAdd) {
+    if (st.value >= CAP_TODAY) return false;
+    const add = rnd(minAdd, maxAdd);
+    const next = Math.min(CAP_TODAY, st.value + add);
+    animateTo(next);
+    st.lastBump = Date.now();
+    persist();
+    return true;
   }
-  scheduleDrift();
+
+  function clearTimers() {
+    if (driftTimer) clearTimeout(driftTimer);
+    if (watchdogTimer) clearTimeout(watchdogTimer);
+    driftTimer = watchdogTimer = null;
+  }
+
+  function scheduleNextDrift() {
+    clearTimers();
+
+    // 1) Zufälliger „normaler“ Drift (zwischen MIN und MAX)
+    const delay = rnd(MIN_INTERVAL_MS, MAX_INTERVAL_MS);
+    driftTimer = setTimeout(() => {
+      bumpOnceRandom(INTERVAL_DELTA_MIN, INTERVAL_DELTA_MAX);
+      scheduleNextDrift(); // rekursiv weiterplanen
+    }, delay);
+
+    // 2) Watchdog: Falls innerhalb MAX nichts passiert ist, erzwinge ein Plus
+    watchdogTimer = setTimeout(() => {
+      // Wenn der Drift schon ausgelöst hat, wurde weitergeplant und dieser Timer gecleart.
+      // Falls nicht, stoßen wir hier sicher EINEN Bump an und planen danach neu.
+      bumpOnceRandom(INTERVAL_DELTA_MIN, INTERVAL_DELTA_MAX);
+      scheduleNextDrift();
+    }, MAX_INTERVAL_MS + 200); // +200ms Puffer
+  }
+
+  // Start
+  scheduleNextDrift();
+
+  // Bei Rückkehr in den Tab ggf. sofort bumpen (mit Cooldown), dann neu planen
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible") return;
+    const now = Date.now();
+    if (now - (st.lastBump || 0) >= REVISIT_COOLDOWN_MS) {
+      bumpOnceRandom(REVISIT_DELTA_MIN, REVISIT_DELTA_MAX);
+      scheduleNextDrift();
+    }
+  });
+
+  // Auch beim bfcache-Return prüfen
+  window.addEventListener("pageshow", () => {
+    const now = Date.now();
+    if (now - (st.lastBump || 0) >= REVISIT_COOLDOWN_MS) {
+      bumpOnceRandom(REVISIT_DELTA_MIN, REVISIT_DELTA_MAX);
+      scheduleNextDrift();
+    }
+  });
 
   // Extra-Safety: Nie unter aktuell sichtbaren Wert gehen (falls extern manipuliert)
   new MutationObserver(() => {
