@@ -104,3 +104,54 @@
     });
   }
 })();
+
+// Copy-Logik für die nicht-editierbare Card
+(function () {
+  const el = document.getElementById("igtext"); // <pre id="igtext">
+  const btn = document.getElementById("copy");
+  if (!el || !btn) return;
+
+  // Cross-browser Kopieren
+  async function copyText() {
+    const text = el.textContent.trim();
+
+    // Moderner Weg
+    try {
+      await navigator.clipboard.writeText(text);
+      pulse();
+      return;
+    } catch (e) {
+      // Fallback (ältere Browser / Safari)
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      try {
+        document.execCommand("copy");
+      } catch (_) {}
+      sel.removeAllRanges();
+      pulse();
+    }
+  }
+
+  // Kleiner Feedback-Effekt
+  function pulse() {
+    const area = el.closest(".copy-area");
+    if (!area) return;
+    area.classList.add("success");
+    setTimeout(() => area.classList.remove("success"), 450);
+  }
+
+  // Click auf Button kopiert
+  btn.addEventListener("click", copyText);
+
+  // Optional: Klick auf den Text selbst markiert alles
+  el.addEventListener("click", () => {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
+})();

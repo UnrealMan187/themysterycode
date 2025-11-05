@@ -8,55 +8,14 @@
     <link rel="icon" href="image/logo/favicon.png" />
     <!-- Globales Styling -->
     <link rel="stylesheet" href="styles.css" />
-    <!-- Seite: dezentes Gold-Overlay nur für diesen Screen (optional) -->
-    <style>
-      .thanks-hero:after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(
-          900px 420px at 50% 120%,
-          rgba(212, 175, 55, 0.1),
-          transparent 65%
-        );
-        pointer-events: none;
-      }
-      .share-row {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 14px;
-      }
-      .btn--ghost {
-        border-color: #333;
-        color: #ddd;
-      }
-      .copy-row {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-      .copy-area {
-        width: 100%;
-        max-width: 760px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: var(--bg-soft);
-        padding: 12px;
-      }
-      .muted {
-        color: var(--muted);
-      }
-    </style>
+    <link rel="stylesheet" href="css/thankyou.css" />
   </head>
   <body>
     <!-- HERO: nutzt dein bestehendes Hintergrundbild & Typo -->
     <header class="hero thanks-hero" role="banner">
       <div class="wrap hero__inner">
-        <h1 class="hero__title">Danke. Du bist drin.</h1>
-        <p class="hero__subtitle">Teile den Moment – damit andere merken, dass es echt ist.</p>
+        <h1 class="hero__title">Danke. Viel Spaß mit deinem Artikel</h1>
+        <p class="hero__subtitle">Teile deinen Moment – damit andere merken, dass es echt ist.</p>
       </div>
     </header>
 
@@ -74,29 +33,19 @@
             >.
           </p>
 
-          <!-- Kopierbarer Social-Text -->
           <div class="copy-area" aria-label="Text zum Kopieren">
+            <!-- Optionaler Header:
             <div class="copy-bar" aria-hidden="true">
               <span>Instagram-Text</span>
-            </div>
+            </div> -->
 
-            <textarea
-              id="igtext"
-              rows="4"
-              readonly
-              style="
-                width: 100%;
-                background: transparent;
-                border: 0;
-                color: var(--text);
-                outline: none;
-              "
-            >
-Ich habe den Code gefunden. #TheMysteryCode
-Finde den nächsten Hinweis auf @themysterycode.de
-          </textarea
-            >
-            <div class="copy-row" style="margin-top: 10px">
+            <!-- Nicht editierbarer Text -->
+            <pre id="igtext" class="copy-text" role="textbox" aria-readonly="true" tabindex="0">
+          Ich habe den Code gefunden. #TheMysteryCode
+          Finde den nächsten Hinweis auf @themysterycode.de
+            </pre>
+
+            <div class="copy-row">
               <button id="copy" class="btn btn--primary">Text kopieren</button>
               <a
                 class="btn btn--primary"
