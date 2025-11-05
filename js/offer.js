@@ -390,7 +390,14 @@
 
         onError: (err) => {
           console.error("PayPal error:", err);
-          alert("Die Zahlung konnte nicht abgeschlossen werden. Bitte versuche es erneut.");
+          if (window.tmcShowToast) {
+            window.tmcShowToast(
+              "Zahlung konnte nicht abgeschlossen werden. Bitte versuche es erneut.",
+              "warn"
+            );
+          } else {
+            alert("Die Zahlung konnte nicht abgeschlossen werden. Bitte versuche es erneut.");
+          }
         }
       })
       .render("#paypal-button-container")
@@ -587,4 +594,44 @@
       STR.textContent = String(st.value);
     }
   }).observe(STR, { characterData: true, subtree: true, childList: true });
+})();
+/* === Tiny Toast (unten, dezent) ========================= */
+window.tmcShowToast = (function () {
+  let wrap, timer;
+  const make = () => {
+    wrap = document.createElement("div");
+    wrap.className = "tmc-toast";
+    document.body.appendChild(wrap);
+  };
+  return function tmcShowToast(msg, type = "info", ms = 3200) {
+    if (!wrap) make();
+    wrap.textContent = msg;
+    wrap.setAttribute("data-type", type);
+    wrap.classList.add("tmc-toast--show");
+    clearTimeout(timer);
+    timer = setTimeout(() => wrap.classList.remove("tmc-toast--show"), ms);
+  };
+})();
+/* === Auto-Reveal: sanft zum Checkout scrollen (nur 1×) === */
+(() => {
+  const KEY = "tmc:checkout:auto:v1";
+  if (localStorage.getItem(KEY) === "done") return;
+
+  const checkout = document.getElementById("checkout");
+  if (!checkout) return;
+
+  let done = false;
+  const onScroll = () => {
+    if (done) return;
+    const y = window.scrollY || document.documentElement.scrollTop || 0;
+    const max = document.documentElement.scrollHeight - window.innerHeight || 1;
+    const ratio = y / max; // 0..1
+    if (ratio >= 0.45) {
+      done = true;
+      localStorage.setItem(KEY, "done");
+      checkout.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.removeEventListener("scroll", onScroll);
+    }
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
 })();

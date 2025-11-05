@@ -401,3 +401,35 @@
     padding: 12px;
   }
 }
+/* === Tiny Toast ========================================= */
+.tmc-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 80px; /* über Sticky-CTA */
+  transform: translateX(-50%) translateY(12px);
+  background: rgba(15, 15, 18, 0.9);
+  color: #eee;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
+  z-index: 120;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+.tmc-toast[data-type="warn"] {
+  border-color: rgba(200, 168, 106, 0.28);
+}
+.tmc-toast--show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+@media (max-width: 560px) {
+  .tmc-toast {
+    bottom: 96px;
+    font-size: 0.92rem;
+  }
+}
