@@ -1,0 +1,191 @@
+/* ===== offer.html CRO: Hero-Stack + Checkout ===== */
+.hero__stack {
+  display: grid;
+  gap: 16px;
+  max-width: 840px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.trustline {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: var(--muted, #aaa);
+  font-size: 0.98rem;
+}
+.trustline li {
+  list-style: none;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.checkout {
+  margin: 8px auto 0;
+  max-width: 720px;
+  padding: 16px;
+  text-align: left;
+}
+.checkout__head {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.checkout__price .amount {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.checkout__price .note {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--muted, #a8a8ad);
+}
+
+.item-toggle {
+  display: inline-flex;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+.item-toggle__btn {
+  appearance: none;
+  background: transparent;
+  color: #eaeaea;
+  padding: 10px 14px;
+  border: 0;
+  font: 600 14px/1.1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.item-toggle__btn.is-active {
+  background: rgba(200, 168, 106, 0.18);
+  color: #fff;
+}
+.item-toggle__btn + .item-toggle__btn {
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.checkout__body {
+  display: grid;
+  gap: 10px;
+}
+.checkout__guarantee {
+  color: var(--muted, #a8a8ad);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* PayPal-Container optisch zentrieren */
+#paypal-button-container {
+  display: grid;
+  justify-content: center;
+}
+
+/* Sticky Bottom Bar (erscheint nach Scroll) */
+.sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  z-index: 50;
+  display: none; /* via JS toggeln */
+  justify-content: center;
+}
+.sticky-cta__inner {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(15, 15, 18, 0.85);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+.sticky-cta__price {
+  font-weight: 700;
+}
+@media (max-width: 560px) {
+  .checkout {
+    padding: 12px;
+  }
+  .item-toggle__btn {
+    padding: 10px 12px;
+  }
+}
+/* === Dezente Sticky-Countdown-Badge (oben rechts) === */
+.countdown-badge {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 60;
+  padding: 6px;
+  border-radius: 14px;
+  background: rgba(15, 15, 18, 0.6);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+.countdown__dial--mini {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+.countdown-badge .dial__bg {
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 2;
+}
+.countdown-badge .dial__progress {
+  stroke: #c8a86a;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+.countdown-badge .needle {
+  stroke: #fff;
+  stroke-width: 1.6;
+}
+.countdown-badge .needle-cap {
+  fill: #fff;
+  opacity: 0.9;
+}
+.countdown-badge .readout__digits {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 700 14px/1.1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  letter-spacing: 0.4px;
+}
+
+/* Ruhigere Trustline (eine Zeile) */
+.trustline--inline {
+  color: var(--muted, #a8a8ad);
+  font-size: 0.98rem;
+  margin-top: -2px;
+}
+
+/* Checkout-Head entspannen */
+.checkout__head {
+  align-items: flex-end;
+}
+.checkout__copy {
+  color: var(--muted, #b4b4b8);
+  font-size: 0.95rem;
+  max-width: 420px;
+  text-align: right;
+}
+@media (max-width: 720px) {
+  .checkout__copy {
+    text-align: left;
+  }
+}

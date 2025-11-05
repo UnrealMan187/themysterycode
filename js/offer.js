@@ -158,7 +158,7 @@
         if (e.isIntersecting) {
           celebrate(true);
           heroObserver.disconnect();
-          setInterval(() => celebrate(false), 5000);
+          setInterval(() => celebrate(false), 6000);
         }
       });
     },
@@ -282,15 +282,21 @@
   } catch (e) {}
 })();
 
-/* 6) PayPal Checkout – robustes Rendering ------------------*/
+/* 6) PayPal Checkout – Zufallsprinzip + robustes Rendering */
 (function () {
   let rendering = false;
 
-  function resolveAfterPurchase() {
-    const params = new URLSearchParams(location.search);
-    const item = (params.get("item") || "").toLowerCase();
-    if (item === "digital") return "/reward.html?from=paypal";
-    if (item === "physical") return "/form.html?from=paypal";
+  // Optionaler Override für interne Tests (?item=digital|physical)
+  const urlItem = (new URLSearchParams(location.search).get("item") || "").toLowerCase();
+
+  function decideItem() {
+    if (urlItem === "digital" || urlItem === "physical") return urlItem;
+    return Math.random() < 0.5 ? "digital" : "physical";
+  }
+
+  function afterPurchase(item) {
+    if (item === "digital") return "/reward.html?from=paypal&mode=random";
+    if (item === "physical") return "/form.html?from=paypal&mode=random";
     return "/thankyou.html?from=paypal";
   }
 
@@ -300,22 +306,34 @@
     rendering = true;
     box.innerHTML = "";
 
+    // WICHTIG: Item vor createOrder bestimmen, damit Text konsistent ist
+    const pickedAtRender = decideItem();
+
     paypal
       .Buttons({
         style: { layout: "vertical", color: "gold", shape: "pill", label: "pay", tagline: false },
+
         createOrder: (data, actions) =>
           actions.order.create({
             purchase_units: [
               {
-                description: "The Mystery Code – Zugang",
+                description: `The Mystery Code – Zufalls-Reward (${
+                  pickedAtRender === "digital" ? "Digital" : "Physisch"
+                })`,
                 amount: { value: "10.00", currency_code: "EUR" }
               }
-            ]
+            ],
+            // Adresse holen wir bei "physisch" später in /form.html – PayPal-Dialog bleibt clean
+            application_context: { shipping_preference: "NO_SHIPPING" }
           }),
+
         onApprove: async (data, actions) => {
+          // zweite Entscheidung, falls Session/Back-Nav inkonsistent war
+          const picked = pickedAtRender || decideItem();
           await actions.order.capture();
-          location.href = resolveAfterPurchase();
+          location.href = afterPurchase(picked);
         },
+
         onError: (err) => {
           console.error("PayPal error:", err);
           alert("Die Zahlung konnte nicht abgeschlossen werden. Bitte versuche es erneut.");
@@ -332,7 +350,7 @@
     renderButtons();
   };
 
-  // „Zurück“-Navigation & Tab-Wechsel
+  // Zurück-Navigation & Tab-Wechsel → neu rendern
   window.addEventListener("pageshow", (e) => {
     const isBack =
       e.persisted || performance.getEntriesByType("navigation")[0]?.type === "back_forward";
@@ -342,6 +360,6 @@
     if (document.visibilityState === "visible") renderButtons();
   });
 
-  // Falls SDK schon vorher geladen war
+  // Falls SDK schon da (Cache), direkt rendern
   if (window.paypal) renderButtons();
 })();
