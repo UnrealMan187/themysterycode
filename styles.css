@@ -2,6 +2,7 @@
 :root {
   --bg: #000000;
   --bg-soft: #0f0f0f;
+  --bg-softer: rgba(255, 255, 255, 0.1);
   --gold: #d4af37;
   --gold-soft: #c8a951;
   --text: #f4f4f4;
@@ -532,7 +533,7 @@ html {
   box-shadow: 0 0 12px rgba(212, 175, 55, 0.3), 0 2px 6px rgba(0, 0, 0, 0.4);
   transition: box-shadow 0.4s ease, transform 0.4s ease;
   min-width: 0;
-  background: var(--bg-soft);
+  background: var(--bg-softer);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
@@ -546,7 +547,7 @@ html {
 #testimonials .card {
   position: relative;
   overflow: hidden;
-  background: var(--bg-soft);
+  background: var(--bg-softer);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: 0 0 12px rgba(var(--gold-rgb), 0.06), 0 2px 8px rgba(0, 0, 0, 0.45);
