@@ -643,7 +643,7 @@ window.tmcShowToast = (function () {
   const form = document.querySelector(".tmc-pp-form");
   const btn = form?.querySelector('button[type="submit"]');
 
-  // minimalistisches Overlay (nur über PayPal-Buttons), falls du es nutzen willst
+  // minimalistisches Overlay (nur über PayPal-Buttons)
   let blocker = null;
   function ensureBlocker() {
     if (blocker || !ppBox) return;

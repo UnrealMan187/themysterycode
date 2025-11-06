@@ -5,10 +5,11 @@
 # Erzeugt QR-Codes im Dark-Style:
 # - Variante A: Standard (dunkel auf hell) + HALO (heller Freisteller) für dunkle Hintergründe
 # - Variante B: ECHT invertiert (hell auf dunkel) – mit Hinweis: weniger robust
+# - Logo: freigestellt/transparent, mittig (kein Teller)
 #
-# Usage-Beispiele siehe unten.
+# Usage-Beispiele siehe README / Befehlszeilen-Flags unten.
 
-import os, math, json
+import os, json
 from PIL import Image, ImageDraw, ImageOps
 import qrcode
 from qrcode.constants import ERROR_CORRECT_H
@@ -27,10 +28,9 @@ DEFAULTS = {
     "halo_px": 0,              # 0 = aus | 12..24 sehr gut | 0 = echte Invertierung möglich
     "halo_color": "#f5f5f7",
     "halo_radius": 36,         # Rundung des Halo-Rechtecks
-    # Logo
-    "logo_path": None,         # z.B. "../../image/logo/themysterycode1.png"
+    # Logo (freigestellt)
+    "logo_path": None,         # z.B. "assets/tmc_logo.png" (PNG mit Transparenz empfohlen)
     "logo_scale": 0.22,        # Anteil an der QR-Kantenlänge
-    "logo_pad": 12,            # weicher Rand ums Logo
 }
 
 def make_qr(url, cfg):
@@ -47,7 +47,7 @@ def make_qr(url, cfg):
     # auf gewünschte Größe skalieren
     img = img.resize((cfg["size_px"], cfg["size_px"]), Image.NEAREST)
 
-    # HALO (Variante A): heller Freisteller hinter den QR kleben
+    # HALO (Variante A): heller Freisteller hinter den QR kleben (für dunkle Umgebungen)
     if cfg["halo_px"] > 0:
         pad = cfg["halo_px"]
         W = cfg["size_px"] + pad * 2
@@ -55,27 +55,24 @@ def make_qr(url, cfg):
         canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
         # abgerundetes helles Rechteck
         rr = cfg["halo_radius"]
-        halo = Image.new("RGBA", (W, H), (0,0,0,0))
+        halo = Image.new("RGBA", (W, H), (0, 0, 0, 0))
         d = ImageDraw.Draw(halo)
-        d.rounded_rectangle([0,0,W,H], radius=rr, fill=cfg["halo_color"])
-        canvas.alpha_composite(halo, (0,0))
+        d.rounded_rectangle([0, 0, W, H], radius=rr, fill=cfg["halo_color"])
+        canvas.alpha_composite(halo, (0, 0))
         # QR drauf
-        canvas.alpha_composite(img, (pad,pad))
+        canvas.alpha_composite(img, (pad, pad))
         img = canvas
 
-    # Logo einbetten (mit weißem Puffer für Lesbarkeit)
+    # Logo freigestellt (kein Teller): transparentes PNG empfohlen
     if cfg["logo_path"] and os.path.exists(cfg["logo_path"]):
         logo = Image.open(cfg["logo_path"]).convert("RGBA")
-        # Quadrat-Hilfsebene für Logo (falls Datei nicht quadratisch)
         L = int(min(img.size) * cfg["logo_scale"])
-        logo = ImageOps.contain(logo, (L - cfg["logo_pad"]*2, L - cfg["logo_pad"]*2))
-        plate = Image.new("RGBA", (L, L), (255, 255, 255, 255))  # weißer Teller
-        # Logo mittig auf den Teller
-        plate.paste(logo, ((L - logo.size[0]) // 2, (L - logo.size[1]) // 2), logo)
-        # Teller mittig auf QR
-        x = (img.size[0] - L) // 2
-        y = (img.size[1] - L) // 2
-        img.alpha_composite(plate, (x, y))
+        # Logo proportional einpassen
+        logo = ImageOps.contain(logo, (L, L))
+        # mittig auf QR setzen
+        x = (img.size[0] - logo.size[0]) // 2
+        y = (img.size[1] - logo.size[1]) // 2
+        img.alpha_composite(logo, (x, y))
 
     return img
 
@@ -85,7 +82,7 @@ def save_png(img, path):
 
 def main():
     import argparse
-    p = argparse.ArgumentParser(description="Erzeuge Dark-Style QR-Codes (Variante A: Halo | Variante B: invertiert)")
+    p = argparse.ArgumentParser(description="Erzeuge Dark-Style QR-Codes (Halo-Option, invertierbar, Logo freigestellt)")
     p.add_argument("--map", help="JSON-Datei: [{'name':'Mannheim-01','url':'https://themysterycode.de/c/101'}, ...]")
     p.add_argument("--out", default=DEFAULTS["out_dir"])
     p.add_argument("--fg", default=DEFAULTS["fg"])
