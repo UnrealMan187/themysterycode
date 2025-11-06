@@ -437,3 +437,9 @@
 .tmc-pp-form .btn {
   min-width: 220px;
 }
+.btn--disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: scale(0.98);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
