@@ -1,8 +1,8 @@
 [
   { "name": "Mannheim-01", "url": "https://themysterycode.de/c/101" },
   { "name": "Mannheim-02", "url": "https://themysterycode.de/c/102" },
-  { "name": "Karlsruhe-01", "url": "https://themysterycode.de/c/201" },
-  { "name": "Heidelberg-01", "url": "https://themysterycode.de/c/301" },
-  { "name": "Shishabar-01", "url": "https://themysterycode.de/c/401" },
-  { "name": "Doener-01", "url": "https://themysterycode.de/c/501" }
+  { "name": "Karlsruhe-01", "url": "https://themysterycode.de/c/103" },
+  { "name": "Heidelberg-01", "url": "https://themysterycode.de/c/104" },
+  { "name": "Shishabar-01", "url": "https://themysterycode.de/c/105" },
+  { "name": "Doener-01", "url": "https://themysterycode.de/c/106" }
 ]
