@@ -81,6 +81,7 @@
 
         // Mini-Delay für smoothes Gefühl
         sessionStorage.setItem("tmc:after:used", "1");
+        sessionStorage.setItem("tmc:after:used_at", String(Date.now()));
         setTimeout(() => {
           location.href = isDigital ? toDigital : toPhysical;
         }, 900);

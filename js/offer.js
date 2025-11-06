@@ -635,3 +635,53 @@ window.tmcShowToast = (function () {
   };
   window.addEventListener("scroll", onScroll, { passive: true });
 })();
+// === Kauf-Cooldown (verhindert versehentlichen Doppel-Klick, erlaubt Wiederkauf später) ===
+(() => {
+  const COOLDOWN_MS = 30 * 1000; // 30s; gern anpassen (z.B. 60_000)
+  const used = sessionStorage.getItem("tmc:after:used") === "1";
+  const usedAt = Number(sessionStorage.getItem("tmc:after:used_at") || 0);
+  const ago = Date.now() - usedAt;
+
+  // Hilfsfunktion: Buttons kurz sperren / entsperren
+  function setDisabled(disabled) {
+    // PayPal-Container selbst lässt sich nicht „disable’n“, aber wir können eine Overlay-Sperre setzen:
+    const ppBox = document.getElementById("paypal-button-container");
+    if (ppBox) {
+      ppBox.style.pointerEvents = disabled ? "none" : "auto";
+      ppBox.style.opacity = disabled ? "0.55" : "1";
+    }
+    // Eigener CTA-Button
+    const form = document.querySelector(".tmc-pp-form");
+    const btn = form?.querySelector('button[type="submit"]');
+    if (btn) {
+      btn.disabled = !!disabled;
+      btn.classList.toggle("btn--disabled", !!disabled);
+    }
+  }
+
+  // Falls gerade gekauft wurde und noch innerhalb des Cooldowns → sperren + Hinweis
+  if (used && usedAt && ago < COOLDOWN_MS) {
+    setDisabled(true);
+    const left = Math.ceil((COOLDOWN_MS - ago) / 1000);
+    window.tmcShowToast?.(
+      `Du hast gerade gekauft. In ~${left}s kannst du erneut entsperren.`,
+      "info"
+    );
+
+    // Countdown, der nach Ablauf wieder freigibt
+    const tick = setInterval(() => {
+      const remain = COOLDOWN_MS - (Date.now() - usedAt);
+      if (remain <= 0) {
+        clearInterval(tick);
+        setDisabled(false);
+        // Flag optional löschen (damit ein Reload nicht wieder sperrt)
+        sessionStorage.removeItem("tmc:after:used");
+        sessionStorage.removeItem("tmc:after:used_at");
+        window.tmcShowToast?.("Bereit – du kannst erneut entsperren.", "info");
+      }
+    }, 500);
+  } else {
+    // Kein frischer Kauf → alles frei
+    setDisabled(false);
+  }
+})();
