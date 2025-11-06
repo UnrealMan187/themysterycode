@@ -201,7 +201,6 @@ html {
 .btn--primary:hover {
   background: var(--gold);
   color: #111;
-  cursor: pointer;
 }
 .btn--ghost {
   border-color: #333;

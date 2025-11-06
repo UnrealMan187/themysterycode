@@ -635,53 +635,135 @@ window.tmcShowToast = (function () {
   };
   window.addEventListener("scroll", onScroll, { passive: true });
 })();
-// === Kauf-Cooldown (verhindert versehentlichen Doppel-Klick, erlaubt Wiederkauf später) ===
+// === Kauf-Cooldown: 30s wirklich blockieren (Form + PayPal + Clicks + Enter) ===
 (() => {
-  const COOLDOWN_MS = 30 * 1000; // 30s; gern anpassen (z.B. 60_000)
-  const used = sessionStorage.getItem("tmc:after:used") === "1";
-  const usedAt = Number(sessionStorage.getItem("tmc:after:used_at") || 0);
-  const ago = Date.now() - usedAt;
+  const COOLDOWN_MS = 30 * 1000; // 30 Sekunden
 
-  // Hilfsfunktion: Buttons kurz sperren / entsperren
-  function setDisabled(disabled) {
-    // PayPal-Container selbst lässt sich nicht „disable’n“, aber wir können eine Overlay-Sperre setzen:
-    const ppBox = document.getElementById("paypal-button-container");
+  const ppBox = document.getElementById("paypal-button-container");
+  const form = document.querySelector(".tmc-pp-form");
+  const btn = form?.querySelector('button[type="submit"]');
+
+  // minimalistisches Overlay (nur über PayPal-Buttons), falls du es nutzen willst
+  let blocker = null;
+  function ensureBlocker() {
+    if (blocker || !ppBox) return;
+    blocker = document.createElement("div");
+    blocker.className = "tmc-blocker";
+    blocker.setAttribute("aria-hidden", "true");
+    blocker.style.cssText = `
+      position:absolute; inset:0; display:none; z-index:5;
+      background: transparent; /* klicks abfangen, ohne Optik zu verändern */
+    `;
+    // ppBox ist meist position:static → Wrapper für pos:relative
+    const wrap = document.createElement("div");
+    wrap.style.position = "relative";
+    ppBox.parentNode.insertBefore(wrap, ppBox);
+    wrap.appendChild(ppBox);
+    wrap.appendChild(blocker);
+  }
+
+  function inCooldown() {
+    const used = sessionStorage.getItem("tmc:after:used") === "1";
+    const usedAt = Number(sessionStorage.getItem("tmc:after:used_at") || 0);
+    if (!used || !usedAt) return 0;
+    return Math.max(0, COOLDOWN_MS - (Date.now() - usedAt));
+  }
+
+  function applyDisabled(disabled) {
+    // Formular-Button: echtes Disable + Optik + ARIA
+    if (btn) {
+      btn.disabled = !!disabled;
+      btn.classList.toggle("btn--disabled", !!disabled);
+      btn.setAttribute("aria-disabled", disabled ? "true" : "false");
+    }
+    // PayPal-Container: Pointer-Events tot
     if (ppBox) {
       ppBox.style.pointerEvents = disabled ? "none" : "auto";
       ppBox.style.opacity = disabled ? "0.55" : "1";
     }
-    // Eigener CTA-Button
-    const form = document.querySelector(".tmc-pp-form");
-    const btn = form?.querySelector('button[type="submit"]');
-    if (btn) {
-      btn.disabled = !!disabled;
-      btn.classList.toggle("btn--disabled", !!disabled);
-    }
+    // Optionales Overlay aktivieren
+    if (blocker) blocker.style.display = disabled ? "block" : "none";
   }
 
-  // Falls gerade gekauft wurde und noch innerhalb des Cooldowns → sperren + Hinweis
-  if (used && usedAt && ago < COOLDOWN_MS) {
-    setDisabled(true);
-    const left = Math.ceil((COOLDOWN_MS - ago) / 1000);
-    window.tmcShowToast?.(
-      `Du hast gerade gekauft. In ~${left}s kannst du erneut entsperren.`,
-      "info"
-    );
+  function startCooldownUI(remainMs) {
+    applyDisabled(true);
+    ensureBlocker();
+    const toSec = (ms) => Math.ceil(ms / 1000);
+    window.tmcShowToast?.(`Bitte einen Moment warten… (~${toSec(remainMs)}s)`, "info");
 
-    // Countdown, der nach Ablauf wieder freigibt
     const tick = setInterval(() => {
-      const remain = COOLDOWN_MS - (Date.now() - usedAt);
-      if (remain <= 0) {
+      const left = inCooldown();
+      if (left <= 0) {
         clearInterval(tick);
-        setDisabled(false);
-        // Flag optional löschen (damit ein Reload nicht wieder sperrt)
+        // Cooldown vorbei → Flags aufräumen & wieder freigeben
         sessionStorage.removeItem("tmc:after:used");
         sessionStorage.removeItem("tmc:after:used_at");
+        applyDisabled(false);
         window.tmcShowToast?.("Bereit – du kannst erneut entsperren.", "info");
       }
     }, 500);
-  } else {
-    // Kein frischer Kauf → alles frei
-    setDisabled(false);
   }
+
+  // --- Harte Guards --------------------------------------------------------
+
+  // 1) Submit hart verhindern (auch Enter)
+  if (form) {
+    form.addEventListener(
+      "submit",
+      (e) => {
+        const left = inCooldown();
+        if (left > 0) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.tmcShowToast?.(`Bitte warte kurz… (~${Math.ceil(left / 1000)}s)`, "info");
+        }
+      },
+      true
+    ); // capturing → fängt alles ab, bevor etwas anderes greift
+
+    // 1b) Enter-Key innerhalb der Form blocken
+    form.addEventListener(
+      "keydown",
+      (e) => {
+        if (e.key === "Enter") {
+          const left = inCooldown();
+          if (left > 0) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }
+      },
+      true
+    );
+  }
+
+  // 2) Clicks innerhalb PayPal-Container & CTA-Form generell blocken (capturing)
+  document.addEventListener(
+    "click",
+    (e) => {
+      const t = e.target;
+      const left = inCooldown();
+      if (left <= 0) return;
+
+      // trifft auf alles innerhalb des PayPal-Containers zu
+      if (ppBox && ppBox.contains(t)) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.tmcShowToast?.(`Bitte warte kurz… (~${Math.ceil(left / 1000)}s)`, "info");
+        return;
+      }
+      // trifft auf den CTA-Button/alles in der Form
+      if (form && form.contains(t)) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.tmcShowToast?.(`Bitte warte kurz… (~${Math.ceil(left / 1000)}s)`, "info");
+      }
+    },
+    true
+  );
+
+  // --- Initialer Zustand beim Laden ---------------------------------------
+  const leftInit = inCooldown();
+  if (leftInit > 0) startCooldownUI(leftInit);
+  else applyDisabled(false);
 })();
