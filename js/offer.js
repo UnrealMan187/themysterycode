@@ -279,7 +279,7 @@
         .padStart(2, "0")}`;
     }
 
-    const angle = -90 + (1 - p) * 360;
+    const angle = 0 + (1 - p) * 360;
     needle.setAttribute("transform", `rotate(${angle} 80 80)`);
 
     if (remain <= 0) {
