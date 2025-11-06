@@ -287,6 +287,15 @@
   font-size: 0.65rem;
   text-align: center;
 }
+.checkout__disclaimer {
+  color: rgba(180, 180, 184, 0.6);
+  font-size: 0.65rem; /* kleiner als Rest, aber noch lesbar */
+  line-height: 1.3;
+  text-align: center;
+  margin-top: 8px;
+  max-width: 65rem; /* wie du’s wolltest */
+  margin-inline: auto;
+}
 
 /* PayPal-Container zentrieren */
 #paypal-button-container {
