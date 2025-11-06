@@ -5,34 +5,38 @@
 # Erzeugt QR-Codes im Dark-Style:
 # - Variante A: Standard (dunkel auf hell) + HALO (heller Freisteller) für dunkle Hintergründe
 # - Variante B: ECHT invertiert (hell auf dunkel) – mit Hinweis: weniger robust
-# - Logo: freigestellt/transparent, mittig (kein Teller)
+# - Logo: freigestellt/transparent, mittig (kein Teller) + optional goldener Glow
 #
-# Usage-Beispiele siehe README / Befehlszeilen-Flags unten.
+# Usage:
+# python make_qrs_styled.py --map qr_map_dark.json --out qr_out_dark_theme \
+#   --fg "#111111" --bg "#f5f5f7" --halo 24 --halo-color "#f5f5f7" \
+#   --logo "assets/tmc_logo.png" --logo-scale 0.22 --size 1024 --border 4
 
 import os, json
 from PIL import Image, ImageDraw, ImageOps
 import qrcode
 from qrcode.constants import ERROR_CORRECT_H
 
-# ---------- Konfiguration ----------
+# ---------- Standard-Konfiguration ----------
 DEFAULTS = {
     "out_dir": "qr_out_dark",
-    "size_px": 1024,           # endgültige Kantenlänge
-    "box_size": 20,            # QR-Modulgröße (wird von qrcode verwendet)
+    "size_px": 1024,           # Endgröße in Pixel
+    "box_size": 20,            # QR-Modulgröße
     "border": 4,               # Ruhezone (in Modulen)
     "error_correction": ERROR_CORRECT_H,
     # Farben
-    "fg": "#111111",           # Vordergrund (Module)
-    "bg": "#f5f5f7",           # Hintergrund (Ruhezone)
-    # HALO: Helle Fläche hinter dem QR (für Variante A)
-    "halo_px": 0,              # 0 = aus | 12..24 sehr gut | 0 = echte Invertierung möglich
+    "fg": "#111111",           # QR-Vordergrund
+    "bg": "#f5f5f7",           # QR-Hintergrund
+    # HALO (heller Rand für dunkle Umgebungen)
+    "halo_px": 0,              # 0 = aus | 12–24 = weich
     "halo_color": "#f5f5f7",
-    "halo_radius": 36,         # Rundung des Halo-Rechtecks
-    # Logo (freigestellt)
-    "logo_path": None,         # z.B. "assets/tmc_logo.png" (PNG mit Transparenz empfohlen)
-    "logo_scale": 0.22,        # Anteil an der QR-Kantenlänge
+    "halo_radius": 36,
+    # Logo
+    "logo_path": None,         # z.B. "assets/tmc_logo.png"
+    "logo_scale": 0.22,        # Anteil am QR (0.2 = 20%)
 }
 
+# ---------- QR-Code-Erstellung ----------
 def make_qr(url, cfg):
     qr = qrcode.QRCode(
         version=None,
@@ -43,64 +47,63 @@ def make_qr(url, cfg):
     qr.add_data(url)
     qr.make(fit=True)
     img = qr.make_image(fill_color=cfg["fg"], back_color=cfg["bg"]).convert("RGBA")
-
-    # auf gewünschte Größe skalieren
     img = img.resize((cfg["size_px"], cfg["size_px"]), Image.NEAREST)
 
-    # HALO (Variante A): heller Freisteller hinter den QR kleben (für dunkle Umgebungen)
+    # HALO: heller Freisteller-Hintergrund (optional)
     if cfg["halo_px"] > 0:
         pad = cfg["halo_px"]
         W = cfg["size_px"] + pad * 2
         H = cfg["size_px"] + pad * 2
         canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-        # abgerundetes helles Rechteck
         rr = cfg["halo_radius"]
         halo = Image.new("RGBA", (W, H), (0, 0, 0, 0))
         d = ImageDraw.Draw(halo)
         d.rounded_rectangle([0, 0, W, H], radius=rr, fill=cfg["halo_color"])
         canvas.alpha_composite(halo, (0, 0))
-        # QR drauf
         canvas.alpha_composite(img, (pad, pad))
         img = canvas
 
-    # Logo freigestellt (kein Teller): transparentes PNG empfohlen
+    # Logo freigestellt + goldener Glow
     if cfg["logo_path"] and os.path.exists(cfg["logo_path"]):
         logo = Image.open(cfg["logo_path"]).convert("RGBA")
         L = int(min(img.size) * cfg["logo_scale"])
-        # Logo proportional einpassen
         logo = ImageOps.contain(logo, (L, L))
-        # goldener Glow erzeugen (leicht weichgezeichnet)
-    glow_radius = int(L * 0.12)  # Größe des Glow-Rands
-    glow = Image.new("RGBA", (L + glow_radius * 2, L + glow_radius * 2), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(glow)
 
-    # goldene Farbe (leicht transparent)
-    gold_color = (212, 175, 55, 90)
-    for r in range(glow_radius, 0, -2):
-        alpha = int(70 * (r / glow_radius))
-        color = (gold_color[0], gold_color[1], gold_color[2], alpha)
-        draw.ellipse(
-            (glow_radius - r, glow_radius - r, glow_radius + L + r, glow_radius + L + r),
-            outline=color,
-            width=2,
-        )
+        # goldener Glow erzeugen
+        glow_radius = int(L * 0.12)
+        glow = Image.new("RGBA", (L + glow_radius * 2, L + glow_radius * 2), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(glow)
 
-    # Logo auf Glow-Ebene mittig setzen
-    glow.alpha_composite(logo, (glow_radius, glow_radius))
-        # mittig auf QR setzen
-        x = (img.size[0] - logo.size[0]) // 2
-        y = (img.size[1] - logo.size[1]) // 2
-        img.alpha_composite(logo, (x, y))
+        # Goldton (dezent transparent)
+        gold_color = (212, 175, 55, 90)
+        for r in range(glow_radius, 0, -2):
+            alpha = int(70 * (r / glow_radius))
+            color = (gold_color[0], gold_color[1], gold_color[2], alpha)
+            draw.ellipse(
+                (glow_radius - r, glow_radius - r, glow_radius + L + r, glow_radius + L + r),
+                outline=color,
+                width=2,
+            )
+
+        # Logo auf Glow-Ebene mittig setzen
+        glow.alpha_composite(logo, (glow_radius, glow_radius))
+
+        # Glow mittig auf QR platzieren
+        x = (img.size[0] - glow.size[0]) // 2
+        y = (img.size[1] - glow.size[1]) // 2
+        img.alpha_composite(glow, (x, y))
 
     return img
 
+# ---------- Speichern ----------
 def save_png(img, path):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     img.save(path, optimize=True)
 
+# ---------- Main ----------
 def main():
     import argparse
-    p = argparse.ArgumentParser(description="Erzeuge Dark-Style QR-Codes (Halo-Option, invertierbar, Logo freigestellt)")
+    p = argparse.ArgumentParser(description="Erzeuge Dark-Style QR-Codes (Halo optional, invertierbar, mit Glow)")
     p.add_argument("--map", help="JSON-Datei: [{'name':'Mannheim-01','url':'https://themysterycode.de/c/101'}, ...]")
     p.add_argument("--out", default=DEFAULTS["out_dir"])
     p.add_argument("--fg", default=DEFAULTS["fg"])
@@ -131,7 +134,7 @@ def main():
 
     for e in entries:
         name = e["name"]
-        url  = e["url"]
+        url = e["url"]
         img = make_qr(url, cfg)
         out_path = os.path.join(args.out, f"{name}.png")
         save_png(img, out_path)
