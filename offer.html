@@ -52,16 +52,13 @@
     <!-- HERO – ruhig & clean -->
     <!-- ===================== -->
     <header class="hero" role="banner" aria-label="The Mystery Code – Hero">
-      <!-- optionales Video (momentan deaktiviert, nur BG-Bild aktiv) -->
-      <!-- <video class="hero__bg" autoplay muted loop playsinline src="image/video/hero.mp4"></video> -->
-
       <!-- Effekt-Canvas (Feuerwerk) -->
       <canvas class="fx-canvas" aria-hidden="true"></canvas>
 
       <!-- Sticky Mini-Countdown (oben rechts) -->
       <aside class="countdown-badge" aria-label="Verbleibende Zeit">
         <div class="countdown__dial countdown__dial--mini">
-          <svg class="dial" viewBox="0 0 160 160" role="img" aria-label="Countdown 12 Stunden">
+          <svg class="dial" viewBox="0 0 160 160" role="img" aria-label="Countdown">
             <circle class="dial__bg" cx="80" cy="80" r="70"></circle>
             <circle class="dial__progress" cx="80" cy="80" r="62"></circle>
             <g class="ticks--major" aria-hidden="true">
@@ -70,9 +67,7 @@
               <line x1="6" y1="80" x2="16" y2="80" />
               <line x1="144" y1="80" x2="154" y2="80" />
             </g>
-            <!-- wichtig für dein JS: Minor-Ticks-Container -->
             <g class="ticks--minor" aria-hidden="true"></g>
-
             <g class="needle-group" filter="url(#glow)" aria-hidden="true">
               <line id="tmc-needle" x1="80" y1="80" x2="80" y2="18" class="needle" />
               <circle cx="80" cy="80" r="3.6" class="needle-cap" />
@@ -88,20 +83,15 @@
             </defs>
           </svg>
           <div class="countdown__readout" aria-hidden="true">
-            <div class="readout__digits" id="tmc-digits">12:00:00</div>
+            <div class="readout__digits" id="tmc-digits">06:00:00</div>
           </div>
         </div>
       </aside>
 
-      <!-- Minimaler Hero-Stack (keine Bezahl-Elemente) -->
       <div class="hero__inner hero__stack">
-        <!--<h1 class="celebrate__title">Sehr schön</h1>-->
-        <h1 class="celebrate__title">Du hast den Code gefunden.</h1>
-        <p class="hero__subtitle">Willkommen bei The Mystery Code.</p>
-        <p class="hero__subtitle">Ein Preis. Ein Zufall.</p>
-        <!--<p class="trustline--inline">
-          <span>10&nbsp;€</span> · <span>Sichere Zahlung via PayPal</span> · <span>Kein Abo</span>
-        </p>-->
+        <h1 class="celebrate__title">Du hast etwas entdeckt, das nicht für jeden bestimmt ist.</h1>
+        <p class="hero__subtitle">1 Code. 1 Chance. Ein Erlebnis, das nur du ausgelöst hast.</p>
+        <p class="trustline--inline">10&nbsp;€ · Sichere Zahlung via PayPal · Kein Abo</p>
         <a class="btn btn--primary btn--lg hero__cta-main" href="#about">Weiter entdecken</a>
       </div>
     </header>
@@ -116,10 +106,16 @@
           <h2 class="section__title">Was du gefunden hast</h2>
           <div class="rule--gold"></div>
           <p>
-            Nicht jeder findet den Code. Wer es tut, entscheidet sich, das Unbekannte zu öffnen.
-            <strong>The Mystery Code</strong> ist kein Produkt – es ist ein Erlebnis.
+            <strong>Nur wenige finden den Code.</strong> Wer ihn findet, steht vor einer
+            Entscheidung:
           </p>
-          <p class="note">Kuratiert. Minimalistisch. Unerwartet.</p>
+          <p>
+            <em><strong>Neugier</strong> oder <strong>Sicherheit.</strong></em>
+          </p>
+          <p>
+            <strong>The Mystery Code</strong> ist kein Produkt. Es ist eine Erfahrung, die dich
+            findet – <br />nicht umgekehrt.
+          </p>
         </div>
       </section>
 
@@ -127,30 +123,33 @@
       <section id="how" class="section section--border fade-in">
         <div class="wrap">
           <h2 class="section__title center">Wie es funktioniert</h2>
-          <div class="rule--gold"></div>
           <ul class="steps">
             <li class="step">
               <div class="icon">1</div>
               <div>
                 <strong>Scannen &amp; Ankommen</strong><br />
-                Du bist hier, weil du einen Code entdeckt hast. Gut so.
+                Du bist hier, weil du den Code entdeckt hast. Gut so.
               </div>
             </li>
             <li class="step">
               <div class="icon">2</div>
               <div>
                 <strong>Entsperren</strong><br />
-                Sichere dir Deinen Code. Keine Mitgliedschaft. Keine Werbung.
+                Einmalig 10&nbsp;€. Keine Mitgliedschaft. Keine Werbung.
               </div>
             </li>
             <li class="step">
               <div class="icon">3</div>
               <div>
                 <strong>Erhalten</strong><br />
-                Du bekommst zufällig einen <em>digitalen</em> oder <em>physischen</em> Artikel.
+                Zufällig <em>digital</em> oder <em>physisch</em>. Sofort oder mit Versand – aber
+                immer kuratiert.
               </div>
             </li>
           </ul>
+          <p class="center lead" style="margin-top: 14px">
+            Dauer: ca. 2&nbsp;Minuten · Sicher über PayPal · Keine versteckten Kosten
+          </p>
         </div>
       </section>
 
@@ -164,7 +163,7 @@
           <div class="card">
             <h3 class="gold-heading">Überraschung</h3>
             <p class="lead">
-              Es geht nicht um den Preis, sondern um das Gefühl, es verdient zu haben.
+              Es geht nicht um Besitz, sondern um Gefühl: <em>Ich war schnell genug.</em>
             </p>
           </div>
           <div class="card">
@@ -173,6 +172,12 @@
               Reduziert, ruhig, kuratiert – kein Kirmes-Glücksspiel, sondern Haltung.
             </p>
           </div>
+        </div>
+        <div class="wrap center prose" style="margin-top: 18px">
+          <p class="lead">
+            Menschen kaufen keinen Artikel. Sie kaufen den Moment, in dem sie wissen:
+            <strong>Ich habe es gefunden.</strong>
+          </p>
         </div>
       </section>
 
@@ -189,29 +194,29 @@
                 <span class="amount">10&nbsp;€</span>
                 <span class="note">einmalig</span>
               </div>
-              <div class="checkout__copy">
-                <strong>Zufallsprinzip:</strong> Du erhältst zufällig einen digitalen oder
-                physischen Artikel.
-              </div>
             </div>
-
             <div class="checkout__body">
               <div id="paypal-button-container"></div>
               <p class="checkout__guarantee center">
-                Schnell, sicher &amp; ohne Abo. Zahlung über PayPal.
+                🔒 Sicher über PayPal · Abwicklung in Minuten
               </p>
+              <div class="checkout__copy">
+                <strong>Zufallsprinzip:</strong> Du erhältst zufällig einen digitalen oder
+                physischen Artikel. Kein Abo. Keine versteckten Kosten. Kein Glücksspiel.
+              </div>
             </div>
           </div>
         </div>
       </section>
+
       <!-- S5: Testimonials -->
       <section id="testimonials" class="section section--border fade-in">
         <div class="wrap">
-          <div class="card fade-in" style="text-align: center">
-            <h2 class="section__title text-gold">Finder-Stimmen</h2>
+          <div class="wrap center">
+            <h2 class="section__title">Menschen, die den Code geknackt haben</h2>
             <div class="rule--gold"></div>
-            <p class="caption">
-              Videos, Bilder und Kommentare von Menschen, die einen Code entdeckt haben.
+            <p class="lead lead_margin">
+              Niemand kann genau erklären, warum er gekauft hat. Nur, dass er es nicht bereut.
             </p>
           </div>
 
@@ -230,12 +235,56 @@
           </div>
         </div>
       </section>
+      <!-- S6: CTA-Section (eigener Button → PayPal gehostet) -->
+      <!--<section id="cta" class="section fade-in">
+        <div class="wrap center">
+          <h2 class="section__title">Bereit zu entsperren?</h2>
+          <p class="lead">
+            Die meisten, die zögern, kommen später wieder – und der Code ist dann erloschen.
+          </p>
+
+          <form
+            action="https://www.paypal.com/cgi-bin/webscr"
+            method="post"
+            target="_top"
+            class="tmc-pp-form"
+          >
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input type="hidden" name="business" value="kontakt@themysterycode.de" />
+            <input type="hidden" name="item_name" value="The Mystery Code – Zufalls-Reward" />
+            <input type="hidden" name="amount" value="10.00" />
+            <input type="hidden" name="currency_code" value="EUR" />
+            <input type="hidden" name="no_shipping" value="1" />
+            <input type="hidden" name="no_note" value="1" />
+            <input type="hidden" name="lc" value="DE" />
+            <input
+              type="hidden"
+              name="return"
+              value="https://themysterycode.de/after-paypal/?src=cta&pp=standard"
+            />
+            <input
+              type="hidden"
+              name="cancel_return"
+              value="https://themysterycode.de/offer.html#checkout"
+            />
+            <input type="hidden" name="custom" value="TMC|cta" />
+
+            <button type="submit" class="btn btn--primary btn--lg">Ich öffne den Code</button>
+          </form>
+
+          <p class="checkout__guarantee center" style="margin-top: 10px">
+            🔒 Sicher zahlen über PayPal · Keine wiederkehrenden Kosten
+          </p>
+        </div>
+      </section>-->
 
       <!-- S6: CTA-Section (eigener Button → PayPal gehostet) -->
       <section id="cta" class="section fade-in">
         <div class="wrap center">
           <h2 class="section__title">Bereit zu entsperren?</h2>
-          <p class="lead">Einmalig 10&nbsp;€. Keine Mitgliedschaft. Keine Werbung.</p>
+          <p class="lead">
+            Die meisten, die zögern, kommen später wieder – und der Code ist dann erloschen.
+          </p>
 
           <!-- PAYPAL STANDARD: Hosted Checkout -->
           <form
@@ -277,11 +326,11 @@
             <input type="hidden" name="custom" value="TMC|cta" />
 
             <!-- Dein eigener, stylischer Button -->
-            <button type="submit" class="btn btn--primary btn--lg">Jetzt entsperren</button>
+            <button type="submit" class="btn btn--primary btn--lg">Ich öffne den Code</button>
           </form>
 
           <p class="checkout__guarantee center" style="margin-top: 10px">
-            Sicher bezahlen über PayPal · Keine wiederkehrenden Kosten
+            🔒 Sicher zahlen über PayPal · Keine wiederkehrenden Kosten
           </p>
         </div>
       </section>

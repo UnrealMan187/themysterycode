@@ -58,6 +58,9 @@
 .lead {
   color: var(--muted);
 }
+.lead_margin {
+  margin-bottom: 60px;
+}
 
 .card {
   background: rgba(255, 255, 255, 0.04);
@@ -265,9 +268,9 @@
 }
 .checkout__copy {
   color: #b4b4b8;
-  font-size: 0.95rem;
+  font-size: 0.55rem;
   max-width: 420px;
-  text-align: right;
+  text-align: left;
 }
 @media (max-width: 720px) {
   .checkout__copy {
@@ -281,7 +284,7 @@
 }
 .checkout__guarantee {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 0.65rem;
   text-align: center;
 }
 
