@@ -127,6 +127,7 @@
       <section id="how" class="section section--border fade-in">
         <div class="wrap">
           <h2 class="section__title center">Wie es funktioniert</h2>
+          <div class="rule--gold"></div>
           <ul class="steps">
             <li class="step">
               <div class="icon">1</div>
@@ -203,11 +204,12 @@
           </div>
         </div>
       </section>
-
+      <!-- S5: Testimonials -->
       <section id="testimonials" class="section section--border fade-in">
         <div class="wrap">
           <div class="card fade-in" style="text-align: center">
             <h2 class="section__title text-gold">Finder-Stimmen</h2>
+            <div class="rule--gold"></div>
             <p class="caption">
               Videos, Bilder und Kommentare von Menschen, die einen Code entdeckt haben.
             </p>
@@ -229,7 +231,62 @@
         </div>
       </section>
 
-      <!-- S5: FAQ / Einwände -->
+      <!-- S6: CTA-Section (eigener Button → PayPal gehostet) -->
+      <section id="cta" class="section fade-in">
+        <div class="wrap center">
+          <h2 class="section__title">Bereit zu entsperren?</h2>
+          <p class="lead">Einmalig 10&nbsp;€. Keine Mitgliedschaft. Keine Werbung.</p>
+
+          <!-- PAYPAL STANDARD: Hosted Checkout -->
+          <form
+            action="https://www.paypal.com/cgi-bin/webscr"
+            method="post"
+            target="_top"
+            class="tmc-pp-form"
+          >
+            <!-- Kauf-Typ: Sofort-Kaufen -->
+            <input type="hidden" name="cmd" value="_xclick" />
+
+            <!-- Dein PayPal-Business-E-Mail -->
+            <input type="hidden" name="business" value="kontakt@themysterycode.de" />
+
+            <!-- Artikelinfo -->
+            <input type="hidden" name="item_name" value="The Mystery Code – Zufalls-Reward" />
+            <input type="hidden" name="amount" value="10.00" />
+            <input type="hidden" name="currency_code" value="EUR" />
+
+            <!-- UX-Flags -->
+            <input type="hidden" name="no_shipping" value="1" />
+            <input type="hidden" name="no_note" value="1" />
+            <input type="hidden" name="lc" value="DE" />
+
+            <!-- Nach dem Kauf zurück zu deiner Router-Seite -->
+            <input
+              type="hidden"
+              name="return"
+              value="https://themysterycode.de/after-paypal/?src=cta&pp=standard"
+            />
+            <!-- Bei Abbruch zurück in den Checkout deiner Offer -->
+            <input
+              type="hidden"
+              name="cancel_return"
+              value="https://themysterycode.de/offer.html#checkout"
+            />
+
+            <!-- Optional: „custom“ für eigene Zuordnung (erscheint in PayPal-Details) -->
+            <input type="hidden" name="custom" value="TMC|cta" />
+
+            <!-- Dein eigener, stylischer Button -->
+            <button type="submit" class="btn btn--primary btn--lg">Jetzt entsperren</button>
+          </form>
+
+          <p class="checkout__guarantee center" style="margin-top: 10px">
+            Sicher bezahlen über PayPal · Keine wiederkehrenden Kosten
+          </p>
+        </div>
+      </section>
+
+      <!-- S7: FAQ / Einwände -->
       <section id="faq" class="section section--border fade-in">
         <div class="wrap faq">
           <details class="faq__item">
@@ -306,5 +363,6 @@
 
     <!-- Seite-spezifisches JS -->
     <script src="js/offer.js" defer></script>
+    <script src="js/script.js" defer></script>
   </body>
 </html>

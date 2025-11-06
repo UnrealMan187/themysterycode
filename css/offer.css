@@ -433,3 +433,7 @@
     font-size: 0.92rem;
   }
 }
+/* CTA-Section (eigener Button) */
+.tmc-pp-form .btn {
+  min-width: 220px;
+}

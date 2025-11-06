@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Weiterleitung – The Mystery Code</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      html,
+      body {
+        height: 100%;
+        background: #0b0b0d;
+        color: #eee;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+      .wrap {
+        min-height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 24px 20px;
+        text-align: center;
+        max-width: 520px;
+        width: min(92vw, 520px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      }
+      .muted {
+        color: #a8a8ad;
+      }
+      .bar {
+        height: 3px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, #c8a86a66, #c8a86a);
+        width: 40%;
+        margin: 12px auto 0;
+        animation: grow 1.4s ease-in-out infinite alternate;
+      }
+      @keyframes grow {
+        from {
+          width: 36%;
+        }
+        to {
+          width: 84%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1 style="margin: 0 0 8px">Code wird entsperrt…</h1>
+        <p class="muted">Einen Moment bitte – wir leiten dich weiter.</p>
+        <div class="bar"></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // Quelle aus Query übernehmen (nur kosmetisch)
+        const p = new URLSearchParams(location.search);
+        const src = p.get("src") || "cta";
+
+        // Zufallsprinzip (50/50) – gern feinjustieren
+        const isDigital = Math.random() < 0.5;
+
+        // Ziel-URLs inkl. Marker
+        const toDigital = `/reward.html?from=paypal-link&src=${encodeURIComponent(src)}`;
+        const toPhysical = `/form.html?from=paypal-link&src=${encodeURIComponent(src)}`;
+
+        // Optional: Telegram/Worker-Log (nur wenn du möchtest)
+        // fetch('https://themysterycode.p-ohrner89.workers.dev/', {
+        //   method:'POST',
+        //   headers:{'content-type':'application/json','x-tmc-secret':'DEIN_TMC_INGEST_SECRET'},
+        //   body: JSON.stringify({ src:'after-paypal', code: isDigital?'digital':'physical', ua:navigator.userAgent })
+        // }).catch(()=>{});
+
+        // Mini-Delay für smoothes Gefühl
+        setTimeout(() => {
+          location.href = isDigital ? toDigital : toPhysical;
+        }, 900);
+      })();
+    </script>
+  </body>
+</html>
