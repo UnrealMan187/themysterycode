@@ -80,6 +80,7 @@
         // }).catch(()=>{});
 
         // Mini-Delay für smoothes Gefühl
+        sessionStorage.setItem("tmc:after:used", "1");
         setTimeout(() => {
           location.href = isDigital ? toDigital : toPhysical;
         }, 900);
