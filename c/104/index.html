@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Weiterleitung…</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content="2;url=/offer.html" />
+    <style>
+      html,
+      body {
+        height: 100%;
+        background: #0b0b0d;
+        color: #eee;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+      .wrap {
+        min-height: 100%;
+        display: grid;
+        place-items: center;
+      }
+      .card {
+        padding: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        Weiterleitung… Falls nichts passiert, <a id="fallback" href="/offer.html">hier tippen</a>.
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // ID = letzter Pfadteil, z. B. /c/101/ → "101"
+        var parts = location.pathname.replace(/\/+$/, "").split("/");
+        var code = parts[parts.length - 1] || "unknown";
+        var url = "/offer.html?src=qr&code=" + encodeURIComponent(code);
+        document.getElementById("fallback").href = url;
+        location.replace(url);
+      })();
+    </script>
+  </body>
+</html>
