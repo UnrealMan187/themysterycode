@@ -221,10 +221,10 @@
   if (hero) heroObserver.observe(hero);
 })();
 
-/* 3) Countdown (12h) --------------------------------------*/
+/* 3) Countdown (6h) --------------------------------------*/
 (() => {
-  const SECS_TOTAL = 12 * 60 * 60;
-  const KEY = "tmc_offer_expiry_v2_12h";
+  const SECS_TOTAL = 6 * 60 * 60;
+  const KEY = "tmc_offer_expiry_v2_6h";
 
   const dial = document.querySelector(".dial");
   const progress = dial?.querySelector(".dial__progress");
