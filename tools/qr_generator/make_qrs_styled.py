@@ -69,6 +69,24 @@ def make_qr(url, cfg):
         L = int(min(img.size) * cfg["logo_scale"])
         # Logo proportional einpassen
         logo = ImageOps.contain(logo, (L, L))
+        # goldener Glow erzeugen (leicht weichgezeichnet)
+    glow_radius = int(L * 0.12)  # Größe des Glow-Rands
+    glow = Image.new("RGBA", (L + glow_radius * 2, L + glow_radius * 2), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(glow)
+
+    # goldene Farbe (leicht transparent)
+    gold_color = (212, 175, 55, 90)
+    for r in range(glow_radius, 0, -2):
+        alpha = int(70 * (r / glow_radius))
+        color = (gold_color[0], gold_color[1], gold_color[2], alpha)
+        draw.ellipse(
+            (glow_radius - r, glow_radius - r, glow_radius + L + r, glow_radius + L + r),
+            outline=color,
+            width=2,
+        )
+
+    # Logo auf Glow-Ebene mittig setzen
+    glow.alpha_composite(logo, (glow_radius, glow_radius))
         # mittig auf QR setzen
         x = (img.size[0] - logo.size[0]) // 2
         y = (img.size[1] - logo.size[1]) // 2
