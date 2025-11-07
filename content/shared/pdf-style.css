@@ -1,0 +1,289 @@
+/* =========================================================
+   The Mystery Code — Global PDF Styles (anthracite ✕ gold)
+   Target: Chrome headless / wkhtmltopdf
+   File: content/shared/pdf-style.css
+   ========================================================= */
+
+/* --- Print rendering fidelity (important for Chrome) --- */
+html {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* --- Page setup --- */
+@page {
+  size: A4;
+  margin: 22mm 20mm 24mm 20mm;
+}
+
+/* Optional: first page with tighter top margin (content starts below cover) */
+@page: first{
+  margin-top: 18mm;
+};
+
+/* --- Palette / tokens --- */
+:root {
+  --bg: #ffffff;
+  --ink: #121214;
+  --muted: #5d6066;
+  --hairline: #e8e9ec;
+  --gold: #d4af37; /* TMC gold */
+  --anthracite: #0f0f12; /* TMC anthracite */
+  --accent: #1c1f24;
+}
+
+/* --- Base typography --- */
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, system-ui,
+    sans-serif;
+  font-size: 11.5pt;
+  line-height: 1.55;
+  letter-spacing: 0.1px;
+  /* Chrome sometimes compresses; this keeps rhythm */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* --- Headings --- */
+h1,
+h2,
+h3,
+h4 {
+  page-break-after: avoid;
+  color: var(--anthracite);
+  margin: 0 0 8pt;
+  font-weight: 700;
+}
+h1 {
+  font-size: 28pt;
+  letter-spacing: 0.3px;
+  margin-top: 2pt;
+  margin-bottom: 10pt;
+}
+h2 {
+  font-size: 16.5pt;
+  letter-spacing: 0.2px;
+  margin-top: 22pt;
+}
+h3 {
+  font-size: 13.5pt;
+  font-weight: 600;
+  margin-top: 14pt;
+}
+h4 {
+  font-size: 11.5pt;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Subheading / kicker */
+.kicker {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-size: 9.5pt;
+  margin: 0 0 6pt;
+}
+
+/* --- Paragraphs & emphasis --- */
+p {
+  margin: 0 0 8pt;
+}
+em {
+  color: var(--muted);
+}
+strong {
+  font-weight: 700;
+}
+
+/* --- Lists --- */
+ul,
+ol {
+  margin: 0 0 8pt 18pt;
+  padding: 0;
+}
+li {
+  margin: 2pt 0;
+}
+ul ul,
+ol ol {
+  margin-bottom: 6pt;
+}
+
+/* --- Rules & spacing helpers --- */
+hr {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  margin: 14pt 0;
+}
+.spacer-sm {
+  height: 6pt;
+}
+.spacer-md {
+  height: 12pt;
+}
+.spacer-lg {
+  height: 18pt;
+}
+
+/* --- Blockquote (mood) --- */
+blockquote {
+  margin: 8pt 0 10pt;
+  padding-left: 10pt;
+  border-left: 3px solid var(--gold);
+  color: #3a3d42;
+  font-style: italic;
+}
+
+/* --- Callouts (tip/note/warn) --- */
+.callout {
+  border: 1px solid var(--hairline);
+  border-left: 3px solid var(--gold);
+  border-radius: 6px;
+  padding: 10pt 12pt;
+  background: #fafbfc;
+  margin: 10pt 0;
+}
+.callout--note {
+  border-left-color: var(--gold);
+}
+.callout--tip {
+  border-left-color: #5bb98a;
+}
+.callout--warn {
+  border-left-color: #e39a4c;
+}
+
+/* --- Tables --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8pt 0 12pt;
+  font-size: 10.5pt;
+}
+th,
+td {
+  border: 1px solid var(--hairline);
+  padding: 6pt 8pt;
+  vertical-align: top;
+}
+th {
+  background: #f7f8fa;
+  font-weight: 600;
+  color: var(--anthracite);
+}
+
+/* --- Figures / images --- */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  page-break-inside: avoid;
+}
+figure {
+  margin: 8pt 0 10pt;
+  page-break-inside: avoid;
+}
+figcaption {
+  font-size: 9pt;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 6pt;
+}
+
+/* --- Recipe layout helpers (optional classes you can use in MD) --- */
+.recipe-meta {
+  font-size: 10.5pt;
+  color: var(--muted);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6pt 10pt;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  padding: 8pt 10pt;
+  margin: 6pt 0 10pt;
+}
+.ingredients,
+.steps {
+  page-break-inside: avoid;
+}
+.ingredients ul {
+  list-style: disc;
+}
+.steps ol {
+  list-style: decimal;
+}
+
+/* Two-column content block (wrap with <div class="two-col"> in MD/HTML) */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12pt;
+}
+@media print {
+  .two-col {
+    gap: 10pt;
+  }
+}
+
+/* --- Page-break utilities --- */
+.page-break {
+  page-break-before: always;
+}
+.avoid-break {
+  page-break-inside: avoid;
+}
+
+/* --- Footer / running note (simple) -----------------------
+   Add at the end of your MD if you want a footer block:
+   <div class="footer-note">The Mystery Code · themysterycode.de</div>
+----------------------------------------------------------- */
+.footer-note {
+  margin-top: 16pt;
+  padding-top: 8pt;
+  border-top: 1px solid var(--hairline);
+  color: var(--muted);
+  font-size: 9.5pt;
+  text-align: center;
+}
+
+/* --- Cover alignment helpers (if you ever use HTML in body too) --- */
+.cover-center {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--anthracite);
+  color: #f2f2f5;
+  padding: 80px 100px;
+}
+.cover-title {
+  font-size: 48px;
+  line-height: 1.1;
+  margin: 20px 0 6px;
+}
+.cover-sub {
+  font-size: 18px;
+  color: var(--gold);
+  margin: 0 0 8px;
+}
+.cover-meta {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* --- Small print / micro text --- */
+.small {
+  font-size: 9.5pt;
+  color: var(--muted);
+}
+
+/* --- Keep images/blocks from splitting awkwardly --- */
+section,
+article,
+.callout,
+table {
+  page-break-inside: avoid;
+}
