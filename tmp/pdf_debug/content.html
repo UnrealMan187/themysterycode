@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>plant-euphoria</title>
+  <style>
+
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+
+:root {
+--bg: #0f0f12; 
+--paper: #f7f7f9; 
+--ink: #121214; 
+--muted: #6b6f76; 
+--gold: #d4af37; 
+--rule: #e9eaec; 
+--accent: #1d1f24; 
+--radius: 10px;
+--shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+--font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+
+--fs-base: 14pt;
+--fs-h1: 28pt;
+--fs-h2: 18pt;
+--fs-h3: 15pt;
+--lh: 1.7;
+--maxw: 700px; 
+--space-xxl: 36px;
+--space-xl: 28px;
+--space-lg: 20px;
+--space-md: 14px;
+--space-sm: 10px;
+}
+
+@page {
+size: A4;
+margin: 18mm;
+}
+
+html,
+body {
+background: #ffffff !important; 
+color: #121214;
+margin: 0;
+padding: 0;
+font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+line-height: 1.55;
+font-size: 11.5pt;
+}
+body {
+padding: 4mm 0;
+}
+
+main,
+.page,
+.content {
+max-width: var(--maxw);
+margin: 0 auto;
+padding: var(--space-xl) var(--space-md) var(--space-xl);
+}
+
+h1,
+h2,
+h3 {
+margin: 0 0 var(--space-md);
+line-height: 1.25;
+}
+h1 {
+font-size: var(--fs-h1);
+letter-spacing: 0.3px;
+font-weight: 800;
+margin-top: var(--space-xl);
+margin-bottom: var(--space-sm);
+}
+h2 {
+font-size: var(--fs-h2);
+font-weight: 700;
+letter-spacing: 0.2px;
+margin-top: var(--space-xl);
+}
+h3 {
+font-size: var(--fs-h3);
+font-weight: 600;
+margin-top: var(--space-lg);
+}
+
+em {
+color: var(--muted);
+}
+
+p {
+margin: 0 0 var(--space-md);
+}
+hr {
+border: none;
+border-top: 1px solid var(--rule);
+margin: var(--space-lg) 0;
+}
+
+ul,
+ol {
+margin: 0 0 var(--space-md) 18px;
+padding: 0;
+}
+li {
+margin: 4px 0;
+}
+
+blockquote {
+margin: var(--space-lg) 0;
+padding: var(--space-sm) var(--space-md);
+border-left: 3px solid var(--gold);
+background: #fff6d6; 
+color: #2b2e33;
+border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+blockquote strong {
+color: #1a1a1b;
+}
+
+img {
+max-width: 100%;
+border-radius: 8px;
+display: block;
+margin: var(--space-md) 0;
+}
+
+.recipe {
+margin: 0 0 18pt;
+padding: var(--space-lg) var(--space-md);
+background: #ffffff;
+border: 1px solid #f1f2f4;
+border-radius: var(--radius);
+box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+break-inside: avoid;
+page-break-inside: avoid;
+}
+
+.meta,
+.note {
+color: var(--muted);
+font-size: 0.95em;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+margin: var(--space-lg) 0;
+font-size: 0.96em;
+}
+th,
+td {
+border: 1px solid var(--rule);
+padding: 8px 10px;
+}
+th {
+background: #fafafa;
+font-weight: 600;
+}
+
+.hr-gold {
+height: 2px;
+width: 90px;
+background: var(--gold);
+border-radius: 2px;
+margin: var(--space-sm) 0 var(--space-lg);
+}
+
+
+.page-break {
+page-break-after: always;
+}
+
+section,
+.recipe {
+page-break-inside: avoid;
+}
+
+h1,
+h2 {
+page-break-after: avoid;
+}
+h3 {
+page-break-inside: avoid;
+}
+
+* {
+orphans: 3;
+widows: 3;
+}
+
+.cover,
+.title-page {
+width: 100%;
+height: 100%;
+}
+
+small {
+color: var(--muted);
+}
+strong {
+font-weight: 700;
+}
+
+.center {
+text-align: center;
+}
+.right {
+text-align: right;
+}
+.m0 {
+margin: 0 !important;
+}
+.mt0 {
+margin-top: 0 !important;
+}
+.mb0 {
+margin-bottom: 0 !important;
+}
+.mt-sm {
+margin-top: var(--space-sm) !important;
+}
+.mt-md {
+margin-top: var(--space-md) !important;
+}
+.mt-lg {
+margin-top: var(--space-lg) !important;
+}
+.mt-xl {
+margin-top: var(--space-xl) !important;
+}
+.mb-sm {
+margin-bottom: var(--space-sm) !important;
+}
+.mb-md {
+margin-bottom: var(--space-md) !important;
+}
+.mb-lg {
+margin-bottom: var(--space-lg) !important;
+}
+.mb-xl {
+margin-bottom: var(--space-xl) !important;
+}
+
+.recipe__head {
+display: grid;
+grid-template-columns: 1.05fr 0.95fr; 
+gap: 14pt;
+align-items: start;
+}
+
+.recipe__photo img {
+width: 100%;
+height: auto;
+border-radius: 6px;
+display: block;
+
+max-height: 110mm; 
+object-fit: cover;
+}
+
+.recipe__ingredients {
+list-style: none;
+padding-left: 0;
+margin: 0;
+}
+.recipe__ingredients ul {
+margin: 6pt 0 0 14pt;
+}
+.recipe__ingredients li {
+margin: 2pt 0;
+}
+
+.recipe h2 {
+margin: 0 0 2mm;
+}
+.recipe h3 {
+margin: 2mm 0 2mm;
+}
+
+.tmc-tip {
+background: rgba(212, 175, 55, 0.08);
+border: 1px solid rgba(212, 175, 55, 0.35);
+border-left: 3px solid #d4af37;
+padding: 10pt 12pt;
+border-radius: 6pt;
+break-inside: avoid;
+page-break-inside: avoid;
+margin-top: 10pt;
+}
+.recipe__top {
+display: grid;
+grid-template-columns: 1fr 1.05fr;
+gap: 16pt;
+align-items: start;
+break-inside: avoid;
+}
+.recipe__col--left ul {
+margin: 8pt 0 0 14pt;
+}
+.recipe__col--left li {
+margin: 2pt 0;
+}
+.recipe__img {
+display: block;
+width: 100%;
+height: auto;
+max-height: 360pt; 
+object-fit: cover;
+border-radius: 6pt;
+}
+.recipe__meta {
+font-size: 9.5pt;
+color: #6b6f76;
+margin-top: 6pt;
+}
+.recipe__body {
+margin-top: 10pt;
+}
+.recipe__body p {
+margin: 8pt 0;
+}
+
+.tmc-tip {
+margin-top: 10pt;
+padding: 10pt 12pt;
+border-radius: 6pt;
+background: rgba(212, 175, 55, 0.09);
+border: 1px solid rgba(212, 175, 55, 0.35);
+color: #2b2d31;
+break-inside: avoid;
+}
+
+@media (max-width: 600pt) {
+.recipe__top {
+grid-template-columns: 1fr;
+}
+.recipe__img {
+max-height: 260pt;
+}
+}
+.recipe-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 14pt;
+align-items: start;
+page-break-inside: avoid;
+break-inside: avoid;
+}
+.recipe__col {
+page-break-inside: avoid;
+break-inside: avoid;
+}
+@media print {
+.no-break,
+.recipe-grid,
+.recipe__col,
+.tmc-tip {
+page-break-inside: avoid !important;
+break-inside: avoid !important;
+}
+}
+
+.recipe__top {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 18px;
+align-items: start;
+}
+
+.recipe__col {
+display: block;
+}
+
+.recipe__col--left ul {
+margin: 8px 0 0 18px;
+}
+
+.recipe__img {
+width: 100%;
+max-height: 280px;
+object-fit: cover;
+border-radius: 10px;
+display: block;
+}
+
+.recipe + h3,
+.recipe + .tmc-tip {
+margin-top: 16px;
+}
+
+.tmc-tip {
+background: rgba(212, 175, 55, 0.085);
+border: 1px solid rgba(212, 175, 55, 0.45);
+border-radius: 8px;
+padding: 10px 12px;
+}
+</style>
+</head>
+<body>
+<section id="buddha-bowl-mit-tahini-dressing" class="recipe">
+<h2>🥗 Buddha Bowl mit Tahini-Dressing</h2>
+<p><em>Ein moderner Klassiker voller Balance und pflanzlicher
+Energie.</em></p>
+<section id="zutaten-für-2-portionen" class="recipe\_\_top">
+<h3>Zutaten (für 2 Portionen)</h3>
+<ul>
+<li>150 g Quinoa</li>
+<li>½ große Süßkartoffel</li>
+<li>1 Avocado</li>
+<li>100 g Kichererbsen, gekocht</li>
+<li>1 EL Tahini (Sesampaste)</li>
+<li>Saft einer ½ Zitrone</li>
+<li>1 TL Ahornsirup</li>
+<li>Salz, Pfeffer, Olivenöl</li>
+</ul>
+</section>
+<div class="recipe\_\_col">
+<h3 id="zubereitung">Zubereitung:</h3>
+<p><strong>Quinoa vorbereiten.</strong> Quinoa in einem feinen Sieb kalt
+abspülen, um Bitterstoffe zu entfernen. In der doppelten Menge leicht
+gesalzenem Wasser bei kleiner Hitze ca. 15 Minuten sanft köcheln, bis
+die Körner glasig werden und kleine „Spiralen“ sichtbar sind. Vom Herd
+nehmen und zugedeckt 5 Minuten quellen lassen, mit einer Gabel
+auflockern.</p>
+<p><strong>Süßkartoffeln rösten.</strong> Süßkartoffel in 1,5 cm Würfel
+schneiden, mit 1–2 EL Olivenöl, Salz und Pfeffer mischen. Auf ein mit
+Backpapier belegtes Blech geben und im vorgeheizten Ofen 20–25 Minuten
+rösten, bis die Würfel außen leicht karamellisieren und innen weich
+sind.</p>
+<p><strong>Tahini-Dressing.</strong> Tahini mit Zitronensaft,
+Ahornsirup, 1 Prise Salz und 3 EL Wasser glatt rühren, bis eine
+cremig-fließende Konsistenz entsteht. Mit weiterem Wasser auf Wunsch
+verdünnen; mit Salz/Zitrone feinjustieren.</p>
+<p><strong>Anrichten.</strong> Quinoa als Basis in zwei Schalen geben.
+Geröstete Süßkartoffeln, Kichererbsen und Avocado darauf verteilen. Mit
+dem Tahini-Dressing beträufeln, frisch gemahlenen Pfeffer darüber.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> 1 TL geröstetes Sesamöl gibt Tiefe;
+Granatapfelkerne für Frische. Für Crunch: geröstete Sesamsamen.</p>
+</div>
+<section id="cremige-peanut-ramen" class="recipe">
+<h2>Cremige Peanut-Ramen</h2>
+<p><em>Sämige Brühe, nussig und leicht pikant – Comfort Food in 20
+Minuten.</em></p>
+<p><strong>Portionen:</strong> 2 • <strong>Zeit gesamt:</strong> 20 Min
+• <strong>Level:</strong> leicht • <strong>Equipment:</strong> Topf,
+Pfanne</p>
+<h3 id="zutaten">Zutaten</h3>
+<ul>
+<li>160–180 g Ramen-Nudeln (oder Udon)</li>
+<li>1 EL neutrales Öl</li>
+<li>1 kleine Zwiebel, fein gewürfelt</li>
+<li>1 Knoblauchzehe, fein gehackt</li>
+<li>1 TL frisch geriebener Ingwer</li>
+<li>1–2 EL rote Currypaste (Schärfe nach Wunsch)</li>
+<li>3 EL Erdnussmus (cremig)</li>
+<li>400 ml Kokosmilch (Dose, gut geschüttelt)</li>
+<li>250 ml Gemüsebrühe, heiß</li>
+<li>1 TL Sojasauce + 1 TL Limettensaft</li>
+<li>100 g Babyspinat</li>
+<li>Optional: Frühlingszwiebeln, Sesam, Chiliöl</li>
+</ul>
+<h3 id="zubereitung-1">Zubereitung</h3>
+<p>Wasser für die Nudeln aufsetzen und nach Packungsangabe knapp
+bissfest kochen; abgießen. Währenddessen Öl in einer Pfanne bei
+mittlerer Hitze erhitzen, Zwiebel darin 2–3 Minuten glasig anschwitzen,
+Knoblauch und Ingwer zugeben, 30 Sekunden duften lassen. Currypaste
+einrühren und 30 Sekunden mitrösten, bis sie glänzt.</p>
+<p>Erdnussmus einarbeiten, dann mit Kokosmilch und heißer Brühe
+aufgießen und glatt rühren. Auf kleiner bis mittlerer Hitze 3–4 Minuten
+sämig einkochen lassen, mit Sojasauce und Limette balancieren. Spinat
+unterheben, bis er gerade zusammenfällt. Nudeln in die Sauce geben, kurz
+schwenken, bis alles umhüllt ist.</p>
+<p>In Schalen füllen und mit Frühlingszwiebeln, Sesam und ein paar
+Tropfen Chiliöl servieren.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> 1 TL geröstetes Sesamöl am Ende
+vertieft das Aroma; für Extra-Protein 150 g gebratenen Tofu in Würfeln
+unterheben.</p>
+</div>
+</section>
+<section id="smoky-linsen-bolognese" class="recipe">
+<h2>Smoky Linsen-Bolognese</h2>
+<p><em>Tief, herzhaft, tomatig – ideal als Meal-Prep.</em></p>
+<p><strong>Portionen:</strong> 4 • <strong>Zeit gesamt:</strong> 40 Min
+• <strong>Level:</strong> leicht • <strong>Equipment:</strong> großer
+Topf</p>
+<h3 id="zutaten-1">Zutaten</h3>
+<ul>
+<li>2 EL Olivenöl</li>
+<li>1 Zwiebel, fein gewürfelt</li>
+<li>1 Möhre + 1 Stange Sellerie, fein gewürfelt</li>
+<li>2 Knoblauchzehen, fein gehackt</li>
+<li>1 TL Tomatenmark</li>
+<li>1 TL geräuchertes Paprikapulver</li>
+<li>200 g braune oder grüne Linsen (gewaschen)</li>
+<li>1 Dose (400 g) stückige Tomaten</li>
+<li>400 ml Gemüsebrühe, heiß</li>
+<li>1 TL Sojasauce oder Tamari</li>
+<li>1 TL Ahornsirup</li>
+<li>Salz, Pfeffer</li>
+<li>Optional: 1 Lorbeerblatt, frisches Basilikum</li>
+</ul>
+<h3 id="zubereitung-2">Zubereitung</h3>
+<p>Öl im Topf bei mittlerer Hitze erwärmen, Zwiebel, Möhre und Sellerie
+5–6 Minuten sanft anschwitzen. Knoblauch, Tomatenmark und Paprikapulver
+zugeben, 30 Sekunden rösten. Linsen einstreuen, kurz wenden, dann
+Tomaten und heiße Brühe angießen. Lorbeer zugeben.</p>
+<p>Bei kleiner Hitze 25–30 Minuten sanft köcheln, bis die Linsen weich,
+aber nicht zerfallen sind; gelegentlich umrühren. Mit Sojasauce,
+Ahornsirup, Salz und Pfeffer ausbalancieren. Lorbeer entfernen, mit
+Basilikum servieren – ideal zu Pasta oder Polenta.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> 1 EL feingehackte getrocknete Tomaten
+und ein Spritzer Balsamico vertiefen die Umami-Note.</p>
+</div>
+</section>
+<section id="ofen-blumenkohl-tacos-mit-chipotle-lime" class="recipe">
+<h2>Ofen-Blumenkohl-Tacos mit Chipotle-Lime</h2>
+<p><em>Röstig, frisch, mit zartem Rauch – Taco-Abend in 30
+Minuten.</em></p>
+<p><strong>Portionen:</strong> 2–3 • <strong>Zeit gesamt:</strong> 30
+Min • <strong>Level:</strong> leicht • <strong>Equipment:</strong>
+Backblech, Ofen 220 °C O/U</p>
+<h3 id="zutaten-2">Zutaten</h3>
+<ul>
+<li>1 kleiner Blumenkohl, in mundgerechte Röschen</li>
+<li>2 EL Olivenöl</li>
+<li>1 TL gemahlener Kreuzkümmel</li>
+<li>½ TL geräuchertes Paprikapulver</li>
+<li>Salz, Pfeffer</li>
+<li>6–8 kleine Tortillas</li>
+<li><strong>Schneller Slaw:</strong> 150 g Rotkohl fein gehobelt, 1 EL
+Limettensaft, Prise Salz</li>
+<li><strong>Sauce:</strong> 3 EL vegane Mayo, 1 TL Chipotle in Adobo
+(oder Chiliflocken), ½ TL Ahornsirup, Limettensaft</li>
+</ul>
+<h3 id="zubereitung-3">Zubereitung</h3>
+<p>Ofen auf <strong>220 °C Ober-/Unterhitze</strong> vorheizen.
+Blumenkohl mit Öl, Kreuzkümmel, Paprika, Salz und Pfeffer mischen, auf
+einem Blech verteilen und <strong>18–20 Minuten</strong> rösten, bis die
+Ränder bräunen.</p>
+<p>Slaw mit Limette und Salz kurz kneten. Sauce verrühren, mit Limette
+und Salz abschmecken. Tortillas kurz in der trockenen Pfanne
+erwärmen.</p>
+<p>Zum Servieren Tortillas mit Slaw, Blumenkohl und Sauce füllen, mit
+Limettenzesten (optional Koriander) abrunden.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> 1 TL Ahornsirup in die Sauce balanciert
+die Schärfe der Chipotle perfekt.</p>
+</div>
+</section>
+<section id="zitronen-erbsen-risotto-one-pot" class="recipe">
+<h2>Zitronen-Erbsen-Risotto (One-Pot)</h2>
+<p><em>Cremig, frisch und erfreulich unkompliziert.</em></p>
+<p><strong>Portionen:</strong> 2 • <strong>Zeit gesamt:</strong> 30 Min
+• <strong>Level:</strong> mittel • <strong>Equipment:</strong> breiter
+Topf</p>
+<h3 id="zutaten-3">Zutaten</h3>
+<ul>
+<li>1 EL Olivenöl + 1 EL vegane Margarine</li>
+<li>1 kleine Schalotte, fein gewürfelt</li>
+<li>180 g Risottoreis (Arborio/Carnaroli)</li>
+<li>100 ml trockener Weißwein (optional)</li>
+<li>600–650 ml heiße Gemüsebrühe</li>
+<li>120 g TK-Erbsen</li>
+<li>1 Bio-Zitrone (Abrieb + 1–2 EL Saft)</li>
+<li>2–3 EL vegane Frischcreme oder 1 EL Cashewmus</li>
+<li>Salz, weißer Pfeffer</li>
+</ul>
+<h3 id="zubereitung-4">Zubereitung</h3>
+<p>Öl und Margarine bei mittlerer Hitze schmelzen, Schalotte 2 Minuten
+glasig anschwitzen. Reis zugeben, 1 Minute rühren, bis die Körner leicht
+transparent sind. Mit Weißwein ablöschen (optional) und fast vollständig
+einkochen lassen.</p>
+<p>Heißer Brühe kellenweise zugeben, dabei rühren; die Flüssigkeit soll
+sanft simmern. Nach ca. <strong>16–18 Minuten</strong> sollten die
+Körner al dente und die Konsistenz cremig sein. Erbsen unterheben und 2
+Minuten miterwärmen. Mit Zitronenabrieb, Saft und Frischcreme/Cashewmus
+cremig ziehen; mit Salz und weißem Pfeffer justieren.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> 1 TL vegane Butter zum Finish sorgt für
+Glanz; etwas Dill passt hervorragend.</p>
+</div>
+</section>
+<section id="knuspriger-chili-ahorn-tofu" class="recipe">
+<h2>Knuspriger Chili-Ahorn-Tofu</h2>
+<p><em>Süß-scharf, knusprig und in 25 Minuten auf dem Teller.</em></p>
+<p><strong>Portionen:</strong> 2 • <strong>Zeit gesamt:</strong> 25 Min
+• <strong>Level:</strong> leicht • <strong>Equipment:</strong> Pfanne,
+Ofen 200 °C O/U</p>
+<h3 id="zutaten-4">Zutaten</h3>
+<ul>
+<li>300 g fester Tofu, gepresst und in 2 cm Würfel</li>
+<li>1 EL Speisestärke</li>
+<li>1 EL neutrales Öl</li>
+<li><strong>Sauce:</strong> 1,5 EL Sojasauce, 1 EL Ahornsirup, 1 TL
+Reisessig, ½ TL Chili-Flocken, 1 TL geriebener Ingwer</li>
+<li>Frühlingszwiebeln, Sesam</li>
+</ul>
+<h3 id="zubereitung-5">Zubereitung</h3>
+<p>Ofen auf <strong>200 °C</strong> vorheizen. Tofuwürfel mit Stärke und
+1 EL Öl mischen, auf einem Blech <strong>12–14 Minuten</strong>
+gold-knusprig backen, einmal wenden. Parallel Sauce in einer Pfanne 1–2
+Minuten leicht sirupartig einkochen lassen.</p>
+<p>Knusprigen Tofu in die warme Sauce geben, schwenken, bis alles
+glänzt. Mit Frühlingszwiebeln und Sesam servieren – ideal zu Reis oder
+Pak Choi.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> ½ TL geröstetes Sesamöl am Ende hebt
+die Nussigkeit; für extra Crunch 1 EL grob gehackte Erdnüsse
+darüber.</p>
+</div>
+</section>
+<section id="grüne-shakshuka-vegan" class="recipe">
+<h2>Grüne Shakshuka (vegan)</h2>
+<p><em>Kräuterig, cremig, mit seidiger Textur – perfekt zum
+Dippen.</em></p>
+<p><strong>Portionen:</strong> 2 • <strong>Zeit gesamt:</strong> 25–30
+Min • <strong>Level:</strong> leicht • <strong>Equipment:</strong> große
+Pfanne mit Deckel</p>
+<h3 id="zutaten-5">Zutaten</h3>
+<ul>
+<li>1 EL Olivenöl</li>
+<li>1 kleine Zwiebel, fein gewürfelt</li>
+<li>1 Knoblauchzehe, fein gehackt</li>
+<li>200 g Babyspinat</li>
+<li>1 Bund Kräuter (Petersilie + Koriander, grob gehackt)</li>
+<li>200 ml Hafer- oder Sojacuisine</li>
+<li>1 EL Zitronensaft</li>
+<li>Salz, Pfeffer, Prise Muskat</li>
+<li>200 g Seidentofu (als „vegane Eier“), leicht zerzupft</li>
+<li>Fladenbrot zum Servieren</li>
+</ul>
+<h3 id="zubereitung-6">Zubereitung</h3>
+<p>Öl in der Pfanne bei mittlerer Hitze erhitzen, Zwiebel 2–3 Minuten
+glasig anschwitzen, Knoblauch zufügen. Spinat und Kräuter einarbeiten,
+bis der Spinat zusammenfällt. Mit Pflanzencuisine und Zitronensaft
+aufgießen, kurz sämig einkochen, mit Salz, Pfeffer und Muskat
+balancieren.</p>
+<p>Seidentofu in Nocken auf der Sauce verteilen, Deckel aufsetzen und
+<strong>5 Minuten</strong> sanft ziehen lassen, sodass der Tofu warm und
+zart bleibt. Mit Fladenbrot servieren.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> 1 EL Salsa Verde oder grüne Harissa
+bringt Tiefe; Zitronenzesten darüber geben Frische.</p>
+</div>
+</section>
+<section id="süßkartoffel-kokos-curry" class="recipe">
+<h2>Süßkartoffel-Kokos-Curry</h2>
+<p><em>Samtig, aromatisch, mit milder Schärfe und Tiefe.</em></p>
+<p><strong>Portionen:</strong> 3–4 • <strong>Zeit gesamt:</strong> 30
+Min • <strong>Level:</strong> leicht • <strong>Equipment:</strong> Wok
+oder tiefe Pfanne</p>
+<h3 id="zutaten-6">Zutaten</h3>
+<ul>
+<li>2 EL Kokosöl</li>
+<li>1 Zwiebel, fein gewürfelt</li>
+<li>2 Knoblauchzehen, fein gehackt</li>
+<li>1 Stück Ingwer (2 cm), gerieben</li>
+<li>1 EL rote Currypaste</li>
+<li>2 Süßkartoffeln (ca. 600 g), geschält und gewürfelt</li>
+<li>400 ml Kokosmilch</li>
+<li>200 ml Gemüsebrühe</li>
+<li>1 TL Sojasauce</li>
+<li>1 TL Limettensaft</li>
+<li>Frischer Koriander</li>
+</ul>
+<h3 id="zubereitung-7">Zubereitung</h3>
+<p>Zwiebel, Knoblauch und Ingwer in Kokosöl glasig anschwitzen.
+Currypaste zugeben, kurz anrösten, bis sie duftet. Süßkartoffeln
+hinzufügen, 1 Minute mitrühren, dann mit Kokosmilch und Brühe ablöschen.
+Auf mittlerer Hitze <strong>15–20 Minuten</strong> köcheln, bis die
+Würfel weich sind. Mit Sojasauce und Limette abschmecken.</p>
+<p>Mit Koriander servieren und optional Basmatireis dazu reichen.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> 1 TL Erdnussbutter verleiht zusätzliche
+Cremigkeit und Tiefe.</p>
+</div>
+</section>
+<section id="pasta-verde-mit-spinat-cashew-sauce" class="recipe">
+<h2>Pasta Verde mit Spinat-Cashew-Sauce</h2>
+<p><em>Cremig, grün, proteinreich – in 15 Minuten fertig.</em></p>
+<p><strong>Portionen:</strong> 2 • <strong>Zeit gesamt:</strong> 15 Min
+• <strong>Level:</strong> leicht</p>
+<h3 id="zutaten-7">Zutaten</h3>
+<ul>
+<li>200 g Pasta (z. B. Tagliatelle)</li>
+<li>2 EL Cashewmus</li>
+<li>100 g frischer Spinat</li>
+<li>1 Knoblauchzehe</li>
+<li>100 ml heißes Nudelwasser</li>
+<li>1 EL Hefeflocken</li>
+<li>Saft ½ Zitrone</li>
+<li>Salz, Pfeffer</li>
+</ul>
+<h3 id="zubereitung-8">Zubereitung</h3>
+<p>Pasta al dente kochen. Währenddessen Spinat, Cashewmus, Knoblauch,
+Zitronensaft, Hefeflocken und 100 ml Nudelwasser im Mixer cremig
+pürieren. Sauce in der Pfanne erhitzen, Pasta direkt hineingeben,
+vermengen und abschmecken.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> Ein paar Tropfen Trüffelöl machen
+daraus ein echtes Signature-Dish.</p>
+</div>
+</section>
+<section id="gebratene-gnocchi-mit-pilz-rahm" class="recipe">
+<h2>Gebratene Gnocchi mit Pilz-Rahm</h2>
+<p><em>Deftig, schnell, ein Herbstklassiker.</em></p>
+<p><strong>Portionen:</strong> 2–3 • <strong>Zeit gesamt:</strong> 20
+Min • <strong>Level:</strong> leicht</p>
+<h3 id="zutaten-8">Zutaten</h3>
+<ul>
+<li>400 g Gnocchi</li>
+<li>250 g braune Champignons, in Scheiben</li>
+<li>1 Zwiebel, fein gehackt</li>
+<li>1 Knoblauchzehe</li>
+<li>150 ml Pflanzencuisine</li>
+<li>1 TL Sojasauce</li>
+<li>1 TL Zitronensaft</li>
+<li>Petersilie, Salz, Pfeffer</li>
+</ul>
+<h3 id="zubereitung-9">Zubereitung</h3>
+<p>Gnocchi in 1 EL Öl goldbraun braten, herausnehmen. Im gleichen Fett
+Zwiebel, Knoblauch und Pilze 5 Minuten anbraten, bis sie bräunen. Mit
+Sojasauce und Zitronensaft ablöschen, Pflanzencuisine zugeben und 2
+Minuten einköcheln. Gnocchi wieder zugeben, kurz erhitzen.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> 1 EL trockener Weißwein in der Sauce
+bringt Tiefe und Eleganz.</p>
+</div>
+</section>
+<section id="mediterrane-quinoa-bowl" class="recipe">
+<h2>Mediterrane Quinoa-Bowl</h2>
+<p><em>Frisch, bunt und ausgewogen – wie Urlaub auf Santorin.</em></p>
+<p><strong>Portionen:</strong> 2 • <strong>Zeit gesamt:</strong> 25 Min
+• <strong>Level:</strong> leicht</p>
+<h3 id="zutaten-9">Zutaten</h3>
+<ul>
+<li>150 g Quinoa</li>
+<li>1 rote Paprika, gewürfelt</li>
+<li>10 Kirschtomaten, halbiert</li>
+<li>½ Gurke, gewürfelt</li>
+<li>8 Oliven, in Ringen</li>
+<li>2 EL Olivenöl</li>
+<li>1 TL Oregano</li>
+<li>1 EL Zitronensaft</li>
+</ul>
+<h3 id="zubereitung-10">Zubereitung</h3>
+<p>Quinoa garen, abkühlen lassen. Gemüse und Oliven untermengen, mit
+Olivenöl, Zitronensaft und Oregano marinieren. Mit Salz, Pfeffer
+abschmecken, lauwarm servieren.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> Ein Klecks Hummus obendrauf macht es
+perfekt rund.</p>
+</div>
+</section>
+<section id="vegane-carbonara" class="recipe">
+<h2>Vegane Carbonara</h2>
+<p><em>Cremig, rauchig, unwiderstehlich.</em></p>
+<p><strong>Portionen:</strong> 2 • <strong>Zeit gesamt:</strong> 15 Min
+• <strong>Level:</strong> leicht</p>
+<h3 id="zutaten-10">Zutaten</h3>
+<ul>
+<li>200 g Spaghetti</li>
+<li>1 EL Öl</li>
+<li>100 g Räuchertofu, gewürfelt</li>
+<li>200 ml Sojacuisine</li>
+<li>1 EL Hefeflocken</li>
+<li>1 TL Kurkuma</li>
+<li>1 TL Zitronensaft</li>
+<li>Salz, Pfeffer, schwarzer Pfeffer zum Finish</li>
+</ul>
+<h3 id="zubereitung-11">Zubereitung</h3>
+<p>Tofu knusprig braten, herausnehmen. In derselben Pfanne Sojacuisine,
+Hefeflocken, Kurkuma und Zitronensaft erhitzen. Gekochte Pasta und Tofu
+zugeben, schwenken und mit Pfeffer abschließen.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> Ein Spritzer Rauchsalz statt
+Räuchertofu ergibt einen samtigeren Geschmack.</p>
+</div>
+</section>
+<section id="kürbis-linsen-eintopf" class="recipe">
+<h2>Kürbis-Linsen-Eintopf</h2>
+<p><em>Sättigend, erdig und voller Wohlfühlwärme.</em></p>
+<p><strong>Portionen:</strong> 4 • <strong>Zeit gesamt:</strong> 35
+Min</p>
+<h3 id="zutaten-11">Zutaten</h3>
+<ul>
+<li>1 EL Öl</li>
+<li>1 Zwiebel</li>
+<li>1 Knoblauchzehe</li>
+<li>300 g Hokkaido, gewürfelt</li>
+<li>100 g rote Linsen</li>
+<li>750 ml Gemüsebrühe</li>
+<li>½ TL Kreuzkümmel</li>
+<li>1 TL Curry</li>
+<li>Salz, Pfeffer</li>
+</ul>
+<h3 id="zubereitung-12">Zubereitung</h3>
+<p>Zwiebel und Knoblauch anbraten, Kürbiswürfel und Linsen zufügen. Mit
+Brühe auffüllen, 20 Minuten sanft köcheln, mit Gewürzen abschmecken.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> 1 TL Kokosöl am Ende macht das Gericht
+samtiger.</p>
+</div>
+</section>
+<section id="vegane-caesar-salad-wraps" class="recipe">
+<h2>Vegane Caesar-Salad-Wraps</h2>
+<p><em>Klassiker neu gedacht – cremig, knackig, leicht.</em></p>
+<p><strong>Portionen:</strong> 2 • <strong>Zeit gesamt:</strong> 15
+Min</p>
+<h3 id="zutaten-12">Zutaten</h3>
+<ul>
+<li>4 Tortilla-Wraps</li>
+<li>1 kleiner Römersalat</li>
+<li>1 Handvoll Croutons</li>
+<li>1 EL vegane Mayo</li>
+<li>1 TL Zitronensaft</li>
+<li>1 TL Senf</li>
+<li>1 TL Hefeflocken</li>
+<li>½ Knoblauchzehe</li>
+</ul>
+<h3 id="zubereitung-13">Zubereitung</h3>
+<p>Dressing aus Mayo, Zitronensaft, Senf, Hefeflocken und Knoblauch
+rühren. Salat grob schneiden, mit Dressing mischen, Croutons unterheben,
+in Wraps rollen.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> Etwas grob gemahlener Pfeffer und ein
+Spritzer Sojasauce bringen Umami.</p>
+</div>
+</section>
+<section id="vegane-thai-suppe-mit-kokos-zitronengras" class="recipe">
+<h2>Vegane Thai-Suppe mit Kokos &amp; Zitronengras</h2>
+<p><em>Leicht, aromatisch, perfekt für regnerische Tage.</em></p>
+<p><strong>Portionen:</strong> 2–3 • <strong>Zeit gesamt:</strong> 25
+Min</p>
+<h3 id="zutaten-13">Zutaten</h3>
+<ul>
+<li>1 EL Öl</li>
+<li>1 Stange Zitronengras (angedrückt)</li>
+<li>1 TL rote Currypaste</li>
+<li>1 Knoblauchzehe</li>
+<li>400 ml Kokosmilch</li>
+<li>200 ml Gemüsebrühe</li>
+<li>100 g Champignons</li>
+<li>1 Karotte, in feine Streifen</li>
+<li>1 TL Limettensaft</li>
+</ul>
+<h3 id="zubereitung-14">Zubereitung</h3>
+<p>Öl erhitzen, Currypaste und Knoblauch kurz anrösten. Mit Kokosmilch
+und Brühe ablöschen, Zitronengras zufügen, 10 Minuten simmern. Gemüse
+zugeben, 5 Minuten garen. Mit Limette abschmecken.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> 1 EL Sojasauce macht die Brühe runder
+und tiefer.</p>
+</div>
+</section>
+<section id="rote-bete-hummus-toast" class="recipe">
+<h2>Rote-Bete-Hummus-Toast</h2>
+<p><em>Schnell, farbenfroh, sättigend.</em></p>
+<p><strong>Portionen:</strong> 2 • <strong>Zeit gesamt:</strong> 10
+Min</p>
+<h3 id="zutaten-14">Zutaten</h3>
+<ul>
+<li>2 Scheiben Vollkornbrot</li>
+<li>150 g Rote Bete, gekocht</li>
+<li>100 g Kichererbsen</li>
+<li>1 EL Tahini</li>
+<li>1 EL Zitronensaft</li>
+<li>Salz, Pfeffer, Kreuzkümmel</li>
+</ul>
+<h3 id="zubereitung-15">Zubereitung</h3>
+<p>Alle Zutaten pürieren, bis eine cremige Paste entsteht. Auf
+geröstetem Brot verteilen, mit Kräutern bestreuen.</p>
+<div class="tmc-tip no-break">
+<p>💡 <strong>TMC-Tipp:</strong> Ein Hauch Ahornsirup rundet die
+Erdigkeit der Bete perfekt ab.</p>
+</div>
+</section>
+</div>
+</section>
+</body>
+</html>

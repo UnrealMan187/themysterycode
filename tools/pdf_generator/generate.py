@@ -186,6 +186,13 @@ def main():
         tmp = Path(tmpdir)
         html_content = tmp / "content.html"
         md_to_html(md, css, html_content)
+        # Debug: HTML-Datei dauerhaft sichern
+        debug_dir = Path("tmp/pdf_debug")
+        debug_dir.mkdir(parents=True, exist_ok=True)
+        debug_html = debug_dir / "content.html"
+        shutil.copy(html_content, debug_html)
+        print("↪ Debug HTML gespeichert unter:", debug_html.resolve())
+
 
         pdf_content = tmp / "content.pdf"
         html_to_pdf_with_chrome(html_content, pdf_content, chrome_bin=chrome)

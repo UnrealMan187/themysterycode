@@ -398,3 +398,43 @@ strong {
     break-inside: avoid !important;
   }
 }
+/* Layout für Rezeptkopf: 2 Spalten */
+.recipe__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+/* linke/rechte Spalte */
+.recipe__col {
+  display: block;
+}
+
+/* Zutatenliste kompakter */
+.recipe__col--left ul {
+  margin: 8px 0 0 18px;
+}
+
+/* Bildbegrenzung rechts */
+.recipe__img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+/* Unterhalb des Kopfes: normaler Fließtext */
+.recipe + h3,
+.recipe + .tmc-tip {
+  margin-top: 16px;
+}
+
+/* Tipp-Kasten (golden) – optional feintunen */
+.tmc-tip {
+  background: rgba(212, 175, 55, 0.085);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
