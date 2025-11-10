@@ -1,6 +1,6 @@
 ::: recipe
 
-## 🥗 Buddha Bowl mit Tahini-Dressing
+## 1. Buddha Bowl mit Tahini-Dressing
 
 _Ein moderner Klassiker voller Balance und pflanzlicher Energie._
 
@@ -37,7 +37,7 @@ _Ein moderner Klassiker voller Balance und pflanzlicher Energie._
 
 ::: recipe
 
-## Cremige Peanut-Ramen
+## 2. Cremige Peanut-Ramen
 
 _Sämige Brühe, nussig und leicht pikant – Comfort Food in 20 Minuten._
 
@@ -74,7 +74,7 @@ In Schalen füllen und mit Frühlingszwiebeln, Sesam und ein paar Tropfen Chili�
 
 ::: recipe
 
-## Smoky Linsen-Bolognese
+## 3. Smoky Linsen-Bolognese
 
 _Tief, herzhaft, tomatig – ideal als Meal-Prep._
 
@@ -110,7 +110,7 @@ Bei kleiner Hitze 25–30 Minuten sanft köcheln, bis die Linsen weich, aber nic
 
 ::: recipe
 
-## Ofen-Blumenkohl-Tacos mit Chipotle-Lime
+## 4. Ofen-Blumenkohl-Tacos mit Chipotle-Lime
 
 _Röstig, frisch, mit zartem Rauch – Taco-Abend in 30 Minuten._
 
@@ -124,26 +124,41 @@ _Röstig, frisch, mit zartem Rauch – Taco-Abend in 30 Minuten._
 - ½ TL geräuchertes Paprikapulver
 - Salz, Pfeffer
 - 6–8 kleine Tortillas
-- **Schneller Slaw:** 150 g Rotkohl fein gehobelt, 1 EL Limettensaft, Prise Salz
-- **Sauce:** 3 EL vegane Mayo, 1 TL Chipotle in Adobo (oder Chiliflocken), ½ TL Ahornsirup, Limettensaft
+
+**Schneller Slaw:**
+
+- 150 g Rotkohl, fein gehobelt
+- 1 EL Limettensaft
+- Prise Salz
+
+**Sauce:**
+
+- 3 EL vegane Mayo
+- 1 TL Chipotle in Adobo (oder Chiliflocken)
+- ½ TL Ahornsirup
+- Limettensaft nach Geschmack
 
 ### Zubereitung
 
-Ofen auf **220 °C Ober-/Unterhitze** vorheizen. Blumenkohl mit Öl, Kreuzkümmel, Paprika, Salz und Pfeffer mischen, auf einem Blech verteilen und **18–20 Minuten** rösten, bis die Ränder bräunen.
+Ofen auf **220 °C Ober-/Unterhitze** vorheizen.
+Blumenkohl mit Öl, Kreuzkümmel, Paprika, Salz und Pfeffer mischen, auf einem Blech verteilen und **18–20 Minuten** rösten, bis die Ränder leicht gebräunt sind.
 
-Slaw mit Limette und Salz kurz kneten. Sauce verrühren, mit Limette und Salz abschmecken. Tortillas kurz in der trockenen Pfanne erwärmen.
+Währenddessen Rotkohl mit Limettensaft und einer Prise Salz mischen, leicht durchkneten.
+Für die Sauce alle Zutaten verrühren und mit Limette und Salz abschmecken.
+Tortillas in einer heißen, trockenen Pfanne kurz erwärmen.
 
-Zum Servieren Tortillas mit Slaw, Blumenkohl und Sauce füllen, mit Limettenzesten (optional Koriander) abrunden.
+Zum Servieren die Tortillas mit Slaw, Blumenkohl und Sauce füllen.
+Nach Belieben mit Limettenzesten und frischem Koriander garnieren.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** 1 TL Ahornsirup in die Sauce balanciert die Schärfe der Chipotle perfekt.
+💡 **TMC-Tipp:** Ein Teelöffel Ahornsirup in der Sauce harmonisiert perfekt mit der feinen Schärfe der Chipotle.
 </div>
 
 :::
 
 ::: recipe
 
-## Zitronen-Erbsen-Risotto (One-Pot)
+## 5. Zitronen-Erbsen-Risotto (One-Pot)
 
 _Cremig, frisch und erfreulich unkompliziert._
 
@@ -153,7 +168,7 @@ _Cremig, frisch und erfreulich unkompliziert._
 
 - 1 EL Olivenöl + 1 EL vegane Margarine
 - 1 kleine Schalotte, fein gewürfelt
-- 180 g Risottoreis (Arborio/Carnaroli)
+- 180 g Risottoreis (Arborio oder Carnaroli)
 - 100 ml trockener Weißwein (optional)
 - 600–650 ml heiße Gemüsebrühe
 - 120 g TK-Erbsen
@@ -163,19 +178,22 @@ _Cremig, frisch und erfreulich unkompliziert._
 
 ### Zubereitung
 
-Öl und Margarine bei mittlerer Hitze schmelzen, Schalotte 2 Minuten glasig anschwitzen. Reis zugeben, 1 Minute rühren, bis die Körner leicht transparent sind. Mit Weißwein ablöschen (optional) und fast vollständig einkochen lassen.
+In einem breiten Topf Öl und Margarine bei mittlerer Hitze schmelzen, die Schalotte **2 Minuten** glasig anschwitzen.
+Reis hinzufügen und **1 Minute rühren**, bis die Körner leicht transparent sind. Mit Weißwein ablöschen (optional) und fast vollständig einkochen lassen.
 
-Heißer Brühe kellenweise zugeben, dabei rühren; die Flüssigkeit soll sanft simmern. Nach ca. **16–18 Minuten** sollten die Körner al dente und die Konsistenz cremig sein. Erbsen unterheben und 2 Minuten miterwärmen. Mit Zitronenabrieb, Saft und Frischcreme/Cashewmus cremig ziehen; mit Salz und weißem Pfeffer justieren.
+Anschließend die heiße Gemüsebrühe kellenweise zugeben und stetig rühren – der Reis soll sanft simmern. Nach **16–18 Minuten** ist er al dente und das Risotto cremig.
+Erbsen unterheben und **2 Minuten** miterwärmen. Mit Zitronenabrieb, -saft und Frischcreme oder Cashewmus cremig ziehen.
+Zum Schluss mit Salz und weißem Pfeffer abschmecken.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** 1 TL vegane Butter zum Finish sorgt für Glanz; etwas Dill passt hervorragend.
+💡 **TMC-Tipp:** Ein Teelöffel vegane Butter sorgt für seidigen Glanz – und etwas frischer Dill hebt die Zitrusnote.
 </div>
 
 :::
 
 ::: recipe
 
-## Knuspriger Chili-Ahorn-Tofu
+## 6. Knuspriger Chili-Ahorn-Tofu
 
 _Süß-scharf, knusprig und in 25 Minuten auf dem Teller._
 
@@ -186,24 +204,39 @@ _Süß-scharf, knusprig und in 25 Minuten auf dem Teller._
 - 300 g fester Tofu, gepresst und in 2 cm Würfel
 - 1 EL Speisestärke
 - 1 EL neutrales Öl
-- **Sauce:** 1,5 EL Sojasauce, 1 EL Ahornsirup, 1 TL Reisessig, ½ TL Chili-Flocken, 1 TL geriebener Ingwer
-- Frühlingszwiebeln, Sesam
+
+**Sauce:**
+
+- 1,5 EL Sojasauce
+- 1 EL Ahornsirup
+- 1 TL Reisessig
+- ½ TL Chiliflocken
+- 1 TL frisch geriebener Ingwer
+
+**Zum Servieren:**
+
+- Frühlingszwiebeln, in feine Ringe geschnitten
+- Sesam
 
 ### Zubereitung
 
-Ofen auf **200 °C** vorheizen. Tofuwürfel mit Stärke und 1 EL Öl mischen, auf einem Blech **12–14 Minuten** gold-knusprig backen, einmal wenden. Parallel Sauce in einer Pfanne 1–2 Minuten leicht sirupartig einkochen lassen.
+Ofen auf **200 °C Ober-/Unterhitze** vorheizen.
+Tofuwürfel mit Stärke und Öl gleichmäßig vermengen, auf ein mit Backpapier belegtes Blech geben und **12–14 Minuten** goldbraun und knusprig backen, dabei einmal wenden.
 
-Knusprigen Tofu in die warme Sauce geben, schwenken, bis alles glänzt. Mit Frühlingszwiebeln und Sesam servieren – ideal zu Reis oder Pak Choi.
+Währenddessen in einer Pfanne Sojasauce, Ahornsirup, Reisessig, Chiliflocken und Ingwer **1–2 Minuten** sanft einkochen, bis die Sauce leicht sirupartig wird.
+Den knusprigen Tofu in die heiße Sauce geben, schwenken, bis alles glänzend überzogen ist.
+
+Mit Frühlingszwiebeln und Sesam bestreuen und sofort servieren – perfekt zu Jasminreis oder gebratenem Pak Choi.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** ½ TL geröstetes Sesamöl am Ende hebt die Nussigkeit; für extra Crunch 1 EL grob gehackte Erdnüsse darüber.
+💡 **TMC-Tipp:** Ein halber Teelöffel geröstetes Sesamöl zum Abschluss intensiviert die Nussigkeit – und grob gehackte Erdnüsse bringen zusätzlichen Crunch.
 </div>
 
 :::
 
 ::: recipe
 
-## Grüne Shakshuka (vegan)
+## 7. Grüne Shakshuka
 
 _Kräuterig, cremig, mit seidiger Textur – perfekt zum Dippen._
 
@@ -224,19 +257,22 @@ _Kräuterig, cremig, mit seidiger Textur – perfekt zum Dippen._
 
 ### Zubereitung
 
-Öl in der Pfanne bei mittlerer Hitze erhitzen, Zwiebel 2–3 Minuten glasig anschwitzen, Knoblauch zufügen. Spinat und Kräuter einarbeiten, bis der Spinat zusammenfällt. Mit Pflanzencuisine und Zitronensaft aufgießen, kurz sämig einkochen, mit Salz, Pfeffer und Muskat balancieren.
+In einer großen Pfanne das Öl bei mittlerer Hitze erhitzen.
+Zwiebel **2–3 Minuten** glasig anschwitzen, Knoblauch hinzufügen und kurz mitdünsten.
+Spinat und Kräuter einarbeiten, bis der Spinat zusammenfällt. Mit Pflanzencuisine und Zitronensaft aufgießen, **2–3 Minuten** leicht sämig einkochen lassen und mit Salz, Pfeffer und Muskat abschmecken.
 
-Seidentofu in Nocken auf der Sauce verteilen, Deckel aufsetzen und **5 Minuten** sanft ziehen lassen, sodass der Tofu warm und zart bleibt. Mit Fladenbrot servieren.
+Den Seidentofu in groben Nocken auf der grünen Sauce verteilen, Deckel aufsetzen und **5 Minuten** sanft ziehen lassen, bis der Tofu warm und zart ist.
+Direkt aus der Pfanne mit warmem Fladenbrot servieren.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** 1 EL Salsa Verde oder grüne Harissa bringt Tiefe; Zitronenzesten darüber geben Frische.
+💡 **TMC-Tipp:** Ein Löffel Salsa Verde oder grüne Harissa sorgt für Tiefe – und etwas Zitronenzeste bringt frische Balance.
 </div>
 
 :::
 
 ::: recipe
 
-## Süßkartoffel-Kokos-Curry
+## 8. Süßkartoffel-Kokos-Curry
 
 _Samtig, aromatisch, mit milder Schärfe und Tiefe._
 
@@ -258,23 +294,27 @@ _Samtig, aromatisch, mit milder Schärfe und Tiefe._
 
 ### Zubereitung
 
-Zwiebel, Knoblauch und Ingwer in Kokosöl glasig anschwitzen. Currypaste zugeben, kurz anrösten, bis sie duftet. Süßkartoffeln hinzufügen, 1 Minute mitrühren, dann mit Kokosmilch und Brühe ablöschen. Auf mittlerer Hitze **15–20 Minuten** köcheln, bis die Würfel weich sind. Mit Sojasauce und Limette abschmecken.
+In einem Wok oder einer tiefen Pfanne Kokosöl erhitzen und Zwiebel, Knoblauch und Ingwer **2–3 Minuten** glasig anschwitzen.
+Currypaste hinzufügen und **30 Sekunden** anrösten, bis sie duftet.
+Süßkartoffelwürfel einrühren, kurz mitbraten und anschließend mit Kokosmilch und Brühe ablöschen.
+Das Curry **15–20 Minuten** bei mittlerer Hitze köcheln lassen, bis die Süßkartoffeln weich und die Sauce cremig ist.
 
-Mit Koriander servieren und optional Basmatireis dazu reichen.
+Mit Sojasauce und Limettensaft abschmecken und mit frischem Koriander garnieren.
+Ideal dazu: duftender Basmatireis.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** 1 TL Erdnussbutter verleiht zusätzliche Cremigkeit und Tiefe.
+💡 **TMC-Tipp:** Ein Teelöffel Erdnussbutter verleiht dem Curry zusätzliche Tiefe und samtige Fülle.
 </div>
 
 :::
 
 ::: recipe
 
-## Pasta Verde mit Spinat-Cashew-Sauce
+## 9. Pasta Verde mit Spinat-Cashew-Sauce
 
 _Cremig, grün, proteinreich – in 15 Minuten fertig._
 
-**Portionen:** 2 • **Zeit gesamt:** 15 Min • **Level:** leicht
+**Portionen:** 2 • **Zeit gesamt:** 15 Min • **Level:** leicht • **Equipment:** Mixer, Pfanne
 
 ### Zutaten
 
@@ -289,21 +329,22 @@ _Cremig, grün, proteinreich – in 15 Minuten fertig._
 
 ### Zubereitung
 
-Pasta al dente kochen. Währenddessen Spinat, Cashewmus, Knoblauch, Zitronensaft, Hefeflocken und 100 ml Nudelwasser im Mixer cremig pürieren. Sauce in der Pfanne erhitzen, Pasta direkt hineingeben, vermengen und abschmecken.
+Pasta in reichlich Salzwasser **al dente** kochen. Währenddessen Spinat, Cashewmus, Knoblauch, Hefeflocken, Zitronensaft und 100 ml heißes Nudelwasser im Mixer zu einer **samtig-grünen Sauce** pürieren.
+Die Sauce in einer Pfanne **bei mittlerer Hitze** kurz erwärmen, dann die frisch gegarte Pasta direkt hineingeben, sorgfältig vermengen und mit Salz und Pfeffer abschmecken.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** Ein paar Tropfen Trüffelöl machen daraus ein echtes Signature-Dish.
+💡 **TMC-Tipp:** Ein paar Tropfen Trüffelöl verleihen der Sauce Tiefe und machen daraus ein echtes Signature-Dish.
 </div>
 
 :::
 
 ::: recipe
 
-## Gebratene Gnocchi mit Pilz-Rahm
+## 10. Gebratene Gnocchi mit Pilz-Rahm
 
 _Deftig, schnell, ein Herbstklassiker._
 
-**Portionen:** 2–3 • **Zeit gesamt:** 20 Min • **Level:** leicht
+**Portionen:** 2–3 • **Zeit gesamt:** 20 Min • **Level:** leicht • **Equipment:** Pfanne, Kochlöffel
 
 ### Zutaten
 
@@ -318,21 +359,24 @@ _Deftig, schnell, ein Herbstklassiker._
 
 ### Zubereitung
 
-Gnocchi in 1 EL Öl goldbraun braten, herausnehmen. Im gleichen Fett Zwiebel, Knoblauch und Pilze 5 Minuten anbraten, bis sie bräunen. Mit Sojasauce und Zitronensaft ablöschen, Pflanzencuisine zugeben und 2 Minuten einköcheln. Gnocchi wieder zugeben, kurz erhitzen.
+Gnocchi in **1 EL Öl** goldbraun braten und beiseitestellen.
+Im verbliebenen Fett Zwiebel, Knoblauch und Pilze **etwa 5 Minuten** anbraten, bis sie aromatisch bräunen.
+Mit Sojasauce und Zitronensaft ablöschen, dann die Pflanzencuisine hinzufügen und **2 Minuten** sanft einköcheln lassen.
+Die Gnocchi wieder in die Pfanne geben, sorgfältig vermengen und kurz erhitzen.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** 1 EL trockener Weißwein in der Sauce bringt Tiefe und Eleganz.
+💡 **TMC-Tipp:** Ein Schuss trockener Weißwein verleiht der Sauce Tiefe und elegante Rundung.
 </div>
 
 :::
 
 ::: recipe
 
-## Mediterrane Quinoa-Bowl
+## 11. Mediterrane Quinoa-Bowl
 
 _Frisch, bunt und ausgewogen – wie Urlaub auf Santorin._
 
-**Portionen:** 2 • **Zeit gesamt:** 25 Min • **Level:** leicht
+**Portionen:** 2 • **Zeit gesamt:** 25 Min • **Level:** leicht • **Equipment:** Topf, Schüssel
 
 ### Zutaten
 
@@ -344,24 +388,27 @@ _Frisch, bunt und ausgewogen – wie Urlaub auf Santorin._
 - 2 EL Olivenöl
 - 1 TL Oregano
 - 1 EL Zitronensaft
+- Salz, Pfeffer
 
 ### Zubereitung
 
-Quinoa garen, abkühlen lassen. Gemüse und Oliven untermengen, mit Olivenöl, Zitronensaft und Oregano marinieren. Mit Salz, Pfeffer abschmecken, lauwarm servieren.
+Quinoa gründlich abspülen und in leicht gesalzenem Wasser **nach Packungsanweisung garen**. Abgießen, abkühlen lassen.
+Paprika, Tomaten, Gurke und Oliven in eine Schüssel geben, den Quinoa hinzufügen und alles vorsichtig vermengen.
+Mit Olivenöl, Zitronensaft, Oregano, Salz und Pfeffer marinieren und **lauwarm oder gekühlt** servieren.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** Ein Klecks Hummus obendrauf macht es perfekt rund.
+💡 **TMC-Tipp:** Ein Klecks Hummus obendrauf macht das Gericht cremig und harmonisch rund.
 </div>
 
 :::
 
 ::: recipe
 
-## Vegane Carbonara
+## 12. Vegane Carbonara
 
 _Cremig, rauchig, unwiderstehlich._
 
-**Portionen:** 2 • **Zeit gesamt:** 15 Min • **Level:** leicht
+**Portionen:** 2 • **Zeit gesamt:** 15 Min • **Level:** leicht • **Equipment:** Pfanne, Topf, Kochlöffel
 
 ### Zutaten
 
@@ -372,55 +419,62 @@ _Cremig, rauchig, unwiderstehlich._
 - 1 EL Hefeflocken
 - 1 TL Kurkuma
 - 1 TL Zitronensaft
-- Salz, Pfeffer, schwarzer Pfeffer zum Finish
+- Salz, Pfeffer
+- Frisch gemahlener schwarzer Pfeffer zum Finish
 
 ### Zubereitung
 
-Tofu knusprig braten, herausnehmen. In derselben Pfanne Sojacuisine, Hefeflocken, Kurkuma und Zitronensaft erhitzen. Gekochte Pasta und Tofu zugeben, schwenken und mit Pfeffer abschließen.
+Spaghetti in reichlich Salzwasser **al dente** kochen.
+Währenddessen den Räuchertofu in **1 EL Öl** goldbraun und knusprig anbraten, dann beiseitestellen.
+In derselben Pfanne Sojacuisine, Hefeflocken, Kurkuma und Zitronensaft kurz erhitzen, mit Salz und Pfeffer abschmecken.
+Die frisch gegarte Pasta und den Tofu hinzufügen, alles sorgfältig vermengen und **mit reichlich schwarzem Pfeffer** vollenden.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** Ein Spritzer Rauchsalz statt Räuchertofu ergibt einen samtigeren Geschmack.
+💡 **TMC-Tipp:** Ein Spritzer Rauchsalz statt Räuchertofu ergibt eine seidigere Textur und feineren Geschmack.
 </div>
 
 :::
 
 ::: recipe
 
-## Kürbis-Linsen-Eintopf
+## 13. Kürbis-Linsen-Eintopf
 
 _Sättigend, erdig und voller Wohlfühlwärme._
 
-**Portionen:** 4 • **Zeit gesamt:** 35 Min
+**Portionen:** 4 • **Zeit gesamt:** 35 Min • **Level:** leicht • **Equipment:** Topf, Kochlöffel
 
 ### Zutaten
 
 - 1 EL Öl
-- 1 Zwiebel
-- 1 Knoblauchzehe
-- 300 g Hokkaido, gewürfelt
+- 1 Zwiebel, fein gehackt
+- 1 Knoblauchzehe, gehackt
+- 300 g Hokkaido-Kürbis, gewürfelt
 - 100 g rote Linsen
 - 750 ml Gemüsebrühe
 - ½ TL Kreuzkümmel
-- 1 TL Curry
+- 1 TL Currypulver
 - Salz, Pfeffer
 
 ### Zubereitung
 
-Zwiebel und Knoblauch anbraten, Kürbiswürfel und Linsen zufügen. Mit Brühe auffüllen, 20 Minuten sanft köcheln, mit Gewürzen abschmecken.
+In einem großen Topf das Öl erhitzen und Zwiebel sowie Knoblauch **2–3 Minuten** glasig anbraten.
+Kürbiswürfel und Linsen hinzufügen, kurz mitdünsten und anschließend mit der heißen Gemüsebrühe aufgießen.
+Den Eintopf **20 Minuten bei mittlerer Hitze** sanft köcheln lassen, bis Kürbis und Linsen weich sind.
+Mit Kreuzkümmel, Curry, Salz und Pfeffer abschmecken und cremig umrühren.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** 1 TL Kokosöl am Ende macht das Gericht samtiger.
+💡 **TMC-Tipp:** Ein Teelöffel Kokosöl am Ende bringt eine feine, samtige Tiefe in den Geschmack.
 </div>
 
 :::
 
 ::: recipe
 
-## Vegane Caesar-Salad-Wraps
+## 14. Vegane Caesar-Salad-Wraps
 
 _Klassiker neu gedacht – cremig, knackig, leicht._
 
-**Portionen:** 2 • **Zeit gesamt:** 15 Min
+**Portionen:** 2 • **Zeit gesamt:** 15 Min • **Level:** leicht • **Equipment:** Schüssel, Messer, Schneidebrett
 
 ### Zutaten
 
@@ -431,71 +485,240 @@ _Klassiker neu gedacht – cremig, knackig, leicht._
 - 1 TL Zitronensaft
 - 1 TL Senf
 - 1 TL Hefeflocken
-- ½ Knoblauchzehe
+- ½ Knoblauchzehe, fein gerieben
 
 ### Zubereitung
 
-Dressing aus Mayo, Zitronensaft, Senf, Hefeflocken und Knoblauch rühren. Salat grob schneiden, mit Dressing mischen, Croutons unterheben, in Wraps rollen.
+In einer kleinen Schüssel Mayo, Zitronensaft, Senf, Hefeflocken und Knoblauch zu einem **cremigen Dressing** verrühren.
+Römersalat grob schneiden, mit dem Dressing vermengen und die Croutons vorsichtig unterheben.
+Die Mischung gleichmäßig auf die Tortilla-Wraps verteilen, fest einrollen und **diagonal halbieren**.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** Etwas grob gemahlener Pfeffer und ein Spritzer Sojasauce bringen Umami.
+💡 **TMC-Tipp:** Etwas grob gemahlener Pfeffer und ein Spritzer Sojasauce verstärken den Umami-Geschmack und sorgen für Tiefe.
 </div>
 
 :::
 
 ::: recipe
 
-## Vegane Thai-Suppe mit Kokos & Zitronengras
+## 15. Vegane Thai-Suppe mit Kokos & Zitronengras
 
 _Leicht, aromatisch, perfekt für regnerische Tage._
 
-**Portionen:** 2–3 • **Zeit gesamt:** 25 Min
+**Portionen:** 2–3 • **Zeit gesamt:** 25 Min • **Level:** leicht • **Equipment:** Topf, Kochlöffel, feines Sieb
 
 ### Zutaten
 
 - 1 EL Öl
 - 1 Stange Zitronengras (angedrückt)
 - 1 TL rote Currypaste
-- 1 Knoblauchzehe
+- 1 Knoblauchzehe, fein gehackt
 - 400 ml Kokosmilch
 - 200 ml Gemüsebrühe
-- 100 g Champignons
+- 100 g Champignons, in Scheiben
 - 1 Karotte, in feine Streifen
 - 1 TL Limettensaft
+- Optional: frischer Koriander zum Servieren
 
 ### Zubereitung
 
-Öl erhitzen, Currypaste und Knoblauch kurz anrösten. Mit Kokosmilch und Brühe ablöschen, Zitronengras zufügen, 10 Minuten simmern. Gemüse zugeben, 5 Minuten garen. Mit Limette abschmecken.
+In einem Topf Öl erhitzen und Currypaste sowie Knoblauch **1 Minute** unter Rühren anrösten, bis es duftet.
+Mit Kokosmilch und Gemüsebrühe ablöschen, Zitronengras zufügen und **10 Minuten sanft köcheln** lassen.
+Zitronengras entfernen, dann Champignons und Karotten zugeben und weitere **5 Minuten** garen.
+Mit Limettensaft abschmecken und optional mit frischem Koriander servieren.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** 1 EL Sojasauce macht die Brühe runder und tiefer.
+💡 **TMC-Tipp:** Ein Esslöffel Sojasauce rundet das Aroma ab und verleiht der Brühe Tiefe.
 </div>
 
 :::
 
 ::: recipe
 
-## Rote-Bete-Hummus-Toast
+## 16. Rote-Bete-Hummus-Toast
 
 _Schnell, farbenfroh, sättigend._
 
-**Portionen:** 2 • **Zeit gesamt:** 10 Min
+**Portionen:** 2 • **Zeit gesamt:** 10 Min • **Level:** leicht • **Equipment:** Mixer, Toaster
 
 ### Zutaten
 
 - 2 Scheiben Vollkornbrot
-- 150 g Rote Bete, gekocht
-- 100 g Kichererbsen
+- 150 g gekochte Rote Bete
+- 100 g Kichererbsen (abgespült)
 - 1 EL Tahini
 - 1 EL Zitronensaft
-- Salz, Pfeffer, Kreuzkümmel
+- Salz, Pfeffer
+- ½ TL Kreuzkümmel
 
 ### Zubereitung
 
-Alle Zutaten pürieren, bis eine cremige Paste entsteht. Auf geröstetem Brot verteilen, mit Kräutern bestreuen.
+Rote Bete, Kichererbsen, Tahini, Zitronensaft, Kreuzkümmel, Salz und Pfeffer im Mixer zu einer **glatten, cremigen Paste** pürieren.
+Brote goldbraun rösten und großzügig mit dem Rote-Bete-Hummus bestreichen.
+Nach Belieben mit frischen Kräutern, Sesam oder Kichererbsen dekorieren.
 
 <div class="tmc-tip no-break">
-💡 **TMC-Tipp:** Ein Hauch Ahornsirup rundet die Erdigkeit der Bete perfekt ab.
+💡 **TMC-Tipp:** Ein Hauch Ahornsirup balanciert die Erdigkeit der Bete perfekt aus und sorgt für feine Tiefe.
+</div>
+
+:::
+
+::: recipe
+
+## 17. Gebratene Polenta mit Pilz-Ragout
+
+_Knusprig außen, cremig innen – herbstlich und elegant._
+
+**Portionen:** 2–3 • **Zeit gesamt:** 35 Min • **Level:** mittel • **Equipment:** Pfanne, Topf, Backform
+
+### Zutaten
+
+- 100 g Polenta
+- 400 ml Gemüsebrühe
+- 1 EL vegane Butter
+- 1 EL Hefeflocken
+- 1 TL Thymian, getrocknet
+- Salz, Pfeffer, Olivenöl
+
+**Pilz-Ragout:**
+
+- 2 EL Olivenöl
+- 250 g gemischte Pilze (z. B. Champignons, Austernpilze), in Scheiben
+- 1 Schalotte, fein gewürfelt
+- 1 Knoblauchzehe
+- 100 ml Weißwein oder Brühe
+- 100 ml Pflanzencuisine
+- Petersilie, Salz, Pfeffer
+
+### Zubereitung
+
+Brühe aufkochen, Polenta einrühren und bei niedriger Hitze **5 Minuten** rühren, bis sie eindickt. Mit Butter, Hefeflocken, Thymian, Salz und Pfeffer abschmecken. In eine flache Form gießen, glattstreichen und **20 Minuten** auskühlen lassen.
+Währenddessen das Ragout zubereiten: Öl erhitzen, Schalotte und Knoblauch anschwitzen, Pilze **5–6 Minuten** goldbraun braten. Mit Weißwein ablöschen, einkochen lassen, Pflanzencuisine zugeben und **3 Minuten** cremig reduzieren. Mit Salz und Pfeffer verfeinern.
+Polenta in Scheiben schneiden, in Olivenöl **von beiden Seiten goldbraun** braten und mit dem Ragout servieren.
+
+<div class="tmc-tip no-break">
+💡 **TMC-Tipp:** Ein Spritzer Trüffelöl über das Ragout hebt den Geschmack luxuriös an.
+</div>
+
+:::
+
+---
+
+::: recipe
+
+## 18. Mediterrane Linsenbällchen mit Tomaten-Sugo
+
+_Kräftig, aromatisch und perfekt als Antipasti oder Hauptgericht._
+
+**Portionen:** 3–4 • **Zeit gesamt:** 40 Min • **Level:** mittel • **Equipment:** Pfanne, Mixer
+
+### Zutaten
+
+- 200 g gekochte grüne Linsen
+- 1 kleine Zwiebel, fein gewürfelt
+- 1 Knoblauchzehe
+- 2 EL Semmelbrösel
+- 1 EL Tomatenmark
+- 1 TL Oregano
+- ½ TL Paprikapulver edelsüß
+- Salz, Pfeffer, Olivenöl
+
+**Tomaten-Sugo:**
+
+- 1 EL Olivenöl
+- 1 Knoblauchzehe
+- 400 g stückige Tomaten (Dose)
+- 1 TL Zucker
+- Salz, Basilikum
+
+### Zubereitung
+
+Zwiebel und Knoblauch glasig braten, mit den Linsen, Semmelbröseln, Tomatenmark und Gewürzen im Mixer grob pürieren. Masse zu kleinen Bällchen formen, in Olivenöl **rundum goldbraun braten**.
+
+Für den Sugo Öl erhitzen, Knoblauch kurz anrösten, Tomaten und Zucker zugeben, **10 Minuten** sanft einköcheln. Mit Salz und Basilikum abschmecken.
+
+Bällchen im Sugo wenden oder separat servieren – ideal mit Pasta oder Polenta.
+
+<div class="tmc-tip no-break">
+💡 **TMC-Tipp:** Etwas geriebene Zitronenschale in der Linsenmasse bringt frische Balance.
+</div>
+
+:::
+
+---
+
+::: recipe
+
+## 19. Blumenkohl-Steaks mit Tahini-Zitronen-Sauce
+
+_Modern, nussig und wunderbar aromatisch._
+
+**Portionen:** 2 • **Zeit gesamt:** 30 Min • **Level:** leicht • **Equipment:** Ofen, Backblech, Pinsel
+
+### Zutaten
+
+- 1 kleiner Blumenkohl, in 2–3 dicke Scheiben geschnitten
+- 2 EL Olivenöl
+- ½ TL Kreuzkümmel
+- ½ TL Paprikapulver
+- Salz, Pfeffer
+
+**Sauce:**
+
+- 2 EL Tahini
+- 1 EL Zitronensaft
+- 1 TL Ahornsirup
+- 2 EL warmes Wasser
+- Salz
+
+### Zubereitung
+
+Ofen auf **220 °C** vorheizen. Blumenkohlsteaks mit Öl, Kreuzkümmel, Paprika, Salz und Pfeffer einpinseln, auf ein Blech legen und **25 Minuten** goldbraun rösten, einmal wenden.
+
+Für die Sauce Tahini, Zitronensaft, Ahornsirup und Wasser cremig verrühren.
+Die Steaks auf Tellern anrichten, mit Sauce beträufeln und optional mit Granatapfelkernen oder Petersilie garnieren.
+
+<div class="tmc-tip no-break">
+💡 **TMC-Tipp:** Ein Hauch geräuchertes Salz verstärkt die Röstaromen raffiniert.
+</div>
+
+:::
+
+---
+
+::: recipe
+
+## 20. Veganes Kartoffelgratin mit Lauch & Muskat
+
+_Cremig, goldbraun und herrlich aromatisch – der perfekte Ofenklassiker._
+
+**Portionen:** 3–4 • **Zeit gesamt:** 50 Min • **Level:** mittel • **Equipment:** Auflaufform, Topf, Ofen 200 °C O/U
+
+### Zutaten
+
+- 800 g festkochende Kartoffeln
+- 1 Stange Lauch, in feine Ringe geschnitten
+- 250 ml Hafer- oder Sojacuisine
+- 150 ml pflanzliche Milch
+- 1 EL vegane Butter oder Öl
+- 1 TL Dijon-Senf
+- 1 TL Hefeflocken
+- 1 Prise Muskatnuss
+- Salz, Pfeffer
+- Frischer Thymian oder Schnittlauch zum Garnieren
+
+### Zubereitung
+
+Kartoffeln schälen und in **dünne Scheiben (ca. 2–3 mm)** schneiden. Lauch in etwas Öl **2–3 Minuten** anschwitzen.
+Cuisine, pflanzliche Milch, Senf, Hefeflocken, Muskat, Salz und Pfeffer in einem Topf kurz erhitzen und verrühren.
+
+Eine Auflaufform leicht einfetten, Kartoffelscheiben und Lauch schichtweise einfüllen, dabei jede Schicht mit etwas Sauce übergießen. Mit Sauce abschließen.
+
+Im vorgeheizten Ofen bei **200 °C Ober-/Unterhitze** **35–40 Minuten** backen, bis die Oberfläche goldbraun ist und das Gratin leicht blubbert.
+Vor dem Servieren kurz ruhen lassen und mit Thymian oder Schnittlauch bestreuen.
+
+<div class="tmc-tip no-break">
+💡 **TMC-Tipp:** Etwas fein gehackter Knoblauch in der Sauce intensiviert die Tiefe – oder ersetze den Lauch durch karamellisierte Zwiebeln für eine herzhaftere Variante.
 </div>
 
 :::
