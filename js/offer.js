@@ -799,5 +799,5 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Ein Fehler ist aufgetreten. Bitte versuche es erneut.");
       }
     })
-    .render("#paypal-button-container");
+    .render("#paypal-button-container-sandbox");
 });
