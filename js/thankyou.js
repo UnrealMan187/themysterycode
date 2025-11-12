@@ -155,3 +155,8 @@
     sel.addRange(range);
   });
 })();
+// Optional: Quelle anzeigen (?from=claim / reward)
+const p = new URLSearchParams(location.search);
+const from = p.get("from");
+const el = document.getElementById("info");
+if (from && el) el.textContent = "Quelle: " + from;
