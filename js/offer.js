@@ -767,3 +767,35 @@ window.tmcShowToast = (function () {
   if (leftInit > 0) startCooldownUI(leftInit);
   else applyDisabled(false);
 })();
+
+// --------------------------------------------------------------
+// PAYPAL CHECKOUT (SANDBOX)
+// --------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  const paypalContainer = document.getElementById("paypal-button-container");
+  if (!paypalContainer) return;
+
+  paypal
+    .Buttons({
+      createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [
+            {
+              amount: { value: "10.00", currency_code: "EUR" },
+              description: "Digital Mystery Box – E-Book"
+            }
+          ]
+        });
+      },
+      onApprove: function (data, actions) {
+        // Nach erfolgreicher Zahlung weiterleiten zum Claim-Worker
+        const claimUrl = `https://claim.themysterycode.de/paypal-claim?order_id=${data.orderID}`;
+        window.location.href = claimUrl;
+      },
+      onError: function (err) {
+        console.error("[PayPal]", err);
+        alert("Etwas ist schiefgelaufen. Bitte versuche es erneut.");
+      }
+    })
+    .render("#paypal-button-container");
+});

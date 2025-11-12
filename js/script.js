@@ -277,10 +277,17 @@
     history.scrollRestoration = "manual";
   }
 })();
+// Mode-Router: nur auf ausgewählten Seiten aktivieren
+// Router: nur im Live-Betrieb aktiv, lokal/Dev deaktiviert
 (function () {
+  const host = location.hostname;
+  const isLocal = host === "localhost" || host === "127.0.0.1" || host.endsWith(".local");
+
+  if (isLocal) return; // lokal: kein Redirect/Router
+
   const go = (t) => location.replace(t + (t.includes("?") ? "&" : "?") + "v=" + Date.now());
 
-  // Admin-Preview: ?preview=live  |  ?preview=off
+  // Admin-Preview: ?preview=live | ?preview=off
   const sp = new URLSearchParams(location.search);
   const pv = sp.get("preview");
   if (pv === "live") localStorage.setItem("tmc_preview", "live");
