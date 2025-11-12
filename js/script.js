@@ -280,6 +280,21 @@
 // Mode-Router: nur auf ausgewählten Seiten aktivieren
 // Router: nur im Live-Betrieb aktiv, lokal/Dev deaktiviert
 (function () {
+  const path = location.pathname.toLowerCase();
+  const EXEMPT = [
+    "/thankyou.html",
+    "/reward.html",
+    "/form.html",
+    "/impressum.html",
+    "/datenschutz.html"
+  ];
+  // Optionaler globaler Schalter: window.TMC_SKIP_ROUTER === true
+  if (
+    EXEMPT.some((x) => path.endsWith(x)) ||
+    (typeof window !== "undefined" && window.TMC_SKIP_ROUTER)
+  ) {
+    return; // Router auf diesen Seiten komplett deaktivieren
+  }
   const host = location.hostname;
   const isLocal = host === "localhost" || host === "127.0.0.1" || host.endsWith(".local");
 
