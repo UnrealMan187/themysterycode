@@ -772,7 +772,7 @@ window.tmcShowToast = (function () {
 // PAYPAL CHECKOUT (SANDBOX)
 // --------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  const paypalContainer = document.getElementById("paypal-button-container");
+  const paypalContainer = document.getElementById("paypal-button-container-sandbox");
   if (!paypalContainer) return;
 
   paypal
@@ -781,20 +781,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return actions.order.create({
           purchase_units: [
             {
-              amount: { value: "10.00", currency_code: "EUR" },
-              description: "Digital Mystery Box – E-Book"
+              amount: { currency_code: "EUR", value: "10.00" }
+              // KEINE custom_id hier!
             }
           ]
         });
       },
       onApprove: function (data, actions) {
-        // Nach erfolgreicher Zahlung weiterleiten zum Claim-Worker
-        const claimUrl = `https://claim.themysterycode.de/paypal-claim?order_id=${data.orderID}`;
-        window.location.href = claimUrl;
+        // optional: Client-Capture
+        return actions.order.capture().then(function (order) {
+          const orderId = order.id;
+          window.location.href = `https://claim.themysterycode.de/paypal-claim?order_id=${orderId}`;
+        });
       },
       onError: function (err) {
-        console.error("[PayPal]", err);
-        alert("Etwas ist schiefgelaufen. Bitte versuche es erneut.");
+        console.error("[PayPal Checkout Error]", err);
+        alert("Ein Fehler ist aufgetreten. Bitte versuche es erneut.");
       }
     })
     .render("#paypal-button-container");
