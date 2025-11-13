@@ -1,4 +1,9 @@
 // js/script.js
+// TEMP-FIX: Router vollständig deaktivieren auf Cloudflare Pages
+if (location.hostname.endsWith(".pages.dev")) {
+  console.warn("Router disabled on pages.dev");
+  return;
+}
 (() => {
   document.documentElement.classList.add("has-js");
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
