@@ -280,23 +280,27 @@
 // Mode-Router: nur auf ROOT (/) aktiv, sonst nichts anfassen
 (function () {
   const host = location.hostname;
-  const path = location.pathname || "/";
-  const isLocal = host === "localhost" || host === "127.0.0.1" || host.endsWith(".local");
+  const isLocal =
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host.endsWith(".local");
 
-  // Lokal nie routen
   if (isLocal) return;
 
-  // Nur auf themysterycode.de
-  if (host !== "themysterycode.de") return;
+  const path = location.pathname;
 
-  // Router nur auf Root / oder /index.html
-  if (path !== "/" && path !== "/index.html") return;
+  // Router nur auf der Root-URL aktiv
+  if (path !== "/" && path !== "" && path !== "/index.html") {
+    return;
+  }
 
-  const go = (t) => {
-    // keine ?v=Tokens mehr anhängen
-    location.replace(t);
-  };
+  const go = (t) =>
+    location.replace(
+      t + (t.includes("?") ? "&" : "?") + "v=" + Date.now()
+    );
 
+  // ... Rest wie gehabt (mode.json, preview, etc.)
+})();
   // Admin-Preview: ?preview=live | ?preview=off
   const sp = new URLSearchParams(location.search);
   const pv = sp.get("preview");
