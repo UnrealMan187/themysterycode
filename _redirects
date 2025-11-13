@@ -1,3 +1,3 @@
-/unlock     /offer.html     200
-/unlocked   /thankyou.html  200
-/home       /main.html      200
+/offer.html      /unlock          200
+/thankyou.html   /unlocked        200
+/main.html       /home            200
