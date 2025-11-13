@@ -277,6 +277,58 @@
     history.scrollRestoration = "manual";
   }
 })();
+// Mode-Router: nur auf ROOT (/) aktiv, sonst nichts anfassen
+(function () {
+  const host = location.hostname;
+  const path = location.pathname || "/";
+  const isLocal = host === "localhost" || host === "127.0.0.1" || host.endsWith(".local");
+
+  // Lokal nie routen
+  if (isLocal) return;
+
+  // Nur auf themysterycode.de
+  if (host !== "themysterycode.de") return;
+
+  // Router nur auf Root / oder /index.html
+  if (path !== "/" && path !== "/index.html") return;
+
+  const go = (t) => {
+    // keine ?v=Tokens mehr anhängen
+    location.replace(t);
+  };
+
+  // Admin-Preview: ?preview=live | ?preview=off
+  const sp = new URLSearchParams(location.search);
+  const pv = sp.get("preview");
+  if (pv === "live") localStorage.setItem("tmc_preview", "live");
+  if (pv === "off") localStorage.removeItem("tmc_preview");
+
+  const override = localStorage.getItem("tmc_preview");
+  if (override === "live") {
+    return go("/main");
+  }
+
+  const safety = setTimeout(() => go("/coming-soon"), 5000);
+
+  fetch("/mode.json?v=" + Date.now(), { cache: "no-store" })
+    .then((r) => {
+      if (!r.ok) throw new Error("mode.json " + r.status);
+      return r.json();
+    })
+    .then((cfg) => {
+      clearTimeout(safety);
+      if (cfg && cfg.mode === "live") {
+        go("/main");
+      } else {
+        go("/coming-soon");
+      }
+    })
+    .catch(() => {
+      clearTimeout(safety);
+      go("/coming-soon");
+    });
+})();
+
 // Mode-Router: nur auf Startseite aktiv (/, /index.html)
 // Auf main.html, offer.html, thankyou.html, reward.html etc. NICHT ausführen!
 //(function () {
