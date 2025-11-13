@@ -2,3 +2,7 @@
 /unlocked     /thankyou.html     200
 /home         /main.html         200
 /coming-soon  /coming-soon.html  200
+
+/offer        /unlock            301
+/thankyou     /unlocked          301
+/main         /home              301
