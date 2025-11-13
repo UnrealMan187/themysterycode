@@ -1,9 +1,4 @@
 // js/script.js
-// TEMP-FIX: Router vollständig deaktivieren auf Cloudflare Pages
-if (location.hostname.endsWith(".pages.dev")) {
-  console.warn("Router disabled on pages.dev");
-  return;
-}
 (() => {
   document.documentElement.classList.add("has-js");
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -282,29 +277,25 @@ if (location.hostname.endsWith(".pages.dev")) {
     history.scrollRestoration = "manual";
   }
 })();
-// Mode-Router: nur auf ausgewählten Seiten aktivieren
-// Router: nur im Live-Betrieb aktiv, lokal/Dev deaktiviert
+// Mode-Router: nur auf Startseite aktiv (/, /index.html)
+// Auf main.html, offer.html, thankyou.html, reward.html etc. NICHT ausführen!
 (function () {
-  const path = location.pathname.toLowerCase();
-  const EXEMPT = [
-    "/thankyou.html",
-    "/reward.html",
-    "/form.html",
-    "/impressum.html",
-    "/datenschutz.html"
-  ];
-  // Optionaler globaler Schalter: window.TMC_SKIP_ROUTER === true
-  if (
-    EXEMPT.some((x) => path.endsWith(x)) ||
-    (typeof window !== "undefined" && window.TMC_SKIP_ROUTER)
-  ) {
-    return; // Router auf diesen Seiten komplett deaktivieren
+  const path = location.pathname;
+
+  // Nur auf Root starten
+  const isRoot = path === "/" || path === "/index.html" || path === "/index.htm";
+
+  if (!isRoot) {
+    // Auf allen anderen Seiten KEIN Redirect
+    return;
   }
+
   const host = location.hostname;
   const isLocal = host === "localhost" || host === "127.0.0.1" || host.endsWith(".local");
 
   if (isLocal) return; // lokal: kein Redirect/Router
 
+  // Helper: immer mit Anti-Cache-Token ansteuern
   const go = (t) => location.replace(t + (t.includes("?") ? "&" : "?") + "v=" + Date.now());
 
   // Admin-Preview: ?preview=live | ?preview=off
@@ -316,6 +307,7 @@ if (location.hostname.endsWith(".pages.dev")) {
   const override = localStorage.getItem("tmc_preview");
   if (override === "live") return go("main.html");
 
+  // Fallback, falls mode.json nicht lädt
   const safety = setTimeout(() => go("coming-soon.html"), 5000);
 
   fetch("mode.json?v=" + Date.now(), { cache: "no-store" })
