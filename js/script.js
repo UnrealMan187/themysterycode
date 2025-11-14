@@ -277,30 +277,29 @@
     history.scrollRestoration = "manual";
   }
 })();
-// Mode-Router: nur auf ROOT (/) aktiv, sonst nichts anfassen
+// Mode-Router: nur auf Startseite aktiv (/, /index.html, /index.htm)
 (function () {
-  const host = location.hostname;
-  const isLocal =
-    host === "localhost" ||
-    host === "127.0.0.1" ||
-    host.endsWith(".local");
+  const path = location.pathname || "/";
 
-  if (isLocal) return;
+  // Nur auf der Root-Startseite aktiv
+  const isRoot = path === "/" || path === "/index.html" || path === "/index.htm";
 
-  const path = location.pathname;
-
-  // Router nur auf der Root-URL aktiv
-  if (path !== "/" && path !== "" && path !== "/index.html") {
+  if (!isRoot) {
+    // Auf allen anderen Seiten KEIN Redirect/Router
     return;
   }
 
-  const go = (t) =>
-    location.replace(
-      t + (t.includes("?") ? "&" : "?") + "v=" + Date.now()
-    );
+  const host = location.hostname;
+  const isLocal = host === "localhost" || host === "127.0.0.1" || host.endsWith(".local");
 
-  // ... Rest wie gehabt (mode.json, preview, etc.)
-})();
+  if (isLocal) {
+    // Lokal: kein Redirect/Router
+    return;
+  }
+
+  // Helper: immer mit Anti-Cache-Token ansteuern
+  const go = (t) => location.replace(t + (t.includes("?") ? "&" : "?") + "v=" + Date.now());
+
   // Admin-Preview: ?preview=live | ?preview=off
   const sp = new URLSearchParams(location.search);
   const pv = sp.get("preview");
@@ -309,12 +308,16 @@
 
   const override = localStorage.getItem("tmc_preview");
   if (override === "live") {
-    return go("/main");
+    go("main.html");
+    return;
   }
 
-  const safety = setTimeout(() => go("/coming-soon"), 5000);
+  // Fallback, falls mode.json nicht lädt
+  const safety = setTimeout(() => {
+    go("coming-soon.html");
+  }, 5000);
 
-  fetch("/mode.json?v=" + Date.now(), { cache: "no-store" })
+  fetch("mode.json?v=" + Date.now(), { cache: "no-store" })
     .then((r) => {
       if (!r.ok) throw new Error("mode.json " + r.status);
       return r.json();
@@ -322,60 +325,13 @@
     .then((cfg) => {
       clearTimeout(safety);
       if (cfg && cfg.mode === "live") {
-        go("/main");
+        go("main.html");
       } else {
-        go("/coming-soon");
+        go("coming-soon.html");
       }
     })
     .catch(() => {
       clearTimeout(safety);
-      go("/coming-soon");
+      go("coming-soon.html");
     });
 })();
-
-// Mode-Router: nur auf Startseite aktiv (/, /index.html)
-// Auf main.html, offer.html, thankyou.html, reward.html etc. NICHT ausführen!
-//(function () {
-// const path = location.pathname;
-
-// Nur auf Root starten
-// const isRoot = path === "/" || path === "/index.html" || path === "/index.htm";
-
-//  if (!isRoot) {
-// Auf allen anderen Seiten KEIN Redirect
-//    return;
-// }
-
-// const host = location.hostname;
-// const isLocal = host === "localhost" || host === "127.0.0.1" || host.endsWith(".local");
-
-// if (isLocal) return; // lokal: kein Redirect/Router
-
-// Helper: immer mit Anti-Cache-Token ansteuern
-//  const go = (t) => location.replace(t + (t.includes("?") ? "&" : "?") + "v=" + Date.now());
-
-// Admin-Preview: ?preview=live | ?preview=off
-//  const sp = new URLSearchParams(location.search);
-//  const pv = sp.get("preview");
-// if (pv === "live") localStorage.setItem("tmc_preview", "live");
-//  if (pv === "off") localStorage.removeItem("tmc_preview");
-
-// const override = localStorage.getItem("tmc_preview");
-// if (override === "live") return go("main.html");
-
-// Fallback, falls mode.json nicht lädt
-//  const safety = setTimeout(() => go("coming-soon.html"), 5000);
-
-//  fetch("mode.json?v=" + Date.now(), { cache: "no-store" })
-//   .then((r) => {
-//  return r.json();
-//   })
-//   .then((cfg) => {
-//     clearTimeout(safety);
-//     cfg && cfg.mode === "live" ? go("main.html") : go("coming-soon.html");
-//   })
-//   .catch(() => {
-//     clearTimeout(safety);
-//     go("coming-soon.html");
-//   });
-//})();
