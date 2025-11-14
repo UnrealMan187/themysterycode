@@ -4,19 +4,6 @@
   const copyBtn = document.getElementById("copy");
   const igTextEl = document.getElementById("igtext");
 
-  async function copyIGTextSimple() {
-    if (!igTextEl) return;
-    const text = igTextEl.textContent || "";
-
-    try {
-      await navigator.clipboard.writeText(text.trim());
-      alert("Text kopiert.");
-    } catch {
-      // Fallback
-      prompt("Manuell kopieren:", text.trim());
-    }
-  }
-
   // ---------- Telegram-/Analytics-Log ----------
   const WORKER_URL = "https://themysterycode.p-ohrner89.workers.dev/";
   const SECRET = "9f3c2a7d6e5b41f2c9a1d0e8b3c4d5f6";
@@ -103,11 +90,17 @@
       }
     }
 
-    function pulse() {
-      const area = el.closest(".copy-area");
-      if (!area) return;
-      area.classList.add("success");
-      setTimeout(() => area.classList.remove("success"), 450);
+    function pulse(message = "Text kopiert") {
+      const toast = document.getElementById("tmcToast");
+      if (!toast) return;
+
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      // nach 1.8s ausblenden
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 1800);
     }
 
     btn.addEventListener("click", copyText);

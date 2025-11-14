@@ -86,3 +86,26 @@
 .muted {
   color: var(--muted);
 }
+/* Globaler TMC-Toast */
+.tmc-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  padding: 12px 22px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #c9ac72; /* TMC-Gold */
+  border: 1px solid rgba(201, 172, 114, 0.45);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  opacity: 0;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+  transition: opacity 0.35s ease;
+  z-index: 9999;
+}
+
+.tmc-toast.show {
+  opacity: 1;
+}

@@ -1,0 +1,202 @@
+/* Basis-Hintergrund für Rechtsseiten */
+.duty-body {
+  background: #0b0b0f;
+  color: #e5e5ea;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Wrap / max Breite */
+.duty-wrap {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Header oben: flach, nüchtern */
+.duty-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 32px 0 18px;
+  background: #050509;
+}
+
+.duty-breadcrumb {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7c7c88;
+  margin: 0 0 8px;
+}
+
+.duty-title {
+  font-size: 24px;
+  line-height: 1.3;
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: #f5f5f7;
+}
+
+.duty-intro {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #a0a0aa;
+}
+
+/* Main Layout: TOC links, Content rechts */
+.duty-main {
+  padding: 24px 0 40px;
+  position: relative;
+}
+
+.duty-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 30px;
+  min-height: 100vh;
+  font-size: 12px;
+}
+
+/* ---- Sticky Seiten-Navigation ---- */
+.duty-toc {
+  position: sticky;
+  top: 80px; /* Abstand zum oberen Rand (Header + Puffer) */
+  align-self: flex-start;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto; /* falls die Liste sehr lang wird */
+  padding-right: 5px;
+}
+
+.duty-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.duty-toc li + li {
+  margin-top: 6px;
+}
+
+.duty-toc a {
+  color: #9c9cb3;
+  text-decoration: none;
+  display: inline-block;
+  padding: 4px 0;
+}
+
+.duty-toc a:hover {
+  color: #f5f5f7;
+}
+.duty-toc::-webkit-scrollbar {
+  width: 4px;
+}
+.duty-toc::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+/* Artikel-Card */
+.duty-article {
+  background: #101018;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 20px 20px 32px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Abschnitte */
+.duty-section + .duty-section {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Überschriften & Text bewusst klein halten,
+   damit niemand Lust auf "Deep Reading" bekommt */
+.duty-section h2 {
+  font-size: 15px;
+  margin: 0 0 6px;
+  font-weight: 600;
+  color: #f5f5f7;
+}
+
+.duty-section h3 {
+  font-size: 13px;
+  margin: 12px 0 4px;
+  font-weight: 600;
+}
+
+.duty-section p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: #c0c0cc;
+}
+.duty-section li {
+  font-size: 12px;
+  line-height: 1.55;
+  color: #c0c0cc;
+}
+
+.duty-section p {
+  margin: 0 0 8px;
+}
+
+.duty-section ul {
+  margin: 0 0 8px 18px;
+  padding: 0;
+}
+
+.duty-section a {
+  color: #e0b35c;
+  text-decoration: none;
+}
+
+.duty-section a:hover {
+  text-decoration: underline;
+}
+
+/* Dezente Code / Inline-Hervorhebung */
+.duty-section code {
+  font-family: Menlo, Consolas, monospace;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+/* Kleine Hinweisbox (falls du sie nutzt) */
+.duty-note {
+  font-size: 11px;
+  color: #9999aa;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  margin-bottom: 10px;
+}
+
+/* Mobile: TOC nach oben, alles untereinander */
+@media (max-width: 768px) {
+  .duty-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .duty-toc {
+    position: static;
+    display: block;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 10px;
+  }
+
+  .duty-article {
+    padding: 16px 14px 24px;
+    border-radius: 10px;
+  }
+}
+/* Sticky-Fix für globale Layout-Overflows */
+.duty-body,
+.duty-main,
+.duty-wrap {
+  overflow: visible !important;
+}
