@@ -1,31 +1,34 @@
 // js/thankyou.js
-// 1) Copy-Button für Instagram-Text
-// 2) Einmaliges Telegram-/Analytics-Log bei Aufruf der Danke-Seite
-// 3) Smooth-Scroll (optional)
-
 (function () {
-  // ---------- Copy IG Text ----------
+  // ---------- Copy IG Text (Basis) ----------
   const copyBtn = document.getElementById("copy");
   const igTextEl = document.getElementById("igtext");
 
-  async function copyIGText() {
+  async function copyIGTextSimple() {
     if (!igTextEl) return;
-    const text = igTextEl.value || igTextEl.textContent || "";
+    const text = igTextEl.textContent || "";
+
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(text.trim());
       alert("Text kopiert.");
     } catch {
-      prompt("Manuell kopieren:", text);
+      // Fallback
+      prompt("Manuell kopieren:", text.trim());
     }
   }
-  copyBtn?.addEventListener("click", copyIGText);
 
   // ---------- Telegram-/Analytics-Log ----------
   const WORKER_URL = "https://themysterycode.p-ohrner89.workers.dev/";
   const SECRET = "9f3c2a7d6e5b41f2c9a1d0e8b3c4d5f6";
   const THX_KEY_PREFIX = "tmc:thankyou:sent:";
+  const PROD_ORIGIN = "https://themysterycode.de";
 
   async function logThankYouOnce() {
+    // Nur im Live-Betrieb loggen – lokal NICHT
+    if (location.origin !== PROD_ORIGIN) {
+      return;
+    }
+
     try {
       const p = new URLSearchParams(location.search);
       const from = p.get("from") || "unknown";
@@ -70,88 +73,52 @@
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   });
-})();
-// In js/thankyou.js – am Ende oder nach DOMContentLoaded einfügen:
-(function () {
-  const ta = document.getElementById("igtext");
-  if (!ta) return;
 
-  // Auto-Height beim Laden und bei Eingaben (falls du Text änderst)
-  const autosize = () => {
-    ta.style.height = "auto";
-    ta.style.height = ta.scrollHeight + "px";
-  };
-  autosize();
-  ta.addEventListener("input", autosize);
+  // ---------- Komfortable Copy-Logik für <pre> ----------
+  (function () {
+    const el = document.getElementById("igtext"); // <pre id="igtext">
+    const btn = document.getElementById("copy");
+    if (!el || !btn) return;
 
-  // Beim Fokus: gesamten Text markieren (komfortabel fürs Kopieren)
-  ta.addEventListener(
-    "focus",
-    () => {
-      ta.select();
-    },
-    { once: false }
-  );
+    async function copyText() {
+      const text = el.textContent.trim();
 
-  // Optional: Beim Klick auf den Kopier-Button gleich selektieren
-  const btn = document.getElementById("copy");
-  if (btn) {
-    btn.addEventListener("click", () => {
-      ta.select();
+      // Moderner Weg
       try {
-        document.execCommand("copy"); // Fallback für ältere Browser
-      } catch {}
-    });
-  }
-})();
+        await navigator.clipboard.writeText(text);
+        pulse();
+        return;
+      } catch (e) {
+        // Fallback (ältere Browser / Safari)
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        try {
+          document.execCommand("copy");
+        } catch (_) {}
+        sel.removeAllRanges();
+        pulse();
+      }
+    }
 
-// Copy-Logik für die nicht-editierbare Card
-(function () {
-  const el = document.getElementById("igtext"); // <pre id="igtext">
-  const btn = document.getElementById("copy");
-  if (!el || !btn) return;
+    function pulse() {
+      const area = el.closest(".copy-area");
+      if (!area) return;
+      area.classList.add("success");
+      setTimeout(() => area.classList.remove("success"), 450);
+    }
 
-  // Cross-browser Kopieren
-  async function copyText() {
-    const text = el.textContent.trim();
+    btn.addEventListener("click", copyText);
 
-    // Moderner Weg
-    try {
-      await navigator.clipboard.writeText(text);
-      pulse();
-      return;
-    } catch (e) {
-      // Fallback (ältere Browser / Safari)
+    // Optional: Klick auf den Text selbst markiert alles
+    el.addEventListener("click", () => {
       const range = document.createRange();
       range.selectNodeContents(el);
       const sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
-      try {
-        document.execCommand("copy");
-      } catch (_) {}
-      sel.removeAllRanges();
-      pulse();
-    }
-  }
-
-  // Kleiner Feedback-Effekt
-  function pulse() {
-    const area = el.closest(".copy-area");
-    if (!area) return;
-    area.classList.add("success");
-    setTimeout(() => area.classList.remove("success"), 450);
-  }
-
-  // Click auf Button kopiert
-  btn.addEventListener("click", copyText);
-
-  // Optional: Klick auf den Text selbst markiert alles
-  el.addEventListener("click", () => {
-    const range = document.createRange();
-    range.selectNodeContents(el);
-    const sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
-  });
+    });
+  })();
 })();
