@@ -199,7 +199,7 @@
               </div>
             </div>
             <div class="checkout__body">
-              <div id="paypal-button-container"></div>
+              <!--<div id="paypal-button-container"></div>-->
               <p class="checkout__guarantee center">
                 🔒 Sicher über PayPal · Abwicklung in Minuten
               </p>
@@ -249,48 +249,27 @@
           </p>
 
           <!-- PAYPAL STANDARD: Hosted Checkout -->
-          <form
-            action="https://www.paypal.com/cgi-bin/webscr"
-            method="post"
-            target="_top"
-            class="tmc-pp-form"
-          >
-            <!-- Kauf-Typ: Sofort-Kaufen -->
-            <input type="hidden" name="cmd" value="_xclick" />
+          <form class="tmc-pp-form" onsubmit="return false;">
+            <!-- Deine Haupt-CTA (optisch) -->
+            <button type="button" class="btn btn--primary btn--lg">
+              Ich öffne den Code
+            </button>
 
-            <!-- Dein PayPal-Business-E-Mail -->
-            <input type="hidden" name="business" value="kontakt@themysterycode.de" />
+            <!-- Optional: kleiner Hinweis-Text -->
+            <p class="checkout__hint" style="margin-top:12px;font-size:13px;opacity:.8;">
+              Im nächsten Schritt öffnet sich der sichere PayPal-Checkout.
+              Du kannst mit PayPal-Guthaben, Lastschrift oder Karte bezahlen.
+            </p>
 
-            <!-- Artikelinfo -->
-            <input type="hidden" name="item_name" value="The Mystery Code – Zufalls-Reward" />
-            <input type="hidden" name="amount" value="10.00" />
-            <input type="hidden" name="currency_code" value="EUR" />
-
-            <!-- UX-Flags -->
-            <input type="hidden" name="no_shipping" value="1" />
-            <input type="hidden" name="no_note" value="1" />
-            <input type="hidden" name="lc" value="DE" />
-
-            <!-- Nach dem Kauf zurück zu deiner Router-Seite -->
-            <input
-              type="hidden"
-              name="return"
-              value="https://themysterycode.de/after-paypal/?src=cta&pp=standard"
-            />
-            <!-- Bei Abbruch zurück in den Checkout deiner Offer -->
-            <input
-              type="hidden"
-              name="cancel_return"
-              value="https://themysterycode.de/offer.html#checkout"
-            />
-
-            <!-- Optional: „custom“ für eigene Zuordnung (erscheint in PayPal-Details) -->
-            <input type="hidden" name="custom" value="TMC|cta" />
-
-            <!-- Dein eigener, stylischer Button -->
-            <button type="submit" class="btn btn--primary btn--lg">Ich öffne den Code</button>
-            <div id="paypal-button-container-sandbox" style="margin-top: 40px"></div>
+            <!-- PayPal-Buttons (werden durch offer.js / PayPal-SDK gerendert) -->
+            <div
+              id="paypal-button-container"
+              style="margin-top: 28px;"
+              aria-label="The Mystery Code – PayPal Checkout"
+            ></div>
           </form>
+
+
 
           <p class="checkout__disclaimer" style="margin-top: 10px">
             🔒 Sicher zahlen über PayPal · Keine wiederkehrenden Kosten
