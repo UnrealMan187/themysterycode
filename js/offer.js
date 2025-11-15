@@ -1,17 +1,20 @@
 /* =======================================================
    offer.js – JS für offer.html
-   Struktur:
-   0) Smooth-Scroll für interne Anker
-   0b) Hero-Intro (sanftes Einblenden, ohne extra CSS)
-   0c) Micro-Interaktionen für Steps
-   1) Fade-in der Sektionen
-   2) Hero-Feuerwerk (7s) + Mini-Glitter (alle 5s)
-   3) Countdown (12h) mit Ziffernblatt + Zeiger
-   4) FAQ-Accordion: nur ein <details> offen
-   5) QR-Scan-Logging (Worker)
-   6) PayPal Checkout (robustes Rendering)
-   7) Sticky CTA visibility
-   8) Social Proof (live, monoton, random Interval)
+   Struktur-Übersicht:
+   0)  Smooth-Scroll für interne Anker
+   0b) Hero-Intro (sanftes Einblenden)
+   0c) Micro-Interaktionen für Steps (Hover-Effekt)
+   1)  Fade-in der Sektionen (IntersectionObserver)
+   2)  Hero-Feuerwerk (Canvas-Konfetti + Rockets)
+   3)  Countdown (6h) mit Ziffernblatt & Zeiger
+   4)  FAQ-Accordion: immer nur ein <details> offen
+   5)  QR-Scan-Logging (Worker-Logging mit Throttle)
+   6)  PayPal Checkout – Worker-Claim + Live/Sandbox-Switch
+   7)  Sticky CTA: sichtbar, wenn #checkout nicht im Viewport
+   8)  Social Proof: "Heute X Codes gefunden"
+   9)  Tiny Toast (Notification unten)
+   10) Auto-Reveal: sanft zum Checkout scrollen (nur 1×)
+   11) Kauf-Cooldown (30s) für Form + PayPal-Buttons
 ======================================================= */
 
 /* 0) Smooth-Scroll für interne Anker ----------------------*/
@@ -37,7 +40,6 @@
     el.style.opacity = "0";
     el.style.transform = "translateY(6px)";
     el.style.transition = "opacity .6s ease, transform .6s ease";
-    // zweites RAF, damit die Startwerte sicher gesetzt sind
     requestAnimationFrame(() =>
       setTimeout(() => {
         el.style.opacity = "1";
@@ -336,60 +338,85 @@
   } catch (e) {}
 })();
 
-/* 6) PayPal Checkout – Zufallsprinzip + robustes Rendering */
-(function () {
+/* 6) PayPal Checkout – Worker-Claim + Live/Sandbox-Switch
+   --------------------------------------------------------
+   - Entscheidet anhand Host + ?pp_env=sandbox|live, ob Sandbox oder Live.
+   - Erstellt PayPal-Order (10 EUR, EUR).
+   - Captured Client-seitig.
+   - Leitet anschließend zum Claim-Worker weiter:
+     https://claim.themysterycode.de/paypal-claim?order_id=…&pp_env=…
+*/
+(() => {
   let rendering = false;
 
-  // Optionaler Override für interne Tests (?item=digital|physical)
-  const urlItem = (new URLSearchParams(location.search).get("item") || "").toLowerCase();
+  function resolvePayPalEnv() {
+    const p = new URLSearchParams(location.search);
+    const override = (p.get("pp_env") || "").toLowerCase();
+    if (override === "sandbox" || override === "live") return override;
 
-  function decideItem() {
-    if (urlItem === "digital" || urlItem === "physical") return urlItem;
-    return Math.random() < 0.5 ? "digital" : "physical";
+    const host = location.hostname;
+    if (host === "localhost" || host.startsWith("127.") || host.startsWith("dev.")) {
+      return "sandbox";
+    }
+    return "live";
   }
 
-  function afterPurchase(item) {
-    if (item === "digital") return "/reward.html?from=paypal&mode=random";
-    if (item === "physical") return "/form.html?from=paypal&mode=random";
-    return "/thankyou.html?from=paypal";
+  const PAYPAL_ENV = resolvePayPalEnv();
+
+  function buildClaimUrl(orderId) {
+    const u = new URL("https://claim.themysterycode.de/paypal-claim");
+    u.searchParams.set("order_id", orderId);
+    u.searchParams.set("pp_env", PAYPAL_ENV);
+    return u.toString();
   }
 
   function renderButtons() {
-    const box = document.getElementById("paypal-button-container");
-    if (!window.paypal || !box || rendering) return;
-    rendering = true;
-    box.innerHTML = "";
+    const container =
+      document.getElementById("paypal-button-container") ||
+      document.getElementById("paypal-button-container-sandbox");
 
-    // WICHTIG: Item vor createOrder bestimmen, damit Text konsistent ist
-    const pickedAtRender = decideItem();
+    if (!container || typeof paypal === "undefined" || rendering) return;
+    rendering = true;
+    container.innerHTML = "";
 
     paypal
       .Buttons({
-        style: { layout: "vertical", color: "gold", shape: "pill", label: "pay", tagline: false },
-
+        style: {
+          layout: "vertical",
+          color: "gold",
+          shape: "pill",
+          label: "pay",
+          tagline: false
+        },
         createOrder: (data, actions) =>
           actions.order.create({
             purchase_units: [
               {
-                description: `The Mystery Code – Zufalls-Reward (${
-                  pickedAtRender === "digital" ? "Digital" : "Physisch"
-                })`,
+                description: "The Mystery Code – Zufalls-Reward (Digital)",
                 amount: { value: "10.00", currency_code: "EUR" }
               }
             ],
-            // Adresse holen wir bei "physisch" später in /form.html – PayPal-Dialog bleibt clean
             application_context: { shipping_preference: "NO_SHIPPING" }
           }),
-
         onApprove: async (data, actions) => {
-          // zweite Entscheidung, falls Session/Back-Nav inkonsistent war
-          const picked = pickedAtRender || decideItem();
-          await actions.order.capture();
-          location.href = afterPurchase(picked);
+          try {
+            const order = await actions.order.capture();
+            const orderId = order.id;
+            window.location.href = buildClaimUrl(orderId);
+          } catch (err) {
+            console.error("[PayPal Capture Error]", err);
+            if (window.tmcShowToast) {
+              window.tmcShowToast(
+                "Zahlung konnte nicht abgeschlossen werden. Bitte versuche es erneut.",
+                "warn"
+              );
+            } else {
+              alert("Die Zahlung konnte nicht abgeschlossen werden. Bitte versuche es erneut.");
+            }
+          }
         },
-
         onError: (err) => {
-          console.error("PayPal error:", err);
+          console.error("[PayPal Checkout Error]", err);
           if (window.tmcShowToast) {
             window.tmcShowToast(
               "Zahlung konnte nicht abgeschlossen werden. Bitte versuche es erneut.",
@@ -400,28 +427,28 @@
           }
         }
       })
-      .render("#paypal-button-container")
+      .render("#" + container.id)
       .finally(() => {
         rendering = false;
       });
   }
 
-  // vom SDK onload getriggert (siehe offer.html)
+  // vom SDK via data-attribute onload aufrufbar
   window.initPayPal = function () {
     renderButtons();
   };
 
-  // Zurück-Navigation & Tab-Wechsel → neu rendern
   window.addEventListener("pageshow", (e) => {
-    const isBack =
-      e.persisted || performance.getEntriesByType("navigation")[0]?.type === "back_forward";
+    const nav = performance.getEntriesByType("navigation")[0];
+    const isBack = e.persisted || (nav && nav.type === "back_forward");
     if (isBack) renderButtons();
   });
+
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") renderButtons();
   });
 
-  // Falls SDK schon da (Cache), direkt rendern
+  // falls SDK bereits geladen ist (Cache)
   if (window.paypal) renderButtons();
 })();
 
@@ -469,16 +496,15 @@
   const STR = document.querySelector(".proof__text strong");
   if (!STR) return;
 
-  // ------- Konfiguration -------
   const BASE_MIN = 12,
-    BASE_MAX = 38; // Startwert pro Tag
+    BASE_MAX = 38;
   const INTERVAL_DELTA_MIN = 1,
-    INTERVAL_DELTA_MAX = 8; // kleiner Drift
-  const REVISIT_COOLDOWN_MS = 60 * 1000; // min. 1 min zwischen Revisit-Bumps
+    INTERVAL_DELTA_MAX = 8;
+  const REVISIT_COOLDOWN_MS = 60 * 1000;
   const REVISIT_DELTA_MIN = 3,
     REVISIT_DELTA_MAX = 7;
-  const CAP_TODAY = 264; // Obergrenze pro Nutzer+Tag
-  const KEY = "tmc:proof:v2"; // Versioniert
+  const CAP_TODAY = 264;
+  const KEY = "tmc:proof:v2";
 
   const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
   const ymd = (t) => {
@@ -489,7 +515,6 @@
   };
   const today = ymd(Date.now());
 
-  // Laden / init
   let st;
   try {
     st = JSON.parse(localStorage.getItem(KEY) || "null");
@@ -500,7 +525,6 @@
     st = { date: today, value: rnd(BASE_MIN, BASE_MAX), lastBump: Date.now() };
   }
 
-  // Niemals rückwärts (DOM > State)
   const domVal = parseInt((STR.textContent || "").replace(/\D/g, ""), 10);
   if (!Number.isNaN(domVal)) st.value = Math.max(st.value, domVal);
 
@@ -544,7 +568,6 @@
     return true;
   }
 
-  // Zufälliger Intervall mit 60s-Garantie
   const MIN_INTERVAL_MS = 18 * 1000;
   const MAX_INTERVAL_MS = 60 * 1000;
   let driftTimer = null,
@@ -569,7 +592,6 @@
   }
   scheduleNextDrift();
 
-  // Revisit-Bumps
   function maybeRevisitBump() {
     const now = Date.now();
     if (now - (st.lastBump || 0) >= REVISIT_COOLDOWN_MS) {
@@ -584,7 +606,6 @@
     maybeRevisitBump();
   });
 
-  // Extra-Safety (nie unter angezeigten Wert)
   new MutationObserver(() => {
     const shown = parseInt((STR.textContent || "").replace(/\D/g, ""), 10);
     if (!Number.isNaN(shown) && shown > st.value) {
@@ -595,7 +616,8 @@
     }
   }).observe(STR, { characterData: true, subtree: true, childList: true });
 })();
-/* === Tiny Toast (unten, dezent) ========================= */
+
+/* 9) Tiny Toast (unten, dezent) ========================== */
 window.tmcShowToast = (function () {
   let wrap, timer;
   const make = () => {
@@ -612,7 +634,8 @@ window.tmcShowToast = (function () {
     timer = setTimeout(() => wrap.classList.remove("tmc-toast--show"), ms);
   };
 })();
-/* === Auto-Reveal: sanft zum Checkout scrollen (nur 1×) === */
+
+/* 10) Auto-Reveal: sanft zum Checkout scrollen (nur 1×) == */
 (() => {
   const KEY = "tmc:checkout:auto:v1";
   if (localStorage.getItem(KEY) === "done") return;
@@ -625,7 +648,7 @@ window.tmcShowToast = (function () {
     if (done) return;
     const y = window.scrollY || document.documentElement.scrollTop || 0;
     const max = document.documentElement.scrollHeight - window.innerHeight || 1;
-    const ratio = y / max; // 0..1
+    const ratio = y / max;
     if (ratio >= 0.45) {
       done = true;
       localStorage.setItem(KEY, "done");
@@ -635,15 +658,17 @@ window.tmcShowToast = (function () {
   };
   window.addEventListener("scroll", onScroll, { passive: true });
 })();
-// === Kauf-Cooldown: 30s wirklich blockieren (Form + PayPal + Clicks + Enter) ===
-(() => {
-  const COOLDOWN_MS = 30 * 1000; // 30 Sekunden
 
-  const ppBox = document.getElementById("paypal-button-container");
+/* 11) Kauf-Cooldown: 30s wirklich blockieren (Form + PayPal) */
+(() => {
+  const COOLDOWN_MS = 30 * 1000;
+
+  const ppBox =
+    document.getElementById("paypal-button-container") ||
+    document.getElementById("paypal-button-container-sandbox");
   const form = document.querySelector(".tmc-pp-form");
   const btn = form?.querySelector('button[type="submit"]');
 
-  // minimalistisches Overlay (nur über PayPal-Buttons)
   let blocker = null;
   function ensureBlocker() {
     if (blocker || !ppBox) return;
@@ -652,9 +677,8 @@ window.tmcShowToast = (function () {
     blocker.setAttribute("aria-hidden", "true");
     blocker.style.cssText = `
       position:absolute; inset:0; display:none; z-index:5;
-      background: transparent; /* klicks abfangen, ohne Optik zu verändern */
+      background: transparent;
     `;
-    // ppBox ist meist position:static → Wrapper für pos:relative
     const wrap = document.createElement("div");
     wrap.style.position = "relative";
     ppBox.parentNode.insertBefore(wrap, ppBox);
@@ -670,18 +694,15 @@ window.tmcShowToast = (function () {
   }
 
   function applyDisabled(disabled) {
-    // Formular-Button: echtes Disable + Optik + ARIA
     if (btn) {
       btn.disabled = !!disabled;
       btn.classList.toggle("btn--disabled", !!disabled);
       btn.setAttribute("aria-disabled", disabled ? "true" : "false");
     }
-    // PayPal-Container: Pointer-Events tot
     if (ppBox) {
       ppBox.style.pointerEvents = disabled ? "none" : "auto";
       ppBox.style.opacity = disabled ? "0.55" : "1";
     }
-    // Optionales Overlay aktivieren
     if (blocker) blocker.style.display = disabled ? "block" : "none";
   }
 
@@ -695,7 +716,6 @@ window.tmcShowToast = (function () {
       const left = inCooldown();
       if (left <= 0) {
         clearInterval(tick);
-        // Cooldown vorbei → Flags aufräumen & wieder freigeben
         sessionStorage.removeItem("tmc:after:used");
         sessionStorage.removeItem("tmc:after:used_at");
         applyDisabled(false);
@@ -704,9 +724,6 @@ window.tmcShowToast = (function () {
     }, 500);
   }
 
-  // --- Harte Guards --------------------------------------------------------
-
-  // 1) Submit hart verhindern (auch Enter)
   if (form) {
     form.addEventListener(
       "submit",
@@ -719,9 +736,8 @@ window.tmcShowToast = (function () {
         }
       },
       true
-    ); // capturing → fängt alles ab, bevor etwas anderes greift
+    );
 
-    // 1b) Enter-Key innerhalb der Form blocken
     form.addEventListener(
       "keydown",
       (e) => {
@@ -737,7 +753,6 @@ window.tmcShowToast = (function () {
     );
   }
 
-  // 2) Clicks innerhalb PayPal-Container & CTA-Form generell blocken (capturing)
   document.addEventListener(
     "click",
     (e) => {
@@ -745,14 +760,12 @@ window.tmcShowToast = (function () {
       const left = inCooldown();
       if (left <= 0) return;
 
-      // trifft auf alles innerhalb des PayPal-Containers zu
       if (ppBox && ppBox.contains(t)) {
         e.preventDefault();
         e.stopPropagation();
         window.tmcShowToast?.(`Bitte warte kurz… (~${Math.ceil(left / 1000)}s)`, "info");
         return;
       }
-      // trifft auf den CTA-Button/alles in der Form
       if (form && form.contains(t)) {
         e.preventDefault();
         e.stopPropagation();
@@ -762,42 +775,7 @@ window.tmcShowToast = (function () {
     true
   );
 
-  // --- Initialer Zustand beim Laden ---------------------------------------
   const leftInit = inCooldown();
   if (leftInit > 0) startCooldownUI(leftInit);
   else applyDisabled(false);
 })();
-
-// --------------------------------------------------------------
-// PAYPAL CHECKOUT (SANDBOX)
-// --------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  const paypalContainer = document.getElementById("paypal-button-container-sandbox");
-  if (!paypalContainer) return;
-
-  paypal
-    .Buttons({
-      createOrder: function (data, actions) {
-        return actions.order.create({
-          purchase_units: [
-            {
-              amount: { currency_code: "EUR", value: "10.00" }
-              // KEINE custom_id hier!
-            }
-          ]
-        });
-      },
-      onApprove: function (data, actions) {
-        // optional: Client-Capture
-        return actions.order.capture().then(function (order) {
-          const orderId = order.id;
-          window.location.href = `https://claim.themysterycode.de/paypal-claim?order_id=${orderId}`;
-        });
-      },
-      onError: function (err) {
-        console.error("[PayPal Checkout Error]", err);
-        alert("Ein Fehler ist aufgetreten. Bitte versuche es erneut.");
-      }
-    })
-    .render("#paypal-button-container-sandbox");
-});
