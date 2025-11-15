@@ -15,6 +15,7 @@
    9)  Tiny Toast (Notification unten)
    10) Auto-Reveal: sanft zum Checkout scrollen (nur 1×)
    11) Kauf-Cooldown (30s) für Form + PayPal-Buttons
+   12) PayPal SDK dynamisch laden (Sandbox/Live)
 ======================================================= */
 
 /* 0) Smooth-Scroll für interne Anker ----------------------*/
@@ -778,4 +779,45 @@ window.tmcShowToast = (function () {
   const leftInit = inCooldown();
   if (leftInit > 0) startCooldownUI(leftInit);
   else applyDisabled(false);
+})();
+
+/* 12) ========= PayPal SDK dynamisch laden (Sandbox/Live) ========= */
+(() => {
+  // Sandbox- und Live-Client-IDs eintragen
+  const CLIENT_IDS = {
+    sandbox: "AZcjXUYRFHXy1ezk0TlDoT32YdKaDQK3Mf8lkPYN76RYwyHqJLkSUhYLOJrBzZmBROeGoIO2hmueiaXs",
+    live: "AbQMETbSymjnzm5EVEcEIjXX_8Pj1F2hUKIf-PRcLALG1c9cgpjHwhbew1kgL_k-udi9I0r8BdH01FpJ"
+  };
+
+  function resolvePayPalEnv() {
+    const p = new URLSearchParams(location.search);
+    const override = (p.get("pp_env") || "").toLowerCase();
+    if (override === "sandbox" || override === "live") return override;
+
+    const host = location.hostname;
+    const isDev = host === "localhost" || host.startsWith("127.") || host.startsWith("dev.");
+
+    // Dev / Local → Sandbox, Live-Domain → Live
+    return isDev ? "sandbox" : "live";
+  }
+
+  const mode = resolvePayPalEnv();
+  const clientId = CLIENT_IDS[mode];
+
+  if (!clientId) {
+    console.error("[TMC] Missing PayPal CLIENT_ID for mode:", mode);
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.src =
+    "https://www.paypal.com/sdk/js?client-id=" +
+    encodeURIComponent(clientId) +
+    "&currency=EUR&intent=capture";
+  script.async = true;
+  script.onload = function () {
+    // kommt aus deinem bestehenden PayPal-Block in offer.js
+    if (window.initPayPal) window.initPayPal();
+  };
+  document.head.appendChild(script);
 })();
