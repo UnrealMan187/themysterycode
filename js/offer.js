@@ -18,6 +18,25 @@
    12) PayPal SDK dynamisch laden (Sandbox/Live)
 ======================================================= */
 
+// === Globaler PayPal-Mode-Helper (Sandbox / Live) ========================
+window.tmcPayPalEnv = (function () {
+  function resolve() {
+    const p = new URLSearchParams(location.search);
+    const override = (p.get("pp_env") || "").toLowerCase();
+    if (override === "sandbox" || override === "live") return override;
+
+    const host = location.hostname;
+    const isDev = host === "localhost" || host.startsWith("127.") || host.startsWith("dev.");
+
+    // Dev / Local → Sandbox, Live-Domain → Live
+    return isDev ? "sandbox" : "live";
+  }
+
+  const mode = resolve();
+  console.log("[TMC] PayPal Mode:", mode);
+  return mode;
+})();
+
 /* 0) Smooth-Scroll für interne Anker ----------------------*/
 (() => {
   document.addEventListener("click", (e) => {
@@ -341,7 +360,7 @@
 
 /* 6) PayPal Checkout – Worker-Claim + Live/Sandbox-Switch
    --------------------------------------------------------
-   - Entscheidet anhand Host + ?pp_env=sandbox|live, ob Sandbox oder Live.
+   - Nutzt window.tmcPayPalEnv ("sandbox" | "live").
    - Erstellt PayPal-Order (10 EUR, EUR).
    - Captured Client-seitig.
    - Leitet anschließend zum Claim-Worker weiter:
@@ -350,19 +369,7 @@
 (() => {
   let rendering = false;
 
-  function resolvePayPalEnv() {
-    const p = new URLSearchParams(location.search);
-    const override = (p.get("pp_env") || "").toLowerCase();
-    if (override === "sandbox" || override === "live") return override;
-
-    const host = location.hostname;
-    if (host === "localhost" || host.startsWith("127.") || host.startsWith("dev.")) {
-      return "sandbox";
-    }
-    return "live";
-  }
-
-  const PAYPAL_ENV = resolvePayPalEnv();
+  const PAYPAL_ENV = window.tmcPayPalEnv || "live";
 
   function buildClaimUrl(orderId) {
     const u = new URL("https://claim.themysterycode.de/paypal-claim");
@@ -403,6 +410,7 @@
           try {
             const order = await actions.order.capture();
             const orderId = order.id;
+            console.log("[TMC] PayPal Order captured:", orderId, "Mode:", PAYPAL_ENV);
             window.location.href = buildClaimUrl(orderId);
           } catch (err) {
             console.error("[PayPal Capture Error]", err);
@@ -434,7 +442,7 @@
       });
   }
 
-  // vom SDK via data-attribute onload aufrufbar
+  // vom SDK via Loader (Funktion 12) aufgerufen
   window.initPayPal = function () {
     renderButtons();
   };
@@ -449,7 +457,6 @@
     if (document.visibilityState === "visible") renderButtons();
   });
 
-  // falls SDK bereits geladen ist (Cache)
   if (window.paypal) renderButtons();
 })();
 
@@ -783,26 +790,16 @@ window.tmcShowToast = (function () {
 
 /* 12) ========= PayPal SDK dynamisch laden (Sandbox/Live) ========= */
 (() => {
-  // Sandbox- und Live-Client-IDs eintragen
+  // Sandbox- und Live-Client-IDs
   const CLIENT_IDS = {
     sandbox: "AZcjXUYRFHXy1ezk0TlDoT32YdKaDQK3Mf8lkPYN76RYwyHqJLkSUhYLOJrBzZmBROeGoIO2hmueiaXs",
     live: "AbQMETbSymjnzm5EVEcEIjXX_8Pj1F2hUKIf-PRcLALG1c9cgpjHwhbew1kgL_k-udi9I0r8BdH01FpJ"
   };
 
-  function resolvePayPalEnv() {
-    const p = new URLSearchParams(location.search);
-    const override = (p.get("pp_env") || "").toLowerCase();
-    if (override === "sandbox" || override === "live") return override;
-
-    const host = location.hostname;
-    const isDev = host === "localhost" || host.startsWith("127.") || host.startsWith("dev.");
-
-    // Dev / Local → Sandbox, Live-Domain → Live
-    return isDev ? "sandbox" : "live";
-  }
-
-  const mode = resolvePayPalEnv();
+  const mode = window.tmcPayPalEnv || "live";
   const clientId = CLIENT_IDS[mode];
+
+  console.log("[TMC] PayPal Client-ID Mode:", mode, "ID:", clientId);
 
   if (!clientId) {
     console.error("[TMC] Missing PayPal CLIENT_ID for mode:", mode);
@@ -816,7 +813,6 @@ window.tmcShowToast = (function () {
     "&currency=EUR&intent=capture";
   script.async = true;
   script.onload = function () {
-    // kommt aus deinem bestehenden PayPal-Block in offer.js
     if (window.initPayPal) window.initPayPal();
   };
   document.head.appendChild(script);
