@@ -792,8 +792,8 @@ window.tmcShowToast = (function () {
 (() => {
   // Sandbox- und Live-Client-IDs
   const CLIENT_IDS = {
-    sandbox: "AZcjXUYRFHXy1ezk0TlDoT32YdKaDQK3Mf8lkPYN76RYwyHqJLkSUhYLOJrBzZmBROeGoIO2hmueiaXs",
-    live: "AbQMETbSymjnzm5EVEcEIjXX_8Pj1F2hUKIf-PRcLALG1c9cgpjHwhbew1kgL_k-udi9I0r8BdH01FpJ"
+    sandbox: "AbekGXhlM54ZATs6D-ZsVTbCfJYQlHl343-k9O4BcAq2GSOxwtZo4A7Z4c8atEF099DuJIXuwshCmAw_",
+    live: "AYd4La6IH1rBM-K0R1g_G7vC1SAQfGCVuMDkXs3arIOg3BerIlW-rsrTOMXX6ClCk4z4b3RtMUW9WqxI"
   };
 
   const mode = window.tmcPayPalEnv || "live";
